@@ -184,4 +184,4 @@ kým (logický furt | meňak) rob
 ####I/O
 #####stdin/stdout
 To print something on standard output we call `ciskaj <name>`, whenre <name> ia a `meňak` or `furt`.
-To read from input we call `vežmi <name>`, where <name> is a `meňak`, we want to read.
+To read from input we call `vežmi <name>`, where `<name>` is a `meňak`, we want to read.
