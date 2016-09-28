@@ -1,5 +1,7 @@
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.MethodVisitor;
+
+//import static org.objectweb.asm.Opcodes.GETSTATIC;
 
 public class PrintVariable implements Instruction, Opcodes {
 

@@ -1,10 +1,10 @@
-import jdk.internal.org.objectweb.asm.ClassWriter;
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.util.Queue;
 
-public class ByteCodeGenerator implements Opcodes{
+public class ByteCodeGenerator implements Opcodes {
     public byte[] generateByteCode(Queue<Instruction> instructionQueue, String name) {
         ClassWriter cw = new ClassWriter(0);
         MethodVisitor mw;

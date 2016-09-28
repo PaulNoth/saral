@@ -1,5 +1,5 @@
-import jdk.internal.org.objectweb.asm.MethodVisitor;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 public class VariableDeclaration implements Instruction, Opcodes {
     Variable variable;
