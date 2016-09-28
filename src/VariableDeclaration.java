@@ -13,11 +13,11 @@ public class VariableDeclaration implements Instruction, Opcodes {
         final int type = variable.getType();
         if(type == EnkelLexer.NUMBER) {
             int val = Integer.valueOf(variable.getValue());
-            mv.visitIntInsn(BIPUSH,val);
-            mv.visitVarInsn(ISTORE,variable.getId());
+            mv.visitIntInsn(BIPUSH, val);
+            mv.visitVarInsn(ISTORE, variable.getId());
         } else if(type == EnkelLexer.STRING) {
             mv.visitLdcInsn(variable.getValue());
-            mv.visitVarInsn(ASTORE,variable.getId());
+            mv.visitVarInsn(ASTORE, variable.getId());
         }
     }
 }
