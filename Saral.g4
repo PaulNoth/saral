@@ -14,5 +14,5 @@ PRINT : 'ciskaj' ;
 EQUALS : '=' ; //must be '='
 NUMBER : [0-9]+ ; //must consist only of digits
 STRING : '"'.*'"' ; //must be anything in qutoes
-ID : [a-zA-Z0-9]+ ; //must be any alphanumeric value
+ID : [a-zA-Z0-9ľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ]+ ; //must be any alphanumeric value
 WS: [ \t\n\r]+ -> skip ; //special TOKEN for skipping whitespaces
