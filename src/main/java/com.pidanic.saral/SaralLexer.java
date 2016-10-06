@@ -26,7 +26,7 @@ public class SaralLexer extends Lexer {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'me≈?ak'", "'ciskaj'", "'='"
+		null, "'me≈àak'", "'ciskaj'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "VARIABLE", "PRINT", "EQUALS", "NUMBER", "STRING", "ID", "WS"
