@@ -1,6 +1,4 @@
-// Generated from Saral.g4 by ANTLR 4.5.3
-package com.pidanic.saral;
-
+package com.pidanic.saral;// Generated from Saral.g4 by ANTLR 4.5.3
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -26,7 +24,7 @@ public class SaralParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'me�?ak'", "'ciskaj'", "'='"
+		null, "'meňak'", "'ciskaj'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "VARIABLE", "PRINT", "EQUALS", "NUMBER", "STRING", "ID", "WS"
