@@ -1,4 +1,6 @@
 // Generated from Saral.g4 by ANTLR 4.5.3
+package com.pidanic.saral;
+
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
