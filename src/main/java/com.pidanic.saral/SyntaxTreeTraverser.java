@@ -11,15 +11,15 @@ import java.util.Queue;
 public class SyntaxTreeTraverser {
     public Queue<Instruction> getInstructions(String fileAbsolutePath) throws IOException{
         CharStream charStream = new ANTLRFileStream(fileAbsolutePath);
-        SaralLexer enkelLexer = new SaralLexer(charStream);
-        CommonTokenStream commonTokenStream  = new CommonTokenStream(enkelLexer);
-        SaralParser enkelParser = new SaralParser(commonTokenStream);
+        SaralLexer saralLexer = new SaralLexer(charStream);
+        CommonTokenStream commonTokenStream  = new CommonTokenStream(saralLexer);
+        SaralParser saralParser = new SaralParser(commonTokenStream);
         SaralTreeWalkListener enkelTreeWalkListener = new SaralTreeWalkListener();
 
         BaseErrorListener errorListener = new SaralTreeWalkErrorListener();
-        enkelParser.addParseListener(enkelTreeWalkListener);
-        enkelParser.addErrorListener(errorListener);
-        enkelParser.compilationUnit();
+        saralParser.addParseListener(enkelTreeWalkListener);
+        saralParser.addErrorListener(errorListener);
+        saralParser.compilationUnit();
         return enkelTreeWalkListener.getInstructionsQueue();
     }
 }
