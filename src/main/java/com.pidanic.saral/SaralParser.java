@@ -14,20 +14,23 @@ public class SaralParser extends Parser {
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
-		new PredictionContextCache();
+			new PredictionContextCache();
 	public static final int
-		VARIABLE=1, PRINT=2, EQUALS=3, NUMBER=4, STRING=5, ID=6, WS=7;
+			TYPE=1, INT_T=2, STRING_T=3, VARIABLE=4, PRINT=5, EQUALS=6, NUMBER=7,
+			STRING=8, ID=9, WS=10;
 	public static final int
-		RULE_compilationUnit = 0, RULE_variable = 1, RULE_print = 2, RULE_value = 3;
+			RULE_compilationUnit = 0, RULE_variable = 1, RULE_print = 2, RULE_value = 3;
 	public static final String[] ruleNames = {
-		"compilationUnit", "variable", "print", "value"
+			"compilationUnit", "variable", "print", "value"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'meňak'", "'ciskaj'", "'='"
+			null, null, "'neskutočné numeralio'", "'slovo'", "'meňak'", "'ciskaj'",
+			"'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, "VARIABLE", "PRINT", "EQUALS", "NUMBER", "STRING", "ID", "WS"
+			null, "TYPE", "INT_T", "STRING_T", "VARIABLE", "PRINT", "EQUALS", "NUMBER",
+			"STRING", "ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -113,35 +116,35 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(12);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while (_la==VARIABLE || _la==PRINT) {
-				{
-				setState(10);
-				switch (_input.LA(1)) {
-				case VARIABLE:
-					{
-					setState(8);
-					variable();
-					}
-					break;
-				case PRINT:
-					{
-					setState(9);
-					print();
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
-				}
-				}
-				setState(14);
+				setState(12);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(15);
-			match(EOF);
+				while (_la==VARIABLE || _la==PRINT) {
+					{
+						setState(10);
+						switch (_input.LA(1)) {
+							case VARIABLE:
+							{
+								setState(8);
+								variable();
+							}
+							break;
+							case PRINT:
+							{
+								setState(9);
+								print();
+							}
+							break;
+							default:
+								throw new NoViableAltException(this);
+						}
+					}
+					setState(14);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
+				}
+				setState(15);
+				match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -157,6 +160,7 @@ public class SaralParser extends Parser {
 
 	public static class VariableContext extends ParserRuleContext {
 		public TerminalNode VARIABLE() { return getToken(SaralParser.VARIABLE, 0); }
+		public TerminalNode TYPE() { return getToken(SaralParser.TYPE, 0); }
 		public TerminalNode ID() { return getToken(SaralParser.ID, 0); }
 		public TerminalNode EQUALS() { return getToken(SaralParser.EQUALS, 0); }
 		public ValueContext value() {
@@ -182,14 +186,16 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
-			match(VARIABLE);
-			setState(18);
-			match(ID);
-			setState(19);
-			match(EQUALS);
-			setState(20);
-			value();
+				setState(17);
+				match(VARIABLE);
+				setState(18);
+				match(TYPE);
+				setState(19);
+				match(ID);
+				setState(20);
+				match(EQUALS);
+				setState(21);
+				value();
 			}
 		}
 		catch (RecognitionException re) {
@@ -226,10 +232,10 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22);
-			match(PRINT);
-			setState(23);
-			match(ID);
+				setState(23);
+				match(PRINT);
+				setState(24);
+				match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -267,13 +273,13 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(25);
-			_la = _input.LA(1);
-			if ( !(_la==NUMBER || _la==STRING) ) {
-			_errHandler.recoverInline(this);
-			} else {
-				consume();
-			}
+				setState(26);
+				_la = _input.LA(1);
+				if ( !(_la==NUMBER || _la==STRING) ) {
+					_errHandler.recoverInline(this);
+				} else {
+					consume();
+				}
 			}
 		}
 		catch (RecognitionException re) {
@@ -288,16 +294,17 @@ public class SaralParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\t\36\4\2\t\2\4\3"+
-		"\t\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\3\2\3\2\3\3\3"+
-		"\3\3\3\3\3\3\3\3\4\3\4\3\4\3\5\3\5\3\5\2\2\6\2\4\6\b\2\3\3\2\6\7\33\2"+
-		"\16\3\2\2\2\4\23\3\2\2\2\6\30\3\2\2\2\b\33\3\2\2\2\n\r\5\4\3\2\13\r\5"+
-		"\6\4\2\f\n\3\2\2\2\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2"+
-		"\2\17\21\3\2\2\2\20\16\3\2\2\2\21\22\7\2\2\3\22\3\3\2\2\2\23\24\7\3\2"+
-		"\2\24\25\7\b\2\2\25\26\7\5\2\2\26\27\5\b\5\2\27\5\3\2\2\2\30\31\7\4\2"+
-		"\2\31\32\7\b\2\2\32\7\3\2\2\2\33\34\t\2\2\2\34\t\3\2\2\2\4\f\16";
+			"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\f\37\4\2\t\2\4\3"+
+					"\t\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\3\2\3\2\3\3\3"+
+					"\3\3\3\3\3\3\3\3\3\3\4\3\4\3\4\3\5\3\5\3\5\2\2\6\2\4\6\b\2\3\3\2\t\n\34"+
+					"\2\16\3\2\2\2\4\23\3\2\2\2\6\31\3\2\2\2\b\34\3\2\2\2\n\r\5\4\3\2\13\r"+
+					"\5\6\4\2\f\n\3\2\2\2\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2"+
+					"\2\2\17\21\3\2\2\2\20\16\3\2\2\2\21\22\7\2\2\3\22\3\3\2\2\2\23\24\7\6"+
+					"\2\2\24\25\7\3\2\2\25\26\7\13\2\2\26\27\7\b\2\2\27\30\5\b\5\2\30\5\3\2"+
+					"\2\2\31\32\7\7\2\2\32\33\7\13\2\2\33\7\3\2\2\2\34\35\t\2\2\2\35\t\3\2"+
+					"\2\2\4\f\16";
 	public static final ATN _ATN =
-		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
+			new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
 		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
 		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {
