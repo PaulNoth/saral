@@ -2,7 +2,10 @@
 grammar Enkel;
 
 //parser rules
-compilationUnit : ( variable | print )* EOF; //root rule - globally code consist only of variables and prints (see definition below)
+compilationUnit : classDeclaration EOF ;
+classDeclaration : className '{' classBody '}' ;
+className : ID ;
+classBody : ( variable | print )* ; //root rule - globally code consist only of variables and prints (see definition below)
 variable : VARIABLE ID EQUALS value; //requires VAR token followed by ID token followed by EQUALS TOKEN ...
 print : PRINT ID ; //print statement must consist of 'print' keyword and ID
 value : NUMBER

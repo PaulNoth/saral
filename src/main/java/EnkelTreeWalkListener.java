@@ -6,8 +6,10 @@ import java.util.Map;
 import java.util.Queue;
 
 public class EnkelTreeWalkListener extends EnkelBaseListener {
-    Queue<Instruction> instructionsQueue = new ArrayDeque<>();
-    Map<String, Variable> variables = new HashMap<>();
+    private Queue<ClassScopeInstruction> instructions = new ArrayDeque<>();
+    private Map<String, Variable> variables = new HashMap<>();
+    private CompilationUnit compilationUnit;
+    private ClassDeclaration classDeclaration;
 
     @Override
     public void exitVariable(EnkelParser.VariableContext ctx) {
@@ -18,7 +20,7 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
         String varTextValue = varValue.getText();
         Variable var = new Variable(varIndex, varType, varTextValue);
         variables.put(varName.getText(), var);
-        instructionsQueue.add(new VariableDeclaration(var));
+        instructions.add(new VariableDeclaration(var));
         logVariableDeclarationStatementFound(varName, varValue);
     }
 
@@ -31,7 +33,7 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
             System.out.printf(err, varName.getText());
         }
         Variable var = variables.get(varName.getText());
-        instructionsQueue.add(new PrintVariable(var));
+        instructions.add(new PrintVariable(var));
         logPrintStatementFound(varName, var);
     }
 
@@ -47,7 +49,24 @@ public class EnkelTreeWalkListener extends EnkelBaseListener {
         System.out.printf(format, variable.getId(), variable.getValue(), line);
     }
 
-    public Queue<Instruction> getInstructionsQueue() {
-        return instructionsQueue;
+    @Override
+    public void exitCompilationUnit(EnkelParser.CompilationUnitContext ctx) {
+        super.exitCompilationUnit(ctx);
+        compilationUnit = new CompilationUnit(classDeclaration);
+    }
+
+    @Override
+    public void exitClassDeclaration(EnkelParser.ClassDeclarationContext ctx) {
+        super.exitClassDeclaration(ctx);
+        String className = ctx.className().getText();
+        classDeclaration = new ClassDeclaration(instructions, className);
+    }
+
+    public Queue<ClassScopeInstruction> getInstructions() {
+        return instructions;
+    }
+
+    public CompilationUnit getCompilationUnit() {
+        return compilationUnit;
     }
 }

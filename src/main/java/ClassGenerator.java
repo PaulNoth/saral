@@ -4,12 +4,15 @@ import org.objectweb.asm.Opcodes;
 
 import java.util.Queue;
 
-public class ByteCodeGenerator implements Opcodes {
-    public byte[] generateByteCode(Queue<ClassScopeInstruction> instructionQueue, String name) {
+import static org.objectweb.asm.Opcodes.*;
+
+public class ClassGenerator {
+    public byte[] generateByteCode(ClassDeclaration classDeclaration) {
         ClassWriter cw = new ClassWriter(0);
+        Queue<ClassScopeInstruction> instructionQueue = classDeclaration.getInstructions();
         MethodVisitor mw;
         // version, access, name, signature, base class, interfaces
-        cw.visit(52, ACC_PUBLIC + ACC_SUPER, name, null, "java/lang/Object", null);
+        cw.visit(52, ACC_PUBLIC + ACC_SUPER, classDeclaration.getClassName(), null, "java/lang/Object", null);
         {
             // declare static void main
             mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
@@ -26,4 +29,5 @@ public class ByteCodeGenerator implements Opcodes {
         cw.visitEnd();
         return cw.toByteArray();
     }
+
 }

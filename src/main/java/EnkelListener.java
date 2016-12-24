@@ -17,6 +17,36 @@ public interface EnkelListener extends ParseTreeListener {
 	 */
 	void exitCompilationUnit(EnkelParser.CompilationUnitContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link EnkelParser#classDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassDeclaration(EnkelParser.ClassDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#classDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassDeclaration(EnkelParser.ClassDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassName(EnkelParser.ClassNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#className}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassName(EnkelParser.ClassNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#classBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterClassBody(EnkelParser.ClassBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#classBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitClassBody(EnkelParser.ClassBodyContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link EnkelParser#variable}.
 	 * @param ctx the parse tree
 	 */

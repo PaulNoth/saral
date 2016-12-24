@@ -3,7 +3,7 @@ import org.objectweb.asm.MethodVisitor;
 
 //import static org.objectweb.asm.Opcodes.GETSTATIC;
 
-public class PrintVariable implements Instruction, Opcodes {
+public class PrintVariable implements ClassScopeInstruction, Opcodes {
 
     private Variable variable;
 

@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Queue;
 
 public class SyntaxTreeTraverser {
-    public Queue<Instruction> getInstructions(String fileAbsolutePath) throws IOException{
+    public CompilationUnit getCompilationUnit(String fileAbsolutePath) throws IOException{
         CharStream charStream = new ANTLRFileStream(fileAbsolutePath);
         EnkelLexer enkelLexer = new EnkelLexer(charStream);
         CommonTokenStream commonTokenStream  = new CommonTokenStream(enkelLexer);
@@ -18,6 +18,6 @@ public class SyntaxTreeTraverser {
         enkelParser.addParseListener(enkelTreeWalkListener);
         enkelParser.addErrorListener(errorListener);
         enkelParser.compilationUnit();
-        return enkelTreeWalkListener.getInstructionsQueue();
+        return enkelTreeWalkListener.getCompilationUnit();
     }
 }

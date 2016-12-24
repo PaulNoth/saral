@@ -1,7 +1,7 @@
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-public class VariableDeclaration implements Instruction, Opcodes {
+public class VariableDeclaration implements ClassScopeInstruction, Opcodes {
     Variable variable;
 
     public VariableDeclaration(Variable variable) {

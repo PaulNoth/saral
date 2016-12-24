@@ -1,5 +1,5 @@
 import org.objectweb.asm.MethodVisitor;
 
-public interface Instruction {
+public interface ClassScopeInstruction {
     void apply(MethodVisitor methodVisitor);
 }

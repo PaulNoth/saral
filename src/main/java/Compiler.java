@@ -14,14 +14,14 @@ public class Compiler {
         String fileName = enkelFile.getName();
         String fileAbsPath = enkelFile.getAbsolutePath();
         String className = fileName.substring(0, fileName.lastIndexOf('.'));
-        Queue<Instruction> instructionQueue = new SyntaxTreeTraverser().getInstructions(fileAbsPath);
+        CompilationUnit compilationUnit = new SyntaxTreeTraverser().getCompilationUnit(fileAbsPath);
 
-        byte[] bytecode = new ByteCodeGenerator().generateByteCode(instructionQueue, className);
-        saveBytecodeToClassFile(fileName, bytecode);
+        saveBytecodeToClassFile(compilationUnit);
     }
 
-    private static void saveBytecodeToClassFile(String fileName, byte[] byteCode) throws IOException {
-        final String classFile = fileName.substring(0, fileName.lastIndexOf('.')) + ".class";
+    private static void saveBytecodeToClassFile(CompilationUnit compilationUnit) throws IOException {
+        byte[] byteCode = compilationUnit.getByteCode();
+        final String classFile = compilationUnit.getClassName() + ".class";
         OutputStream os = new FileOutputStream(classFile);
         os.write(byteCode);
         os.close();
