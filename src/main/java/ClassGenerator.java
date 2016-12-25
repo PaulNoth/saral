@@ -1,16 +1,16 @@
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 
-import java.util.Queue;
+import java.util.List;
 
 import static org.objectweb.asm.Opcodes.*;
 
 public class ClassGenerator {
-    public byte[] generateByteCode(ClassDeclaration classDeclaration) {
+
+    public ClassWriter generate(ClassDeclaration classDeclaration) {
         ClassWriter cw = new ClassWriter(0);
-        Queue<ClassScopeInstruction> instructionQueue = classDeclaration.getInstructions();
         MethodVisitor mw;
+        List<ClassScopeInstruction> instructionQueue = classDeclaration.getClassBody().getInstructions();
         // version, access, name, signature, base class, interfaces
         cw.visit(52, ACC_PUBLIC + ACC_SUPER, classDeclaration.getClassName(), null, "java/lang/Object", null);
         {
@@ -27,7 +27,6 @@ public class ClassGenerator {
             mw.visitEnd();
         }
         cw.visitEnd();
-        return cw.toByteArray();
+        return cw;
     }
-
 }

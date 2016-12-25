@@ -1,12 +1,14 @@
-// Generated from Enkel.g4 by ANTLR 4.5.3
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeListener;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class EnkelParser extends Parser {
@@ -20,10 +22,11 @@ public class EnkelParser extends Parser {
 		WS=9;
 	public static final int
 		RULE_compilationUnit = 0, RULE_classDeclaration = 1, RULE_className = 2, 
-		RULE_classBody = 3, RULE_variable = 4, RULE_print = 5, RULE_value = 6;
+		RULE_classBody = 3, RULE_statement = 4, RULE_variable = 5, RULE_print = 6, 
+		RULE_value = 7;
 	public static final String[] ruleNames = {
-		"compilationUnit", "classDeclaration", "className", "classBody", "variable", 
-		"print", "value"
+		"compilationUnit", "classDeclaration", "className", "classBody", "statement", 
+		"variable", "print", "value"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -93,11 +96,16 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_compilationUnit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterCompilationUnit(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterCompilationUnit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitCompilationUnit(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitCompilationUnit(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitCompilationUnit(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -107,9 +115,9 @@ public class EnkelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(14);
+			setState(16);
 			classDeclaration();
-			setState(15);
+			setState(17);
 			match(EOF);
 			}
 		}
@@ -137,11 +145,16 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_classDeclaration; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterClassDeclaration(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterClassDeclaration(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassDeclaration(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitClassDeclaration(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitClassDeclaration(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -151,13 +164,13 @@ public class EnkelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
-			className();
-			setState(18);
-			match(T__0);
 			setState(19);
-			classBody();
+			className();
 			setState(20);
+			match(T__0);
+			setState(21);
+			classBody();
+			setState(22);
 			match(T__1);
 			}
 		}
@@ -180,11 +193,16 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_className; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterClassName(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterClassName(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassName(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitClassName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitClassName(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -194,7 +212,7 @@ public class EnkelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(22);
+			setState(24);
 			match(ID);
 			}
 		}
@@ -210,17 +228,11 @@ public class EnkelParser extends Parser {
 	}
 
 	public static class ClassBodyContext extends ParserRuleContext {
-		public List<VariableContext> variable() {
-			return getRuleContexts(VariableContext.class);
+		public List<StatementContext> statement() {
+			return getRuleContexts(StatementContext.class);
 		}
-		public VariableContext variable(int i) {
-			return getRuleContext(VariableContext.class,i);
-		}
-		public List<PrintContext> print() {
-			return getRuleContexts(PrintContext.class);
-		}
-		public PrintContext print(int i) {
-			return getRuleContext(PrintContext.class,i);
+		public StatementContext statement(int i) {
+			return getRuleContext(StatementContext.class,i);
 		}
 		public ClassBodyContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -228,11 +240,16 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_classBody; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterClassBody(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterClassBody(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitClassBody(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitClassBody(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitClassBody(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -243,32 +260,81 @@ public class EnkelParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(29);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==VARIABLE || _la==PRINT) {
 				{
+				{
 				setState(26);
-				switch (_input.LA(1)) {
-				case VARIABLE:
-					{
-					setState(24);
-					variable();
-					}
-					break;
-				case PRINT:
-					{
-					setState(25);
-					print();
-					}
-					break;
-				default:
-					throw new NoViableAltException(this);
+				statement();
 				}
 				}
-				setState(30);
+				setState(31);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class StatementContext extends ParserRuleContext {
+		public VariableContext variable() {
+			return getRuleContext(VariableContext.class,0);
+		}
+		public PrintContext print() {
+			return getRuleContext(PrintContext.class,0);
+		}
+		public StatementContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_statement; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterStatement(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitStatement(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitStatement(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final StatementContext statement() throws RecognitionException {
+		StatementContext _localctx = new StatementContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_statement);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(34);
+			switch (_input.LA(1)) {
+			case VARIABLE:
+				{
+				setState(32);
+				variable();
+				}
+				break;
+			case PRINT:
+				{
+				setState(33);
+				print();
+				}
+				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			}
 		}
@@ -296,27 +362,32 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_variable; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterVariable(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterVariable(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitVariable(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitVariable(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final VariableContext variable() throws RecognitionException {
 		VariableContext _localctx = new VariableContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_variable);
+		enterRule(_localctx, 10, RULE_variable);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(31);
+			setState(36);
 			match(VARIABLE);
-			setState(32);
+			setState(37);
 			match(ID);
-			setState(33);
+			setState(38);
 			match(EQUALS);
-			setState(34);
+			setState(39);
 			value();
 			}
 		}
@@ -340,23 +411,28 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_print; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterPrint(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterPrint(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitPrint(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitPrint(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitPrint(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final PrintContext print() throws RecognitionException {
 		PrintContext _localctx = new PrintContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_print);
+		enterRule(_localctx, 12, RULE_print);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(36);
+			setState(41);
 			match(PRINT);
-			setState(37);
+			setState(42);
 			match(ID);
 			}
 		}
@@ -380,22 +456,27 @@ public class EnkelParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_value; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).enterValue(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).enterValue(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof EnkelListener ) ((EnkelListener)listener).exitValue(this);
+			if ( listener instanceof EnkelListener) ((EnkelListener)listener).exitValue(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof EnkelVisitor) return ((EnkelVisitor<? extends T>)visitor).visitValue(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_value);
+		enterRule(_localctx, 14, RULE_value);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(44);
 			_la = _input.LA(1);
 			if ( !(_la==NUMBER || _la==STRING) ) {
 			_errHandler.recoverInline(this);
@@ -416,17 +497,18 @@ public class EnkelParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13,\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\3\2\3\2\3\2\3\3\3\3\3\3\3\3"+
-		"\3\3\3\4\3\4\3\5\3\5\7\5\35\n\5\f\5\16\5 \13\5\3\6\3\6\3\6\3\6\3\6\3\7"+
-		"\3\7\3\7\3\b\3\b\3\b\2\2\t\2\4\6\b\n\f\16\2\3\3\2\b\t&\2\20\3\2\2\2\4"+
-		"\23\3\2\2\2\6\30\3\2\2\2\b\36\3\2\2\2\n!\3\2\2\2\f&\3\2\2\2\16)\3\2\2"+
-		"\2\20\21\5\4\3\2\21\22\7\2\2\3\22\3\3\2\2\2\23\24\5\6\4\2\24\25\7\3\2"+
-		"\2\25\26\5\b\5\2\26\27\7\4\2\2\27\5\3\2\2\2\30\31\7\n\2\2\31\7\3\2\2\2"+
-		"\32\35\5\n\6\2\33\35\5\f\7\2\34\32\3\2\2\2\34\33\3\2\2\2\35 \3\2\2\2\36"+
-		"\34\3\2\2\2\36\37\3\2\2\2\37\t\3\2\2\2 \36\3\2\2\2!\"\7\5\2\2\"#\7\n\2"+
-		"\2#$\7\7\2\2$%\5\16\b\2%\13\3\2\2\2&\'\7\6\2\2\'(\7\n\2\2(\r\3\2\2\2)"+
-		"*\t\2\2\2*\17\3\2\2\2\4\34\36";
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\13\61\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\2\3\3\3"+
+		"\3\3\3\3\3\3\3\3\4\3\4\3\5\7\5\36\n\5\f\5\16\5!\13\5\3\6\3\6\5\6%\n\6"+
+		"\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\t\3\t\3\t\2\2\n\2\4\6\b\n\f\16\20\2"+
+		"\3\3\2\b\t*\2\22\3\2\2\2\4\25\3\2\2\2\6\32\3\2\2\2\b\37\3\2\2\2\n$\3\2"+
+		"\2\2\f&\3\2\2\2\16+\3\2\2\2\20.\3\2\2\2\22\23\5\4\3\2\23\24\7\2\2\3\24"+
+		"\3\3\2\2\2\25\26\5\6\4\2\26\27\7\3\2\2\27\30\5\b\5\2\30\31\7\4\2\2\31"+
+		"\5\3\2\2\2\32\33\7\n\2\2\33\7\3\2\2\2\34\36\5\n\6\2\35\34\3\2\2\2\36!"+
+		"\3\2\2\2\37\35\3\2\2\2\37 \3\2\2\2 \t\3\2\2\2!\37\3\2\2\2\"%\5\f\7\2#"+
+		"%\5\16\b\2$\"\3\2\2\2$#\3\2\2\2%\13\3\2\2\2&\'\7\5\2\2\'(\7\n\2\2()\7"+
+		"\7\2\2)*\5\20\t\2*\r\3\2\2\2+,\7\6\2\2,-\7\n\2\2-\17\3\2\2\2./\t\2\2\2"+
+		"/\21\3\2\2\2\4\37$";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

@@ -1,5 +1,3 @@
-// Generated from Enkel.g4 by ANTLR 4.5.3
-
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -58,6 +56,18 @@ public class EnkelBaseListener implements EnkelListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitClassBody(EnkelParser.ClassBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatement(EnkelParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatement(EnkelParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

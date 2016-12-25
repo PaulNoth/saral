@@ -1,4 +1,3 @@
-// Generated from Enkel.g4 by ANTLR 4.5.3
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
@@ -46,6 +45,16 @@ public interface EnkelListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassBody(EnkelParser.ClassBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link EnkelParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatement(EnkelParser.StatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link EnkelParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatement(EnkelParser.StatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link EnkelParser#variable}.
 	 * @param ctx the parse tree

@@ -1,20 +1,18 @@
-import java.util.Queue;
-
 public class ClassDeclaration {
 
-    private Queue<ClassScopeInstruction> instructions;
     private String className;
+    private ClassBody classBody;
 
-    public ClassDeclaration(Queue<ClassScopeInstruction> instructions, String className) {
-        this.instructions = instructions;
+    public ClassDeclaration(String className, ClassBody classBody) {
         this.className = className;
-    }
-
-    public Queue<ClassScopeInstruction> getInstructions() {
-        return instructions;
+        this.classBody = classBody;
     }
 
     public String getClassName() {
         return className;
+    }
+
+    public ClassBody getClassBody() {
+        return classBody;
     }
 }

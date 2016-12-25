@@ -1,5 +1,5 @@
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 //import static org.objectweb.asm.Opcodes.GETSTATIC;
 
