@@ -6,20 +6,18 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.IOException;
-import java.util.Queue;
 
-public class SyntaxTreeTraverser {
-    public Queue<Instruction> getInstructions(String fileAbsolutePath) throws IOException{
+public class SaralCompilationUnitParser {
+    public CompilationUnit getCompilationUnit(String fileAbsolutePath) throws IOException{
         CharStream charStream = new ANTLRFileStream(fileAbsolutePath);
         SaralLexer saralLexer = new SaralLexer(charStream);
         CommonTokenStream commonTokenStream  = new CommonTokenStream(saralLexer);
         SaralParser saralParser = new SaralParser(commonTokenStream);
-        SaralTreeWalkListener enkelTreeWalkListener = new SaralTreeWalkListener();
 
         BaseErrorListener errorListener = new SaralTreeWalkErrorListener();
-        saralParser.addParseListener(enkelTreeWalkListener);
         saralParser.addErrorListener(errorListener);
-        saralParser.compilationUnit();
-        return enkelTreeWalkListener.getInstructionsQueue();
+
+        CompilationUnitVisitor cuVisitor = new CompilationUnitVisitor();
+        return saralParser.compilationUnit().accept(cuVisitor);
     }
 }

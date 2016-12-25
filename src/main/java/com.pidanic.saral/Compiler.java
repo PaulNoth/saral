@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Queue;
 
 public class Compiler {
     public static void main(String[] args) throws Exception {
@@ -12,18 +11,19 @@ public class Compiler {
     }
 
     public void compile(String[] args) throws Exception{
-        File saralFile = new File(args[0]);
-        String fileName = saralFile.getName();
-        String fileAbsPath = saralFile.getAbsolutePath();
+        File enkelFile = new File(args[0]);
+        String fileName = enkelFile.getName();
+        String fileAbsPath = enkelFile.getAbsolutePath();
         String className = fileName.substring(0, fileName.lastIndexOf('.'));
-        Queue<Instruction> instructionQueue = new SyntaxTreeTraverser().getInstructions(fileAbsPath);
 
-        byte[] bytecode = new ByteCodeGenerator().generateByteCode(instructionQueue, className);
-        saveBytecodeToClassFile(fileName, bytecode);
+        CompilationUnit compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(fileAbsPath);
+
+        saveBytecodeToClassFile(compilationUnit, className);
     }
 
-    private static void saveBytecodeToClassFile(String fileName, byte[] byteCode) throws IOException {
-        final String classFile = fileName.substring(0, fileName.lastIndexOf('.')) + ".class";
+    private static void saveBytecodeToClassFile(CompilationUnit compilationUnit, String className) throws IOException {
+        byte[] byteCode = new ByteCodeGenerator().generateByteCode(compilationUnit, className);
+        final String classFile = className + ".class";
         OutputStream os = new FileOutputStream(classFile);
         os.write(byteCode);
         os.close();

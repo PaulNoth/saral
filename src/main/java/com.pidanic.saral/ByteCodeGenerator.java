@@ -4,12 +4,14 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import java.util.List;
 import java.util.Queue;
 
 public class ByteCodeGenerator implements Opcodes {
-    public byte[] generateByteCode(Queue<Instruction> instructionQueue, String name) {
+    public byte[] generateByteCode(CompilationUnit compilationUnit, String name) {
         ClassWriter cw = new ClassWriter(0);
         MethodVisitor mw;
+        List<Instruction> instructionQueue = compilationUnit.getInstructions();
         // version, access, name, signature, base class, interfaces
         cw.visit(52, ACC_PUBLIC + ACC_SUPER, name, null, "java/lang/Object", null);
         {

@@ -1,10 +1,15 @@
-VARIABLE=1
-PRINT=2
-EQUALS=3
-NUMBER=4
-STRING=5
-ID=6
-WS=7
-'meňak'=1
-'ciskaj'=2
-'='=3
+TYPE=1
+INT_T=2
+STRING_T=3
+VARIABLE=4
+PRINT=5
+EQUALS=6
+NUMBER=7
+STRING=8
+ID=9
+WS=10
+'neskutočné numeralio'=2
+'slovo'=3
+'meňak'=4
+'ciskaj'=5
+'='=6
