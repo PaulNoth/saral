@@ -170,7 +170,7 @@ We declare the **for-loop** like construct as:
 zrob s meňakom <name> od (furt | meňak) do (furt | meňak)
 	...
 ```
-*variables in loop are in interval <from;to]*
+*variables in loop are in interval `<from;to)`*
 
 **While loop**:
 ```
@@ -183,5 +183,5 @@ kým (logický furt | meňak) rob
 
 ####I/O
 #####stdin/stdout
-To print something on standard output we call `ciskaj <name>`, whenre <name> ia a `meňak` or `furt`.
+To print something on standard output we call `ciskaj <name>`, where `<name>` is a `meňak` or `furt`.
 To read from input we call `vežmi <name>`, where `<name>` is a `meňak`, we want to read.
