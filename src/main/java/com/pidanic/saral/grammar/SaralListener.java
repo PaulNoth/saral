@@ -7,15 +7,15 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SaralListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link SaralParser#compilationUnit}.
+	 * Enter a parse tree produced by {@link SaralParser#statements}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompilationUnit(SaralParser.CompilationUnitContext ctx);
+	void enterStatements(SaralParser.StatementsContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SaralParser#compilationUnit}.
+	 * Exit a parse tree produced by {@link SaralParser#statements}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompilationUnit(SaralParser.CompilationUnitContext ctx);
+	void exitStatements(SaralParser.StatementsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
@@ -26,6 +26,16 @@ public interface SaralListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(SaralParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleStatement(SaralParser.SimpleStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleStatement(SaralParser.SimpleStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#variable}.
 	 * @param ctx the parse tree

@@ -2,11 +2,11 @@ package com.pidanic.saral.domain;
 
 import java.util.List;
 
-public class CompilationUnit {
+public class Statements {
 
     private List<Instruction> instructions;
 
-    public CompilationUnit(List<Instruction> instructions) {
+    public Statements(List<Instruction> instructions) {
         this.instructions = instructions;
     }
 

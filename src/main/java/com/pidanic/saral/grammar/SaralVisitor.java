@@ -1,5 +1,4 @@
 package com.pidanic.saral.grammar;// Generated from Saral.g4 by ANTLR 4.5.3
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -11,17 +10,23 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#compilationUnit}.
+	 * Visit a parse tree produced by {@link SaralParser#statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompilationUnit(SaralParser.CompilationUnitContext ctx);
+	T visitStatements(SaralParser.StatementsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStatement(SaralParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#simpleStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleStatement(SaralParser.SimpleStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#variable}.
 	 * @param ctx the parse tree

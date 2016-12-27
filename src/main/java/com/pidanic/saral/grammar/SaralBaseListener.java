@@ -15,13 +15,13 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompilationUnit(SaralParser.CompilationUnitContext ctx) { }
+	@Override public void enterStatements(SaralParser.StatementsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompilationUnit(SaralParser.CompilationUnitContext ctx) { }
+	@Override public void exitStatements(SaralParser.StatementsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -34,6 +34,18 @@ public class SaralBaseListener implements SaralListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStatement(SaralParser.StatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSimpleStatement(SaralParser.SimpleStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSimpleStatement(SaralParser.SimpleStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

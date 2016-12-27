@@ -1,6 +1,6 @@
 package com.pidanic.saral;
 
-import com.pidanic.saral.domain.CompilationUnit;
+import com.pidanic.saral.domain.Statements;
 import com.pidanic.saral.generator.ByteCodeGenerator;
 
 import java.io.File;
@@ -19,12 +19,12 @@ public class Compiler {
         String fileAbsPath = enkelFile.getAbsolutePath();
         String className = fileName.substring(0, fileName.lastIndexOf('.'));
 
-        CompilationUnit compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(fileAbsPath);
+        Statements compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(fileAbsPath);
 
         saveBytecodeToClassFile(compilationUnit, className);
     }
 
-    private static void saveBytecodeToClassFile(CompilationUnit compilationUnit, String className) throws IOException {
+    private static void saveBytecodeToClassFile(Statements compilationUnit, String className) throws IOException {
         byte[] byteCode = new ByteCodeGenerator().generateByteCode(compilationUnit, className);
         final String classFile = className + ".class";
         OutputStream os = new FileOutputStream(classFile);

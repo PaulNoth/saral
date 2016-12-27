@@ -1,13 +1,14 @@
-//header
 grammar Saral;
 
 //parser rules
-compilationUnit : statement* EOF; //root rule - globally code consist only of variables and prints (see definition below)
-statement : (print | variable);
-variable : VARIABLE TYPE ID EQUALS value; //requires VAR token followed by ID token followed by EQUALS TOKEN ...
-print : PRINT ID ; //print statement must consist of 'print' keyword and ID
+statements : statement* EOF;
+statement : simpleStatement;
+
+simpleStatement : (write | variable);
+variable : VARIABLE TYPE ID EQUALS value;
+write : PRINT ID ;
 value : NUMBER
-      | STRING ; //must be NUMBER or STRING value (defined below)
+      | STRING ;
 TYPE : STRING_T
      | INT_T;
 
