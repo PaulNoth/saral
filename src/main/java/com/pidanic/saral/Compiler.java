@@ -1,5 +1,8 @@
 package com.pidanic.saral;
 
+import com.pidanic.saral.domain.CompilationUnit;
+import com.pidanic.saral.generator.ByteCodeGenerator;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

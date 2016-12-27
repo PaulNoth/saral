@@ -1,5 +1,11 @@
-package com.pidanic.saral;
+package com.pidanic.saral.visitor;
 
+import com.pidanic.saral.domain.Instruction;
+import com.pidanic.saral.domain.PrintVariable;
+import com.pidanic.saral.domain.Variable;
+import com.pidanic.saral.domain.VariableDeclaration;
+import com.pidanic.saral.grammar.SaralBaseVisitor;
+import com.pidanic.saral.grammar.SaralParser;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.HashMap;
@@ -12,7 +18,7 @@ public class StatementVisitor extends SaralBaseVisitor<Instruction> {
     @Override
     public Instruction visitPrint(SaralParser.PrintContext ctx) {
         TerminalNode varName = ctx.ID();
-        boolean printVarNotDeclared = variables.containsKey(varName.getText());
+        boolean printVarNotDeclared = !variables.containsKey(varName.getText());
         if(printVarNotDeclared) {
             String err = "You are trying to print var '%s' which has not been declared";
             System.out.printf(err, varName.getText());
@@ -30,7 +36,7 @@ public class StatementVisitor extends SaralBaseVisitor<Instruction> {
         int varType = varValue.getStart().getType();
         int varIndex = variables.size();
         String varTextValue = varValue.getText();
-        Variable var = new Variable(varIndex, varType, varTextValue);
+        Variable var = new Variable(varIndex, varName.getText(), varType, varTextValue);
         variables.put(varName.getText(), var);
         //instructions.add(new VariableDeclaration(var));
         logVariableDeclarationStatementFound(varName, varValue);
@@ -46,6 +52,6 @@ public class StatementVisitor extends SaralBaseVisitor<Instruction> {
     private void logPrintStatementFound(TerminalNode varName, Variable variable) {
         final int line = varName.getSymbol().getLine();
         final String format = "OK: You instructed to print variable '%s' which has value of '%s' at line '%s'.'\n";
-        System.out.printf(format, variable.getId(), variable.getValue(), line);
+        System.out.printf(format, variable.getName(), variable.getValue(), line);
     }
 }

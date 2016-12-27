@@ -1,12 +1,9 @@
-package com.pidanic.saral;// Generated from Saral.g4 by ANTLR 4.5.3
+package com.pidanic.saral.grammar;// Generated from Saral.g4 by ANTLR 4.5.3
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
 import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SaralParser extends Parser {
@@ -96,7 +93,7 @@ public class SaralParser extends Parser {
 		@Override public int getRuleIndex() { return RULE_compilationUnit; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SaralListener ) ((SaralListener)listener).enterCompilationUnit(this);
+			if ( listener instanceof SaralListener) ((SaralListener)listener).enterCompilationUnit(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {

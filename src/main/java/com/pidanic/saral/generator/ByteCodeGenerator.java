@@ -1,11 +1,13 @@
-package com.pidanic.saral;
+package com.pidanic.saral.generator;
 
+import com.pidanic.saral.domain.CompilationUnit;
+import com.pidanic.saral.domain.Instruction;
+import com.pidanic.saral.domain.VariableDeclaration;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.util.List;
-import java.util.Queue;
 
 public class ByteCodeGenerator implements Opcodes {
     public byte[] generateByteCode(CompilationUnit compilationUnit, String name) {

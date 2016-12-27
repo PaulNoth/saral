@@ -1,4 +1,9 @@
-package com.pidanic.saral;
+package com.pidanic.saral.visitor;
+
+import com.pidanic.saral.domain.CompilationUnit;
+import com.pidanic.saral.domain.Instruction;
+import com.pidanic.saral.grammar.SaralBaseVisitor;
+import com.pidanic.saral.grammar.SaralParser;
 
 import java.util.List;
 import java.util.stream.Collectors;

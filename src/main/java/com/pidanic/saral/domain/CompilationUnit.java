@@ -1,4 +1,4 @@
-package com.pidanic.saral;
+package com.pidanic.saral.domain;
 
 import java.util.List;
 

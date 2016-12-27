@@ -1,5 +1,6 @@
-package com.pidanic.saral;
+package com.pidanic.saral.domain;
 
+import com.pidanic.saral.grammar.SaralLexer;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
