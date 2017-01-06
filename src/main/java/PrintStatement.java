@@ -1,9 +1,8 @@
-public class VariableDeclaration implements Statement {
-    private String name;
+public class PrintStatement implements Statement {
+
     private Expression expression;
 
-    public VariableDeclaration(String name, Expression expression) {
-        this.name = name;
+    public PrintStatement(Expression expression) {
         this.expression = expression;
     }
 
@@ -14,9 +13,5 @@ public class VariableDeclaration implements Statement {
 
     public Expression getExpression() {
         return expression;
-    }
-
-    public String getName() {
-        return this.name;
     }
 }

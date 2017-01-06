@@ -1,32 +1,26 @@
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.util.List;
 
-import static org.objectweb.asm.Opcodes.*;
-
 public class ClassGenerator {
 
+    private static final int CLASS_VERSION = 52;
+
+    private ClassWriter classWriter;
+
+    public ClassGenerator() {
+        this.classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
+    }
+
+
     public ClassWriter generate(ClassDeclaration classDeclaration) {
-        ClassWriter cw = new ClassWriter(0);
-        MethodVisitor mw;
-        List<ClassScopeInstruction> instructionQueue = classDeclaration.getClassBody().getInstructions();
-        // version, access, name, signature, base class, interfaces
-        cw.visit(52, ACC_PUBLIC + ACC_SUPER, classDeclaration.getClassName(), null, "java/lang/Object", null);
-        {
-            // declare static void main
-            mw = cw.visitMethod(ACC_PUBLIC + ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
-            long localVariablesCount = instructionQueue.stream()
-                    .filter(instruction -> instruction instanceof VariableDeclaration).count();
-            int maxStack = 100; //
-            for(ClassScopeInstruction ins : instructionQueue) {
-                ins.apply(mw);
-            }
-            mw.visitInsn(RETURN);
-            mw.visitMaxs(maxStack, (int) localVariablesCount);
-            mw.visitEnd();
-        }
-        cw.visitEnd();
-        return cw;
+        String className = classDeclaration.getClassName();
+        classWriter.visit(CLASS_VERSION, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER
+                , className, null, "java/lang/Object", null);
+        List<Function> functions = classDeclaration.getMethods();
+        functions.forEach(fun -> new MethodGenerator(classWriter).generate(fun));
+        classWriter.visitEnd();
+        return classWriter;
     }
 }

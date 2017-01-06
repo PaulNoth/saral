@@ -1,6 +1,10 @@
-first {
-    var five=5
-    print five
-    var dupa="dupa"
-    print dupa
+First {
+    void main (string[] args) {
+        var x = 25
+        metoda(x)
+    }
+
+    void metoda (int param) {
+        print param
+    }
 }
