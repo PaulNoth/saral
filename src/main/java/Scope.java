@@ -34,7 +34,6 @@ public class Scope {
     }
 
     public LocalVariable getLocalVariable(String varName) {
-        System.out.println(varName);
         return localVariables.stream()
                 .filter(variable -> variable.getName().equals(varName))
                 .findFirst()
