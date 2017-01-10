@@ -9,7 +9,7 @@ public class FunctionSignatureVisitor extends EnkelBaseVisitor<FunctionSignature
         List<EnkelParser.FunctionArgumentContext> argumentContextList = ctx.functionArgument();
         List<FunctionParameter> parameters = new ArrayList<>();
         for(int i = 0; i < argumentContextList.size(); i++) {
-            EnkelParser.FunctionArgumentContext argCtx = argumentContextList.get(0);
+            EnkelParser.FunctionArgumentContext argCtx = argumentContextList.get(i);
             String name = argCtx.ID().getText();
             Type type = TypeResolver.getFromTypeName(argCtx.type());
             FunctionParameter param = new FunctionParameter(name, type);

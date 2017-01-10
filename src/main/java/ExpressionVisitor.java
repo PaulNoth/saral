@@ -26,7 +26,7 @@ public class ExpressionVisitor extends EnkelBaseVisitor<Expression> {
                 .map((expressionContext) -> expressionContext.accept(this))
                 .collect(Collectors.toList());
         Type returnType = signature.getReturnType();
-        return new FunctionCall(signature, arguments,returnType);
+        return new FunctionCall(signature, arguments, null);
     }
 
     @Override
