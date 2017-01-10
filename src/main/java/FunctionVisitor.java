@@ -31,7 +31,7 @@ public class FunctionVisitor extends EnkelBaseVisitor<Function> {
         List<EnkelParser.FunctionArgumentContext> argCtx
                 = functionDeclarationContext.functionDeclaration().functionArgument();
         List<FunctionParameter> parameters = argCtx.stream()
-                .map(ctx -> new FunctionParameter(ctx.getText(), TypeResolver.getFromTypeName(ctx.type())))
+                .map(ctx -> new FunctionParameter(ctx.ID().getText(), TypeResolver.getFromTypeName(ctx.type())))
                 .peek(param -> scope.addLocalVariable(new LocalVariable(param.getName(), param.getType())))
                 .collect(Collectors.toList());
         return parameters;
