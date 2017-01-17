@@ -4,13 +4,13 @@ import java.util.List;
 
 public class Statements {
 
-    private List<Instruction> instructions;
+    private List<Statement> instructions;
 
-    public Statements(List<Instruction> instructions) {
+    public Statements(List<Statement> instructions) {
         this.instructions = instructions;
     }
 
-    public List<Instruction> getInstructions() {
+    public List<Statement> getInstructions() {
         return instructions;
     }
 }

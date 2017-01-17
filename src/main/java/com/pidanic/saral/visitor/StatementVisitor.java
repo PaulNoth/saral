@@ -1,6 +1,6 @@
 package com.pidanic.saral.visitor;
 
-import com.pidanic.saral.domain.Instruction;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.PrintVariable;
 import com.pidanic.saral.domain.Variable;
 import com.pidanic.saral.domain.VariableDeclaration;
@@ -11,12 +11,12 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatementVisitor extends SaralBaseVisitor<Instruction> {
+public class StatementVisitor extends SaralBaseVisitor<Statement> {
 
     private Map<String, Variable> variables = new HashMap<>();
 
     @Override
-    public Instruction visitPrint(SaralParser.PrintContext ctx) {
+    public Statement visitPrint(SaralParser.PrintContext ctx) {
         TerminalNode varName = ctx.ID();
         boolean printVarNotDeclared = !variables.containsKey(varName.getText());
         if(printVarNotDeclared) {
@@ -30,7 +30,7 @@ public class StatementVisitor extends SaralBaseVisitor<Instruction> {
     }
 
     @Override
-    public Instruction visitVariable(SaralParser.VariableContext ctx) {
+    public Statement visitVariable(SaralParser.VariableContext ctx) {
         TerminalNode varName = ctx.ID();
         SaralParser.ValueContext varValue = ctx.value();
         int varType = varValue.getStart().getType();

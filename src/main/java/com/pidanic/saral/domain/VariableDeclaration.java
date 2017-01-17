@@ -1,10 +1,9 @@
 package com.pidanic.saral.domain;
 
-import com.pidanic.saral.grammar.SaralLexer;
-import org.objectweb.asm.MethodVisitor;
+import com.pidanic.saral.generator.StatementGenerator;
 import org.objectweb.asm.Opcodes;
 
-public class VariableDeclaration implements Instruction, Opcodes {
+public class VariableDeclaration implements Statement, Opcodes {
     private Variable variable;
 
     public VariableDeclaration(Variable variable) {
@@ -12,15 +11,11 @@ public class VariableDeclaration implements Instruction, Opcodes {
     }
 
     @Override
-    public void apply(MethodVisitor mv) {
-        final int type = variable.getType();
-        if(type == SaralLexer.NUMBER) {
-            int val = Integer.valueOf(variable.getValue());
-            mv.visitIntInsn(BIPUSH, val);
-            mv.visitVarInsn(ISTORE, variable.getId());
-        } else if(type == SaralLexer.STRING) {
-            mv.visitLdcInsn(variable.getValue());
-            mv.visitVarInsn(ASTORE, variable.getId());
-        }
+    public void accept(StatementGenerator statementGenerator) {
+        statementGenerator.generate(this);
+    }
+
+    public Variable getVariable() {
+        return variable;
     }
 }

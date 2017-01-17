@@ -6,7 +6,7 @@ public class Variable {
     private String value;
     private String name;
 
-    public Variable(int id, String name,int type, String value) {
+    public Variable(int id, String name, int type, String value) {
         this.id = id;
         this.name = name;
         this.type = type;
