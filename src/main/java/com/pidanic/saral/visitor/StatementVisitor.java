@@ -1,30 +1,26 @@
 package com.pidanic.saral.visitor;
 
-import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.PrintVariable;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.Variable;
 import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
+import com.pidanic.saral.scope.Scope;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class StatementVisitor extends SaralBaseVisitor<Statement> {
 
-    private Map<String, Variable> variables = new HashMap<>();
+    private Scope scope;
+
+    public StatementVisitor(Scope scope) {
+        this.scope = scope;
+    }
 
     @Override
     public Statement visitPrint(SaralParser.PrintContext ctx) {
         TerminalNode varName = ctx.ID();
-        boolean printVarNotDeclared = !variables.containsKey(varName.getText());
-        if(printVarNotDeclared) {
-            String err = "You are trying to print var '%s' which has not been declared";
-            System.out.printf(err, varName.getText());
-        }
-        Variable var = variables.get(varName.getText());
-        //instructions.add(new PrintVariable(var));
+        Variable var = scope.getLocalVariable(varName.getText());
         logPrintStatementFound(varName, var);
         return new PrintVariable(var);
     }
@@ -34,11 +30,9 @@ public class StatementVisitor extends SaralBaseVisitor<Statement> {
         TerminalNode varName = ctx.ID();
         SaralParser.ValueContext varValue = ctx.value();
         int varType = varValue.getStart().getType();
-        int varIndex = variables.size();
         String varTextValue = varValue.getText();
-        Variable var = new Variable(varIndex, varName.getText(), varType, varTextValue);
-        variables.put(varName.getText(), var);
-        //instructions.add(new VariableDeclaration(var));
+        Variable var = new Variable(varName.getText(), varType, varTextValue);
+        scope.addVariable(var);
         logVariableDeclarationStatementFound(varName, varValue);
         return new VariableDeclaration(var);
     }
