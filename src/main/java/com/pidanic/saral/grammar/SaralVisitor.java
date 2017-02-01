@@ -16,6 +16,12 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatements(SaralParser.StatementsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(SaralParser.BlockContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -28,17 +34,41 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleStatement(SaralParser.SimpleStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#block_statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock_statement(SaralParser.Block_statementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#proc_definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProc_definition(SaralParser.Proc_definitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#arglist}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArglist(SaralParser.ArglistContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#arg}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArg(SaralParser.ArgContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#variable}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariable(SaralParser.VariableContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#print}.
+	 * Visit a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPrint(SaralParser.PrintContext ctx);
+	T visitWrite(SaralParser.WriteContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#value}.
 	 * @param ctx the parse tree

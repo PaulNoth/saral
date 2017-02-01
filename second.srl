@@ -1,0 +1,15 @@
+bar robim()
+{
+    meňak neskutočné numeralio tri = 3
+    ciskaj tri
+}
+
+bar tiezRobim(neskutočné numeralio x)
+{
+    ciskaj x
+}
+
+meňak neskutočné numeralio pejc = 5
+ciskaj pejc
+meňak slovo dupa = "dupa"
+ciskaj dupa

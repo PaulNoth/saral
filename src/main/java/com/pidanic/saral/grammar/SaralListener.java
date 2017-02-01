@@ -17,6 +17,16 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitStatements(SaralParser.StatementsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(SaralParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(SaralParser.BlockContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -37,6 +47,46 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitSimpleStatement(SaralParser.SimpleStatementContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock_statement(SaralParser.Block_statementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#block_statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock_statement(SaralParser.Block_statementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#proc_definition}.
+	 * @param ctx the parse tree
+	 */
+	void enterProc_definition(SaralParser.Proc_definitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#proc_definition}.
+	 * @param ctx the parse tree
+	 */
+	void exitProc_definition(SaralParser.Proc_definitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#arglist}.
+	 * @param ctx the parse tree
+	 */
+	void enterArglist(SaralParser.ArglistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#arglist}.
+	 * @param ctx the parse tree
+	 */
+	void exitArglist(SaralParser.ArglistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#arg}.
+	 * @param ctx the parse tree
+	 */
+	void enterArg(SaralParser.ArgContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#arg}.
+	 * @param ctx the parse tree
+	 */
+	void exitArg(SaralParser.ArgContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#variable}.
 	 * @param ctx the parse tree
 	 */
@@ -47,15 +97,15 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitVariable(SaralParser.VariableContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SaralParser#print}.
+	 * Enter a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
 	 */
-	void enterPrint(SaralParser.PrintContext ctx);
+	void enterWrite(SaralParser.WriteContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SaralParser#print}.
+	 * Exit a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
 	 */
-	void exitPrint(SaralParser.PrintContext ctx);
+	void exitWrite(SaralParser.WriteContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#value}.
 	 * @param ctx the parse tree

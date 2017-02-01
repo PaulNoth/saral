@@ -1,21 +1,28 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 import org.objectweb.asm.Opcodes;
 
-public class VariableDeclaration implements Statement, Opcodes {
-    private Variable variable;
+public class VariableDeclaration implements SimpleStatement, Opcodes {
+    private String name;
+    private String value;
 
-    public VariableDeclaration(Variable variable) {
-        this.variable = variable;
+    public VariableDeclaration(String name, String value) {
+        this.name = name;
+        this.value = value;
     }
 
     @Override
     public void accept(StatementGenerator statementGenerator) {
-        statementGenerator.generate(this);
+        ((SimpleStatementGenerator) statementGenerator).generate(this);
     }
 
-    public Variable getVariable() {
-        return variable;
+    public String getName() {
+        return name;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

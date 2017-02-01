@@ -1,24 +1,37 @@
 grammar Saral;
 
-//parser rules
+INDENT : '{' ;
+DEDENT : '}' ;
+
 statements : statement* EOF;
-statement : simpleStatement;
+block : INDENT simpleStatement* DEDENT;
+
+statement : simpleStatement
+            | block_statement;
 
 simpleStatement : (write | variable);
+block_statement : proc_definition;
+proc_definition : FUNCTION ID LPAR arglist RPAR block;
+arglist : (arg (',' arg)*)?;
+arg : TYPE ID ;
+
 variable : VARIABLE TYPE ID EQUALS value;
 write : PRINT ID ;
+
 value : NUMBER
       | STRING ;
 TYPE : STRING_T
      | INT_T;
 
-//lexer rules (tokens)
+FUNCTION: 'bar';
+LPAR : '(';
+RPAR : ')';
 INT_T : 'neskutočné numeralio';
 STRING_T : 'slovo';
-VARIABLE : 'meňak' ; //VARIABLE TOKEN must match exactly 'var'
+VARIABLE : 'meňak' ;
 PRINT : 'ciskaj' ;
-EQUALS : '=' ; //must be '='
-NUMBER : [0-9]+ ; //must consist only of digits
-STRING : '"'.*'"' ; //must be anything in qutoes
-ID : [a-zA-Z0-9ľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ]+ ; //must be any alphanumeric value
-WS: [ \t\n\r]+ -> skip ; //special TOKEN for skipping whitespaces
+EQUALS : '=' ;
+NUMBER : [0-9]+ ;
+STRING : '"'.*'"' ;
+ID : [a-zA-Z0-9ľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ]+ ;
+WS: [ \t\n\r]+ -> skip ;

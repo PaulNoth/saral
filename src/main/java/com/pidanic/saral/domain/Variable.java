@@ -1,17 +1,17 @@
 package com.pidanic.saral.domain;
 
 public class Variable {
-    private int type;
+    private String type;
     private String value;
     private String name;
 
-    public Variable(String name, int type, String value) {
+    public Variable(String name, String type, String value) {
         this.name = name;
         this.type = type;
         this.value = value;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 

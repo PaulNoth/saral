@@ -1,13 +1,12 @@
 package com.pidanic.saral.visitor;
 
-import com.pidanic.saral.domain.PrintVariable;
+import com.pidanic.saral.domain.Argument;
+import com.pidanic.saral.domain.Procedure;
+import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.Statement;
-import com.pidanic.saral.domain.Variable;
-import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 public class StatementVisitor extends SaralBaseVisitor<Statement> {
 
@@ -18,34 +17,16 @@ public class StatementVisitor extends SaralBaseVisitor<Statement> {
     }
 
     @Override
-    public Statement visitPrint(SaralParser.PrintContext ctx) {
-        TerminalNode varName = ctx.ID();
-        Variable var = scope.getLocalVariable(varName.getText());
-        logPrintStatementFound(varName, var);
-        return new PrintVariable(var);
+    public Statement visitSimpleStatement(SaralParser.SimpleStatementContext ctx) {
+        SimpleStatementVisitor simpleStatementVisitor = new SimpleStatementVisitor(scope);
+        SimpleStatement simpleStatement = ctx.accept(simpleStatementVisitor);
+        return simpleStatement;
     }
 
     @Override
-    public Statement visitVariable(SaralParser.VariableContext ctx) {
-        TerminalNode varName = ctx.ID();
-        SaralParser.ValueContext varValue = ctx.value();
-        int varType = varValue.getStart().getType();
-        String varTextValue = varValue.getText();
-        Variable var = new Variable(varName.getText(), varType, varTextValue);
-        scope.addVariable(var);
-        logVariableDeclarationStatementFound(varName, varValue);
-        return new VariableDeclaration(var);
-    }
-
-    private void logVariableDeclarationStatementFound(TerminalNode varName, SaralParser.ValueContext varValue) {
-        final int line = varName.getSymbol().getLine();
-        final String format = "OK: You declared variable named '%s' with value of '%s' at line '%s'.\n";
-        System.out.printf(format, varName, varValue.getText(), line);
-    }
-
-    private void logPrintStatementFound(TerminalNode varName, Variable variable) {
-        final int line = varName.getSymbol().getLine();
-        final String format = "OK: You instructed to print variable '%s' which has value of '%s' at line '%s'.'\n";
-        System.out.printf(format, variable.getName(), variable.getValue(), line);
+    public Statement visitBlock_statement(SaralParser.Block_statementContext ctx) {
+        Procedure procedure = ctx.proc_definition().accept(new ProcedureVisitor(scope));
+        scope.addProcedure(procedure);
+        return procedure;
     }
 }

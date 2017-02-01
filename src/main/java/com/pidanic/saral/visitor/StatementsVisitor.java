@@ -1,5 +1,6 @@
 package com.pidanic.saral.visitor;
 
+import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.Statements;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
@@ -19,10 +20,10 @@ public class StatementsVisitor extends SaralBaseVisitor<Statements> {
 
     @Override
     public Statements visitStatements(SaralParser.StatementsContext ctx) {
-        StatementVisitor statementVisitor = new StatementVisitor(this.scope);
-        List<Statement> instructionList = ctx.statement()
-                .stream().map(statement -> statement.accept(statementVisitor))
-                .collect(Collectors.toList());
-        return new Statements(scope, instructionList);
+        StatementVisitor statementVisitor = new StatementVisitor(scope);
+        List<Statement> statements = ctx.statement().stream()
+                .map(stmt -> stmt.accept(statementVisitor)).collect(Collectors.toList());
+
+        return new Statements(scope, statements);
     }
 }
