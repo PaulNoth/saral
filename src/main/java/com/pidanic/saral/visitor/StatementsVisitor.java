@@ -7,6 +7,7 @@ import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +22,14 @@ public class StatementsVisitor extends SaralBaseVisitor<Statements> {
     @Override
     public Statements visitStatements(SaralParser.StatementsContext ctx) {
         StatementVisitor statementVisitor = new StatementVisitor(scope);
-        List<Statement> statements = ctx.statement().stream()
-                .map(stmt -> stmt.accept(statementVisitor)).collect(Collectors.toList());
+        List<Statement> ret = new ArrayList<>();
+        ctx.statement().forEach(stmtCtx -> {
+            Statement val = stmtCtx.accept(statementVisitor);
+            ret.add(val);
+        });
+       // List<Statement> statements = ctx.statement().stream()
+       //         .map(stmt -> stmt.accept(statementVisitor)).collect(Collectors.toList());
 
-        return new Statements(scope, statements);
+        return new Statements(scope, ret);
     }
 }

@@ -1,4 +1,5 @@
-package com.pidanic.saral.grammar;// Generated from Saral.g4 by ANTLR 4.5.3
+// Generated from Saral.g4 by ANTLR 4.5.3
+package com.pidanic.saral.grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
 /**
