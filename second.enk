@@ -1,6 +1,0 @@
-Second {
-    void main (string[] args) {
-        var x = 25
-        print x
-    }
-}
