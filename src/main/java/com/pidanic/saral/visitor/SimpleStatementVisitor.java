@@ -33,4 +33,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         return new VariableDeclaration(varName.getText(), varTextValue);
     }
 
+    @Override
+    public SimpleStatement visitProc_call(SaralParser.Proc_callContext ctx) {
+        // TODO
+        return super.visitProc_call(ctx);
+    }
 }

@@ -108,6 +108,36 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitWrite(SaralParser.WriteContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#proc_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterProc_call(SaralParser.Proc_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#proc_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitProc_call(SaralParser.Proc_callContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void enterParamlist(SaralParser.ParamlistContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#paramlist}.
+	 * @param ctx the parse tree
+	 */
+	void exitParamlist(SaralParser.ParamlistContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#var}.
+	 * @param ctx the parse tree
+	 */
+	void enterVar(SaralParser.VarContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#var}.
+	 * @param ctx the parse tree
+	 */
+	void exitVar(SaralParser.VarContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#value}.
 	 * @param ctx the parse tree
 	 */
