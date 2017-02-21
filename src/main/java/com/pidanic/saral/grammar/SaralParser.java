@@ -17,9 +17,9 @@ public class SaralParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, TYPE=2, FUNCTION=3, LPAR=4, RPAR=5, INT_T=6, STRING_T=7, VARIABLE=8, 
-		PRINT=9, EQUALS=10, NUMBER=11, STRING=12, ID=13, EOL=14, WS=15, INDENT=16, 
-		DEDENT=17;
+		T__0=1, INDENT=2, DEDENT=3, TYPE=4, FUNCTION=5, LPAR=6, RPAR=7, INT_T=8, 
+		STRING_T=9, VARIABLE=10, PRINT=11, EQUALS=12, NUMBER=13, STRING=14, ID=15, 
+		WS=16;
 	public static final int
 		RULE_statements = 0, RULE_block = 1, RULE_statement = 2, RULE_simpleStatement = 3, 
 		RULE_block_statement = 4, RULE_proc_definition = 5, RULE_arglist = 6, 
@@ -30,12 +30,12 @@ public class SaralParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "','", null, "'bar'", "'('", "')'", "'neskutočné numeralio'", "'slovo'", 
-		"'meňak'", "'ciskaj'", "'='"
+		null, "','", "'{'", "'}'", null, "'bar'", "'('", "')'", "'neskutočné numeralio'", 
+		"'slovo'", "'meňak'", "'ciskaj'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, "TYPE", "FUNCTION", "LPAR", "RPAR", "INT_T", "STRING_T", "VARIABLE", 
-		"PRINT", "EQUALS", "NUMBER", "STRING", "ID", "EOL", "WS", "INDENT", "DEDENT"
+		null, null, "INDENT", "DEDENT", "TYPE", "FUNCTION", "LPAR", "RPAR", "INT_T", 
+		"STRING_T", "VARIABLE", "PRINT", "EQUALS", "NUMBER", "STRING", "ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -87,6 +87,7 @@ public class SaralParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class StatementsContext extends ParserRuleContext {
+		public TerminalNode EOF() { return getToken(SaralParser.EOF, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
@@ -133,6 +134,8 @@ public class SaralParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
+			setState(28);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -154,10 +157,6 @@ public class SaralParser extends Parser {
 		}
 		public SimpleStatementContext simpleStatement(int i) {
 			return getRuleContext(SimpleStatementContext.class,i);
-		}
-		public List<TerminalNode> EOL() { return getTokens(SaralParser.EOL); }
-		public TerminalNode EOL(int i) {
-			return getToken(SaralParser.EOL, i);
 		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -185,7 +184,7 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(28);
+			setState(30);
 			match(INDENT);
 			setState(34);
 			_errHandler.sync(this);
@@ -193,10 +192,8 @@ public class SaralParser extends Parser {
 			while (_la==VARIABLE || _la==PRINT) {
 				{
 				{
-				setState(29);
+				setState(31);
 				simpleStatement();
-				setState(30);
-				match(EOL);
 				}
 				}
 				setState(36);
@@ -222,7 +219,6 @@ public class SaralParser extends Parser {
 		public SimpleStatementContext simpleStatement() {
 			return getRuleContext(SimpleStatementContext.class,0);
 		}
-		public TerminalNode EOL() { return getToken(SaralParser.EOL, 0); }
 		public Block_statementContext block_statement() {
 			return getRuleContext(Block_statementContext.class,0);
 		}
@@ -248,9 +244,8 @@ public class SaralParser extends Parser {
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_statement);
-		int _la;
 		try {
-			setState(46);
+			setState(41);
 			switch (_input.LA(1)) {
 			case VARIABLE:
 			case PRINT:
@@ -258,24 +253,13 @@ public class SaralParser extends Parser {
 				{
 				setState(39);
 				simpleStatement();
-				setState(40);
-				match(EOL);
 				}
 				break;
 			case FUNCTION:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(42);
+				setState(40);
 				block_statement();
-				setState(44);
-				_la = _input.LA(1);
-				if (_la==EOL) {
-					{
-					setState(43);
-					match(EOL);
-					}
-				}
-
 				}
 				break;
 			default:
@@ -325,17 +309,17 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50);
+			setState(45);
 			switch (_input.LA(1)) {
 			case PRINT:
 				{
-				setState(48);
+				setState(43);
 				write();
 				}
 				break;
 			case VARIABLE:
 				{
-				setState(49);
+				setState(44);
 				variable();
 				}
 				break;
@@ -384,7 +368,7 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52);
+			setState(47);
 			proc_definition();
 			}
 		}
@@ -407,7 +391,6 @@ public class SaralParser extends Parser {
 			return getRuleContext(ArglistContext.class,0);
 		}
 		public TerminalNode RPAR() { return getToken(SaralParser.RPAR, 0); }
-		public TerminalNode EOL() { return getToken(SaralParser.EOL, 0); }
 		public BlockContext block() {
 			return getRuleContext(BlockContext.class,0);
 		}
@@ -436,19 +419,17 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(54);
+			setState(49);
 			match(FUNCTION);
-			setState(55);
+			setState(50);
 			match(ID);
-			setState(56);
+			setState(51);
 			match(LPAR);
-			setState(57);
+			setState(52);
 			arglist();
-			setState(58);
+			setState(53);
 			match(RPAR);
-			setState(59);
-			match(EOL);
-			setState(60);
+			setState(54);
 			block();
 			}
 		}
@@ -496,25 +477,25 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(70);
+			setState(64);
 			_la = _input.LA(1);
 			if (_la==TYPE) {
 				{
-				setState(62);
+				setState(56);
 				arg();
-				setState(67);
+				setState(61);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__0) {
 					{
 					{
-					setState(63);
+					setState(57);
 					match(T__0);
-					setState(64);
+					setState(58);
 					arg();
 					}
 					}
-					setState(69);
+					setState(63);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -562,9 +543,9 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72);
+			setState(66);
 			match(TYPE);
-			setState(73);
+			setState(67);
 			match(ID);
 			}
 		}
@@ -612,15 +593,15 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(69);
 			match(VARIABLE);
-			setState(76);
+			setState(70);
 			match(TYPE);
-			setState(77);
+			setState(71);
 			match(ID);
-			setState(78);
+			setState(72);
 			match(EQUALS);
-			setState(79);
+			setState(73);
 			value();
 			}
 		}
@@ -663,9 +644,9 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81);
+			setState(75);
 			match(PRINT);
-			setState(82);
+			setState(76);
 			match(ID);
 			}
 		}
@@ -709,7 +690,7 @@ public class SaralParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(78);
 			_la = _input.LA(1);
 			if ( !(_la==NUMBER || _la==STRING) ) {
 			_errHandler.recoverInline(this);
@@ -730,27 +711,26 @@ public class SaralParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\23Y\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\22S\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\4"+
-		"\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\3\3\3\3\3\3\3\7\3#\n\3\f\3\16"+
-		"\3&\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\5\4/\n\4\5\4\61\n\4\3\5\3\5\5\5\65"+
-		"\n\5\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\7\bD\n\b\f\b"+
-		"\16\bG\13\b\5\bI\n\b\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13"+
-		"\3\f\3\f\3\f\2\2\r\2\4\6\b\n\f\16\20\22\24\26\2\3\3\2\r\16T\2\33\3\2\2"+
-		"\2\4\36\3\2\2\2\6\60\3\2\2\2\b\64\3\2\2\2\n\66\3\2\2\2\f8\3\2\2\2\16H"+
-		"\3\2\2\2\20J\3\2\2\2\22M\3\2\2\2\24S\3\2\2\2\26V\3\2\2\2\30\32\5\6\4\2"+
-		"\31\30\3\2\2\2\32\35\3\2\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\3\3\2\2\2"+
-		"\35\33\3\2\2\2\36$\7\22\2\2\37 \5\b\5\2 !\7\20\2\2!#\3\2\2\2\"\37\3\2"+
-		"\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\'\3\2\2\2&$\3\2\2\2\'(\7\23\2\2("+
-		"\5\3\2\2\2)*\5\b\5\2*+\7\20\2\2+\61\3\2\2\2,.\5\n\6\2-/\7\20\2\2.-\3\2"+
-		"\2\2./\3\2\2\2/\61\3\2\2\2\60)\3\2\2\2\60,\3\2\2\2\61\7\3\2\2\2\62\65"+
-		"\5\24\13\2\63\65\5\22\n\2\64\62\3\2\2\2\64\63\3\2\2\2\65\t\3\2\2\2\66"+
-		"\67\5\f\7\2\67\13\3\2\2\289\7\5\2\29:\7\17\2\2:;\7\6\2\2;<\5\16\b\2<="+
-		"\7\7\2\2=>\7\20\2\2>?\5\4\3\2?\r\3\2\2\2@E\5\20\t\2AB\7\3\2\2BD\5\20\t"+
-		"\2CA\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2FI\3\2\2\2GE\3\2\2\2H@\3\2\2"+
-		"\2HI\3\2\2\2I\17\3\2\2\2JK\7\4\2\2KL\7\17\2\2L\21\3\2\2\2MN\7\n\2\2NO"+
-		"\7\4\2\2OP\7\17\2\2PQ\7\f\2\2QR\5\26\f\2R\23\3\2\2\2ST\7\13\2\2TU\7\17"+
-		"\2\2U\25\3\2\2\2VW\t\2\2\2W\27\3\2\2\2\t\33$.\60\64EH";
+		"\f\t\f\3\2\7\2\32\n\2\f\2\16\2\35\13\2\3\2\3\2\3\3\3\3\7\3#\n\3\f\3\16"+
+		"\3&\13\3\3\3\3\3\3\4\3\4\5\4,\n\4\3\5\3\5\5\5\60\n\5\3\6\3\6\3\7\3\7\3"+
+		"\7\3\7\3\7\3\7\3\7\3\b\3\b\3\b\7\b>\n\b\f\b\16\bA\13\b\5\bC\n\b\3\t\3"+
+		"\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\f\3\f\3\f\2\2\r\2\4\6"+
+		"\b\n\f\16\20\22\24\26\2\3\3\2\17\20M\2\33\3\2\2\2\4 \3\2\2\2\6+\3\2\2"+
+		"\2\b/\3\2\2\2\n\61\3\2\2\2\f\63\3\2\2\2\16B\3\2\2\2\20D\3\2\2\2\22G\3"+
+		"\2\2\2\24M\3\2\2\2\26P\3\2\2\2\30\32\5\6\4\2\31\30\3\2\2\2\32\35\3\2\2"+
+		"\2\33\31\3\2\2\2\33\34\3\2\2\2\34\36\3\2\2\2\35\33\3\2\2\2\36\37\7\2\2"+
+		"\3\37\3\3\2\2\2 $\7\4\2\2!#\5\b\5\2\"!\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%"+
+		"\3\2\2\2%\'\3\2\2\2&$\3\2\2\2\'(\7\5\2\2(\5\3\2\2\2),\5\b\5\2*,\5\n\6"+
+		"\2+)\3\2\2\2+*\3\2\2\2,\7\3\2\2\2-\60\5\24\13\2.\60\5\22\n\2/-\3\2\2\2"+
+		"/.\3\2\2\2\60\t\3\2\2\2\61\62\5\f\7\2\62\13\3\2\2\2\63\64\7\7\2\2\64\65"+
+		"\7\21\2\2\65\66\7\b\2\2\66\67\5\16\b\2\678\7\t\2\289\5\4\3\29\r\3\2\2"+
+		"\2:?\5\20\t\2;<\7\3\2\2<>\5\20\t\2=;\3\2\2\2>A\3\2\2\2?=\3\2\2\2?@\3\2"+
+		"\2\2@C\3\2\2\2A?\3\2\2\2B:\3\2\2\2BC\3\2\2\2C\17\3\2\2\2DE\7\6\2\2EF\7"+
+		"\21\2\2F\21\3\2\2\2GH\7\f\2\2HI\7\6\2\2IJ\7\21\2\2JK\7\16\2\2KL\5\26\f"+
+		"\2L\23\3\2\2\2MN\7\r\2\2NO\7\21\2\2O\25\3\2\2\2PQ\t\2\2\2Q\27\3\2\2\2"+
+		"\b\33$+/?B";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
