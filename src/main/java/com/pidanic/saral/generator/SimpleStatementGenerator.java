@@ -1,15 +1,17 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.domain.PrintVariable;
-import com.pidanic.saral.domain.VariableDeclaration;
+import com.pidanic.saral.domain.*;
+import com.pidanic.saral.exception.ProcedureCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
-import com.pidanic.saral.util.BuiltInType;
-import com.pidanic.saral.util.Type;
-import com.pidanic.saral.util.TypeResolver;
+import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class SimpleStatementGenerator extends StatementGenerator {
 
@@ -54,6 +56,58 @@ public class SimpleStatementGenerator extends StatementGenerator {
             stringValue = StringUtils.removeEnd(stringValue, "\"");
             methodVisitor.visitLdcInsn(stringValue);
             methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+        }
+    }
+
+    public void generate(ProcedureCall procedureCall) {
+        List<Argument> parameters = procedureCall.getProcedure().getArguments();
+        List<CalledArgument> calledParameter = procedureCall.getCalledArguments();
+        for(int i = 0; i < parameters.size(); i++) {
+            Argument param = parameters.get(i);
+            CalledArgument callArg = calledParameter.get(i);
+            String realLocalVariableName = callArg.getName();
+            param.accept(this, realLocalVariableName);
+        }
+        //parameters.forEach((param, id) -> param.accept(this));
+        Type owner = procedureCall.getProcedure().getReturnType().orElse(new ClassType(scope.getClassName()));
+        String ownerDescription = owner.getInternalName();
+        String procedureName = procedureCall.getProcedure().getName();
+        String methodDescriptor = getFunctionDescriptor(procedureCall);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, ownerDescription, procedureName, methodDescriptor, false);
+    }
+
+    public void generate(Argument parameter, String localVariableName) {
+        Type type = TypeResolver.getFromTypeName(parameter.getType());
+        int index = scope.getVariableIndex(localVariableName);
+        if (type == BuiltInType.INT) {
+            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
+        } else {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
+        }
+    }
+
+    private String getFunctionDescriptor(ProcedureCall procedureCall) {
+        return Optional.of(getDescriptorForFunctionInScope(procedureCall))
+                .orElse(getDescriptorForFunctionOnClasspath(procedureCall))
+                .orElseThrow(() -> new ProcedureCallNotFoundException(procedureCall));
+    }
+
+    private Optional<String> getDescriptorForFunctionInScope(ProcedureCall functionCall) {
+        return Optional.ofNullable(DescriptorFactory.getMethodDescriptor(functionCall.getProcedure()));
+    }
+
+    private Optional<String> getDescriptorForFunctionOnClasspath(ProcedureCall procedureCall) {
+        try {
+            String functionName = procedureCall.getProcedure().getName();
+            Collection<CalledArgument> parameters = procedureCall.getCalledArguments();
+            Optional<Type> owner = procedureCall.getProcedure().getReturnType();
+            String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            Class<?> aClass = Class.forName(className);
+            Method method = aClass.getMethod(functionName);
+            String methodDescriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
+            return Optional.of(methodDescriptor);
+        } catch (ReflectiveOperationException e) {
+            return Optional.empty();
         }
     }
 }

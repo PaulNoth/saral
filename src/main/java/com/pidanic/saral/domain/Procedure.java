@@ -3,16 +3,20 @@ package com.pidanic.saral.domain;
 import com.pidanic.saral.generator.BlockStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 import com.pidanic.saral.scope.Scope;
+import com.pidanic.saral.util.BuiltInType;
+import com.pidanic.saral.util.Type;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class Procedure implements BlockStatement {
     private Scope scope;
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
+    private Type returnType = BuiltInType.VOID;
 
     public Procedure(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements) {
         this.scope = new Scope(scope);
@@ -40,5 +44,9 @@ public class Procedure implements BlockStatement {
 
     public Scope getScope() {
         return scope;
+    }
+
+    public Optional<Type> getReturnType() {
+        return Optional.empty();
     }
 }
