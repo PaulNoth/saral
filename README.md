@@ -1,4 +1,4 @@
-##ŠARAL 2.0 - ŠARIŠ ALGORITMIC LENGVIDŽ 2.0
+## ŠARAL 2.0 - ŠARIŠ ALGORITMIC LENGVIDŽ 2.0
 *Note: This is the English translation of the [original document in Slovak](https://github.com/laciKE/saral/blob/master/specifikacia.md).*
 
 ---
@@ -7,7 +7,7 @@ My specification is based on a former [Šaral presentation](http://www.trsek.com
 
 Identifier are composed from lower and uppercase characters, digits and underscores. They can start with a letter or an underscore, such as `_?[:letter:]([:digit:][:letter:]_)*`.
 
-####Key words:
+#### Key words:
 * `furt`
 * `meňak`
 * `parcela`
@@ -46,14 +46,14 @@ Identifier are composed from lower and uppercase characters, digits and undersco
 
 Keywords `dimenzion` a `stuj` stay in Šaral 2.0 specification preserving backward compatibility with former Šaral specification.
 
-####Operators
+#### Operators
 * `+`, `-`, `*`, `/`, `:`, `%`
 * `a`, `alebo`, `ne`
 * `==`, `<`, `>`, `<=`, `>=`, `<>`
 * `=`
 * `[]`
 
-####Data types
+#### Data types
 * `skutočné numeralio`
 * `neskutočné numeralio`
 * `logický`
@@ -63,17 +63,17 @@ Keywords `dimenzion` a `stuj` stay in Šaral 2.0 specification preserving backwa
 
 First 4 types are considered as primitive, first 5 as basic, type `funduš` as container type.
 
-#####Trinary logic
+##### Trinary logic
 Šaral uses [Three-valued logic](https://en.wikipedia.org/wiki/Three-valued_logic) with these values `pravda`, `ošaľ` & `skoroošaľ`. They represent `True`, `False` a `Unknown` in [Kleene's logic](https://en.wikipedia.org/wiki/Three-valued_logic#Kleene_and_Priest_logics). That means a condition is only true if all statement have `pravda` value.
 
-####Variable and constants declarations
+#### Variable and constants declarations
 ```
 <modifier> <type> <name>
 <modifier> <type> <name> = <value>
 ```
 `<modifier>` means, either identifier `<name>` is a variable (`meňak`) or a constant (`furt`). By declaring `furt` it is required to initialize to some value.
 
-#####Examples
+##### Examples
 ```
 furt skutočné numeralio pi = 3.14
 furt neskutočné numeralio answer = 42
@@ -83,7 +83,7 @@ meno = "Ladislav"
 meňak písmeno class = 'A'
 ```
 
-####Array declarations
+#### Array declarations
 ```
 funduš <type> <name> [dimension]
 funduš <type> <name> [dimension]
@@ -93,14 +93,14 @@ dimenzion funduš <type> <name> [dimension]
 ```
 It is recommended to use first declaration with `funduš`. Keyword `dimenzion` is supported preserving backward compatibilty with first Šaral version. Array `dimension` must be of type `neskutočné numerálio`.
 
-#####Examples
+##### Examples
 ```
 funduš skutočné numeralio šč [3]
 meňak neskutočné numeralio N = 42
 dimenzion funduš logický fň [N]
 ```
 
-####Procedures and functions
+#### Procedures and functions
 Šaral supports functions and procedures. Looking from higher perspective they appear to be like black boxes `bar` (pub) - some things enter inside and sometimes something is returned outside.
 
 ```
@@ -129,7 +129,7 @@ inakši <type> bar <name>(<type> <name>, <type> <name>, ...)
 ```
 
 
-#####Examples
+##### Examples
 ```
 inakši bar neskutočné numeralio puts(slovo s)
 
@@ -150,7 +150,7 @@ meňak neskutočné numeralio Y = 600
 paľ do baru ZámenaManželiek(X, Y)
 ```
 
-####Conditions
+#### Conditions
 ```
 keď (furt | meňak) == (furt | meňak) potom
 	...
@@ -164,7 +164,7 @@ inak
 ```
 The `inak` part is not required.
 
-####Loops
+#### Loops
 We declare the **for-loop** like construct as:
 ```
 zrob s meňakom <name> od (furt | meňak) do (furt | meňak)
@@ -181,7 +181,7 @@ kým (logický furt | meňak) rob
 	...
 ```
 
-####I/O
-#####stdin/stdout
+#### I/O
+##### stdin/stdout
 To print something on standard output we call `ciskaj <name>`, where `<name>` is a `meňak` or `furt`.
 To read from input we call `vežmi <name>`, where `<name>` is a `meňak`, we want to read.
