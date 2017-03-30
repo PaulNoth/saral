@@ -3,6 +3,7 @@ package com.pidanic.saral.scope;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.Procedure;
 import com.pidanic.saral.domain.Variable;
+import com.pidanic.saral.exception.ProcedureNotFoundException;
 import com.pidanic.saral.exception.VariableNotFoundException;
 
 import java.util.ArrayList;
@@ -13,15 +14,18 @@ public class Scope {
 
     private List<LocalVariable> localVariables;
     private List<Procedure> procedures;
+    private String className;
 
-    public Scope() {
+    public Scope(String className) {
         localVariables = new ArrayList<>();
         procedures = new ArrayList<>();
+        this.className = className;
     }
 
     public Scope(Scope scope) {
         localVariables = new ArrayList<>(scope.localVariables);
         procedures = new ArrayList<>(scope.procedures);
+        className = scope.className;
     }
 
     public List<LocalVariable> getLocalVariables() {
@@ -50,5 +54,15 @@ public class Scope {
     public int getVariableIndex(String varName) {
         LocalVariable localVariable = getLocalVariable(varName);
         return localVariables.indexOf(localVariable);
+    }
+
+    public Procedure getProcedure(String procedureName) {
+        return procedures.stream().filter(proc -> proc.getName().equals(procedureName))
+                .findFirst()
+                .orElseThrow(() -> new ProcedureNotFoundException(this, procedureName));
+    }
+
+    public String getClassName() {
+        return className;
     }
 }

@@ -14,18 +14,15 @@ public class Compiler {
     }
 
     public void compile(String[] args) throws Exception{
-        File enkelFile = new File(args[0]);
-        String fileName = enkelFile.getName();
-        String fileAbsPath = enkelFile.getAbsolutePath();
-        String className = fileName.substring(0, fileName.lastIndexOf('.'));
+        File file = new File(args[0]);
+        Statements compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(file);
 
-        Statements compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(fileAbsPath);
-
-        saveBytecodeToClassFile(compilationUnit, className);
+        saveBytecodeToClassFile(compilationUnit);
     }
 
-    private static void saveBytecodeToClassFile(Statements compilationUnit, String className) throws IOException {
-        byte[] byteCode = new ByteCodeGenerator().generateByteCode(compilationUnit, className);
+    private static void saveBytecodeToClassFile(Statements compilationUnit) throws IOException {
+        byte[] byteCode = new ByteCodeGenerator().generateByteCode(compilationUnit);
+        String className = compilationUnit.getScope().getClassName();
         final String classFile = className + ".class";
         OutputStream os = new FileOutputStream(classFile);
         os.write(byteCode);

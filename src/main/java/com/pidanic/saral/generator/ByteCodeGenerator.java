@@ -7,7 +7,8 @@ import org.objectweb.asm.Opcodes;
 public class ByteCodeGenerator {
     private static final int CLASS_VERSION = 52;
 
-    public byte[] generateByteCode(Statements compilationUnit, String name) {
+    public byte[] generateByteCode(Statements compilationUnit) {
+        String name = compilationUnit.getScope().getClassName();
         ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES + ClassWriter.COMPUTE_MAXS);
 
         cw.visit(CLASS_VERSION, Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER, name, null, "java/lang/Object", null);

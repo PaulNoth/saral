@@ -15,8 +15,8 @@ public class StatementsVisitor extends SaralBaseVisitor<Statements> {
 
     private Scope scope;
 
-    public StatementsVisitor() {
-        this.scope = new Scope();
+    public StatementsVisitor(String className) {
+        this.scope = new Scope(className);
     }
 
     @Override

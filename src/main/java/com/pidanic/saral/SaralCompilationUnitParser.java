@@ -10,11 +10,16 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
+import java.io.File;
 import java.io.IOException;
 
 public class SaralCompilationUnitParser {
-    public Statements getCompilationUnit(String fileAbsolutePath) throws IOException{
-        CharStream charStream = new ANTLRFileStream(fileAbsolutePath);
+    public Statements getCompilationUnit(File file) throws IOException{
+        String fileName = file.getName();
+        String fileAbsPath = file.getAbsolutePath();
+        String className = fileName.substring(0, fileName.lastIndexOf('.'));
+
+        CharStream charStream = new ANTLRFileStream(fileAbsPath);
         SaralLexer saralLexer = new SaralLexer(charStream);
         CommonTokenStream commonTokenStream  = new CommonTokenStream(saralLexer);
         SaralParser saralParser = new SaralParser(commonTokenStream);
@@ -22,7 +27,7 @@ public class SaralCompilationUnitParser {
         BaseErrorListener errorListener = new SaralTreeWalkErrorListener();
         saralParser.addErrorListener(errorListener);
 
-        StatementsVisitor statementsVisitor = new StatementsVisitor();
+        StatementsVisitor statementsVisitor = new StatementsVisitor(className);
         return saralParser.statements().accept(statementsVisitor);
     }
 }

@@ -6,6 +6,9 @@ import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private Scope scope;
@@ -33,4 +36,16 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         return new VariableDeclaration(varName.getText(), varTextValue);
     }
 
+    @Override
+    public SimpleStatement visitProc_call(SaralParser.Proc_callContext ctx) {
+        String procedureName = ctx.ID().getText();
+        List<SaralParser.VarContext> calledParameters = ctx.paramlist().var();
+        List<CalledArgument> args = calledParameters.stream()
+                .map(param -> param.accept(new CalledArgumentVisitor()))
+                .collect(Collectors.toList());
+
+        Procedure proc = scope.getProcedure(procedureName);
+
+        return new ProcedureCall(proc, args);
+    }
 }
