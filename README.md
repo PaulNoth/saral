@@ -2,9 +2,15 @@
 
 [English](README.md)
 
+>>Chceme Vás teraz zoznámiť so špicou pokroku a evolúcie v spracovaní informácií.
+Z problémovo orientovamým vedecko-technickým programovacím jazykom Šaral.
+Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť taký jazyk, ktorému by rozumel ako počítač tak človek.
+
+*Odporúčam vypočuť si celý [zvukový záznam](https://www.youtube.com/watch?v=-VNgsKEl4sA) prezentácie od autora Šaralu*.
+
+
 *Nie sú ešte podporované všetky funkcie jazyka. Kompletná špecifikácia [tu](https://github.com/laciKE/saral/blob/master/specifikacia.md)*
 
-*Odporúčam vypočuť si [zvukový záznam](https://www.youtube.com/watch?v=-VNgsKEl4sA) prezentácie od autora Šaralu*.
 
 ### Kompilátor
 Na spustenie Šaral kompilatora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/)
