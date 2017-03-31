@@ -6,7 +6,7 @@
 Z problémovo orientovamým vedecko-technickým programovacím jazykom Šaral.
 Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť taký jazyk, ktorému by rozumel ako počítač tak človek.
 
-*Odporúčam vypočuť si celý [zvukový záznam](https://www.youtube.com/watch?v=-VNgsKEl4sA) prezentácie od autora Šaralu*.
+*Odporúčam vypočuť si celý [zvukový záznam](https://www.youtube.com/watch?v=-VNgsKEl4sA) alebo [prepis](http://www.trsek.com/sr/clanky/saral) prezentácie od autora Šaralu*.
 
 
 *Nie sú ešte podporované všetky funkcie jazyka. Kompletná špecifikácia [tu](https://github.com/laciKE/saral/blob/master/specifikacia.md)*
