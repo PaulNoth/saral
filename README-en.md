@@ -2,7 +2,7 @@
 
 [Slovensky](README-SK.md)
 
->> I would like to introduce you with newest top level evolution in information crunching. It is a problem-science-tech-oriented programming language Šaral. The famous [šariš](https://en.wikipedia.org/wiki/%C5%A0ari%C5%A1)-american company IBM have always been trying to create a languge, which a computer would understand as good as human understands
+> I would like to introduce you with newest top level evolution in information crunching. It is a problem-science-tech-oriented programming language Šaral. The famous [šariš](https://en.wikipedia.org/wiki/%C5%A0ari%C5%A1)-american company IBM have always been trying to create a languge, which a computer would understand as good as human understands
 
 *Not all features all currently supported. Full specification [here](specification.md)*
 

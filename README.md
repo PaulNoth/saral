@@ -2,8 +2,7 @@
 
 [English](README-en.md)
 
->>Chceme Vás teraz zoznámiť so špicou pokroku a evolúcie v spracovaní informácií.
-Z problémovo orientovamým vedecko-technickým programovacím jazykom Šaral.
+>Chceme Vás teraz zoznámiť so špicou pokroku a evolúcie v spracovaní informácií. S problémovo orientovamým vedecko-technickým programovacím jazykom Šaral.
 Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť taký jazyk, ktorému by rozumel ako počítač tak človek.
 
 *Odporúčam vypočuť si celý [zvukový záznam](https://www.youtube.com/watch?v=-VNgsKEl4sA) alebo [prepis](http://www.trsek.com/sr/clanky/saral) prezentácie od autora Šaralu*.
