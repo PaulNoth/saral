@@ -1,6 +1,6 @@
 ## ŠARAL 2.0 - ŠARIŠ ALGORITMIK LENGVIDŽ 2.0
 
-[English](README.md)
+[English](README-en.md)
 
 >>Chceme Vás teraz zoznámiť so špicou pokroku a evolúcie v spracovaní informácií.
 Z problémovo orientovamým vedecko-technickým programovacím jazykom Šaral.
