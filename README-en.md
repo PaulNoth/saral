@@ -30,7 +30,7 @@ ciskaj hello
 There are 2 data types supported - `neskutočné numeralio` (integer) a `slovo` (string).
 
 
-#### Procedures
+### Procedures
 Do we repeat same code? No problem, we have procedures.
 ```
 bar iDoSomething()
