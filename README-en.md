@@ -18,7 +18,7 @@ Then run compiled program.
 `java <saral_source_file.class>`
 
 ### Program
-Do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`-
+It is for JVM, but you do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`-
 ```
 meňak neskutočné numeralio five = 5
 ciskaj five
@@ -26,6 +26,7 @@ meňak slovo hello = "hello"
 ciskaj hello
 ```
 
+### Data Types
 There are 2 data types supported - `neskutočné numeralio` (integer) a `slovo` (string).
 
 
