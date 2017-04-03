@@ -23,7 +23,7 @@ Potom stačí spustiť prekompilovaný program.
 `java <saral_source_file.class>`
 
 ### Program
-Nepotrebuje žiadne triedy ako v Jave. Deklarujeme si pár premenných ako `meňak` a výpíšeme ich do konzoly pomocou `ciskaj`.
+Programovancí jazyk je určený pre JVM, napriek tomu nepotrebuje žiadne triedy ako v Jave. Deklarujeme si pár premenných ako `meňak` a výpíšeme ich do konzoly pomocou `ciskaj`.
 ```
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
@@ -31,6 +31,7 @@ meňak slovo servus = "servus"
 ciskaj servus
 ```
 
+### Dátové typy
 Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla) a `slovo` (reťazce znakov).
 
 
