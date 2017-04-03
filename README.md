@@ -35,7 +35,7 @@ ciskaj servus
 Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla) a `slovo` (reťazce znakov).
 
 
-#### Procedúry
+### Procedúry
 Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
 ```
 bar robim()
