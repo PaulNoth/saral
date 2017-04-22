@@ -117,9 +117,9 @@ bar <name>(<type> <name>, <type> <name>, ...)
 	vrac <value>
 ```
 First `bar` does not return anything, second bar after finishing returns a value, which has the same type as `bar`.
-If we want to call services of a bar `bar`, we do it by calling `paľ do baru` as a procedure or `vrac mi z baru` as a function. As an input argument can be used `meňak` of arbitrary type, `bar` can only return arbitrary basic type. Input arguments are passed by reference.
+If we want to call services of a pub `bar`, we do it by calling `paľ do baru` as a procedure or `vrac mi z baru` as a function. As an input argument can be used `meňak` of arbitrary type, `bar` can only return arbitrary basic type. Input arguments are passed by reference.
 
-#####External functions
+#### External functions
 We can call other `bar`s from external environments, which use different languages (types must be the same as in Šaral 2.0). If we want to taste an external `bar`, we call it by word `inakši`
 
 ```
