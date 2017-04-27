@@ -1,5 +1,6 @@
 package com.pidanic.saral.scope;
 
+import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.Procedure;
 import com.pidanic.saral.domain.Variable;
@@ -14,17 +15,20 @@ public class Scope {
 
     private List<LocalVariable> localVariables;
     private List<Procedure> procedures;
+    private List<Function> functions;
     private String className;
 
     public Scope(String className) {
         localVariables = new ArrayList<>();
         procedures = new ArrayList<>();
+        functions = new ArrayList<>();
         this.className = className;
     }
 
     public Scope(Scope scope) {
         localVariables = new ArrayList<>(scope.localVariables);
         procedures = new ArrayList<>(scope.procedures);
+        functions = new ArrayList<>(scope.functions);
         className = scope.className;
     }
 
@@ -64,5 +68,9 @@ public class Scope {
 
     public String getClassName() {
         return className;
+    }
+
+    public void addFunction(Function function) {
+        this.functions.add(function);
     }
 }

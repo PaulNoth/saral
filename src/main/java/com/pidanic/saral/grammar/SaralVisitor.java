@@ -23,6 +23,18 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBlock(SaralParser.BlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#func_block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc_block(SaralParser.Func_blockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#ret}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRet(SaralParser.RetContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -46,6 +58,12 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitProc_definition(SaralParser.Proc_definitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#func_definition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc_definition(SaralParser.Func_definitionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#arglist}.
 	 * @param ctx the parse tree

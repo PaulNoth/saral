@@ -28,6 +28,26 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitBlock(SaralParser.BlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#func_block}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunc_block(SaralParser.Func_blockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#func_block}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunc_block(SaralParser.Func_blockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#ret}.
+	 * @param ctx the parse tree
+	 */
+	void enterRet(SaralParser.RetContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#ret}.
+	 * @param ctx the parse tree
+	 */
+	void exitRet(SaralParser.RetContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#statement}.
 	 * @param ctx the parse tree
 	 */
@@ -67,6 +87,16 @@ public interface SaralListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitProc_definition(SaralParser.Proc_definitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#func_definition}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunc_definition(SaralParser.Func_definitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#func_definition}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunc_definition(SaralParser.Func_definitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#arglist}.
 	 * @param ctx the parse tree

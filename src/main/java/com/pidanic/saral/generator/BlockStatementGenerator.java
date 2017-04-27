@@ -1,6 +1,7 @@
 package com.pidanic.saral.generator;
 
 
+import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.Procedure;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.scope.Scope;
@@ -37,5 +38,22 @@ public class BlockStatementGenerator extends StatementGenerator {
         mw.visitInsn(Opcodes.RETURN);
         mw.visitMaxs(-1, -1);
         mw.visitEnd();
+    }
+
+    public void generate(Function function) {
+        Scope scope = function.getScope();
+        String procedureName = function.getName();
+        // TODO
+        //String descriptor = DescriptorFactory.getMethodDescriptor(function);
+        //Collection<SimpleStatement> statements = function.getSimpleStatements();
+        //int access = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
+        //MethodVisitor mw = classWriter.visitMethod(access, procedureName, descriptor, null, null);
+        //mw.visitCode();
+
+        //StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
+        //statements.forEach(statement -> statement.accept(statementGenerator));
+        //mw.visitInsn(Opcodes.RETURN);
+        //mw.visitMaxs(-1, -1);
+        //mw.visitEnd();
     }
 }
