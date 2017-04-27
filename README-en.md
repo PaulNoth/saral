@@ -58,3 +58,21 @@ meňak neskutočné numeralio five = 5
 paľ do baru iDoSomethingElse(five)
 
 ```
+
+### Functions
+Do we repeat same code? Do we want to return a calculated value? We have functions.
+```
+bar neskutočné numeralio returnSomething()
+{
+    meňak neskutočné numeralio pejc = 5
+    vrac pejc
+}
+```
+
+Function arguments are supported.
+```
+bar slovo returnString(slovo x)
+{
+    vrac x
+}
+```

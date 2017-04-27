@@ -63,3 +63,20 @@ meňak neskutočné numeralio pejc = 5
 paľ do baru tiezRobim(pejc)
 
 ```
+
+### Funkcie
+Opakuje sa nám rovnaký kód a chceme vrátiť nejakú hodnotu výpočtu? Môžme si vytvoriť funkciu.
+```
+bar neskutočné numeralio vracimDaco()
+{
+    meňak neskutočné numeralio pejc = 5
+    vrac pejc
+}
+```
+Samozrejme aj s ľubovoľným počtom parametrov.
+```
+bar slovo vracimSlovo(slovo x)
+{
+    vrac x
+}
+```
