@@ -34,7 +34,11 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         String typeName = ctx.TYPE().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
 
-        Function function = new Function(scope, functionName, arguments, simpleStatements, retType);
+        String returnVariableName = ctx.func_block().ret().ID().getText();
+        LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
+        ReturnStatement returnStatement = new ReturnStatement(retVariable);
+
+        Function function = new Function(scope, functionName, arguments, simpleStatements, retType, returnStatement);
 
         return function;
     }

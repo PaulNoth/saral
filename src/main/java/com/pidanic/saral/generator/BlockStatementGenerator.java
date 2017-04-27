@@ -3,6 +3,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.Procedure;
+import com.pidanic.saral.domain.ReturnStatement;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.DescriptorFactory;
@@ -43,17 +44,20 @@ public class BlockStatementGenerator extends StatementGenerator {
     public void generate(Function function) {
         Scope scope = function.getScope();
         String procedureName = function.getName();
-        // TODO
-        //String descriptor = DescriptorFactory.getMethodDescriptor(function);
-        //Collection<SimpleStatement> statements = function.getSimpleStatements();
-        //int access = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
-        //MethodVisitor mw = classWriter.visitMethod(access, procedureName, descriptor, null, null);
-        //mw.visitCode();
 
-        //StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
-        //statements.forEach(statement -> statement.accept(statementGenerator));
-        //mw.visitInsn(Opcodes.RETURN);
-        //mw.visitMaxs(-1, -1);
-        //mw.visitEnd();
+        String descriptor = DescriptorFactory.getMethodDescriptor(function);
+        Collection<SimpleStatement> statements = function.getSimpleStatements();
+        int access = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
+        MethodVisitor mw = classWriter.visitMethod(access, procedureName, descriptor, null, null);
+        mw.visitCode();
+
+        StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
+        statements.forEach(statement -> statement.accept(statementGenerator));
+
+        ReturnStatementGenerator returnStatementGenerator = new ReturnStatementGenerator(scope, mw);
+        ReturnStatement ret = function.getReturnStatement();
+        ret.accept(returnStatementGenerator);
+        mw.visitMaxs(-1, -1);
+        mw.visitEnd();
     }
 }

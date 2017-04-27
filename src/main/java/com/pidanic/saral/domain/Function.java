@@ -15,14 +15,16 @@ public class Function implements BlockStatement {
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
+    private ReturnStatement retStatement;
     private Type returnType;
 
-    public Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType) {
+    public Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType, ReturnStatement retStatement) {
         this.scope = new Scope(scope);
         this.name = name;
         this.arguments = new ArrayList<>(arguments);
         this.simpleStatements = new ArrayList<>(simpleStatements);
         this.returnType = returnType;
+        this.retStatement = retStatement;
     }
 
     public String getName() {
@@ -48,5 +50,9 @@ public class Function implements BlockStatement {
 
     public Optional<Type> getReturnType() {
         return Optional.of(returnType);
+    }
+
+    public ReturnStatement getReturnStatement() {
+        return retStatement;
     }
 }
