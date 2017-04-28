@@ -80,3 +80,12 @@ bar slovo vracimSlovo(slovo x)
     vrac x
 }
 ```
+
+Vytvorenú funkcie zavoláme prostredníctvom `vrac z baru`
+```
+vrac z baru vracimDaco()
+
+meňak slovo dupa = "dupa"
+vrac z baru vracimSlovo(dupa)
+
+```

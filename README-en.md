@@ -76,3 +76,12 @@ bar slovo returnString(slovo x)
     vrac x
 }
 ```
+
+We call the function with `vrac z baru`
+```
+vrac z baru returnSomething()
+
+meňak slovo hello = "hello"
+vrac z baru returnString(hello)
+
+```
