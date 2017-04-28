@@ -11,15 +11,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class Procedure implements BlockStatement {
-    private Scope scope;
+public class Procedure extends BlockStatementImpl {
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
     private Type returnType = BuiltInType.VOID;
 
     public Procedure(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements) {
-        this.scope = new Scope(scope);
+        super(scope);
         this.name = name;
         this.arguments = new ArrayList<>(arguments);
         this.simpleStatements = new ArrayList<>(simpleStatements);
@@ -40,10 +39,6 @@ public class Procedure implements BlockStatement {
     @Override
     public void accept(StatementGenerator generator) {
         ((BlockStatementGenerator) generator).generate(this);
-    }
-
-    public Scope getScope() {
-        return scope;
     }
 
     public Optional<Type> getReturnType() {

@@ -10,8 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class Function implements BlockStatement {
-    private Scope scope;
+public class Function extends BlockStatementImpl {
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
@@ -19,7 +18,7 @@ public class Function implements BlockStatement {
     private Type returnType;
 
     public Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType, ReturnStatement retStatement) {
-        this.scope = new Scope(scope);
+        super(scope);
         this.name = name;
         this.arguments = new ArrayList<>(arguments);
         this.simpleStatements = new ArrayList<>(simpleStatements);
@@ -42,10 +41,6 @@ public class Function implements BlockStatement {
     @Override
     public void accept(StatementGenerator generator) {
         ((BlockStatementGenerator) generator).generate(this);
-    }
-
-    public Scope getScope() {
-        return scope;
     }
 
     public Optional<Type> getReturnType() {
