@@ -70,7 +70,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             param.accept(this, realLocalVariableName);
         }
         //Type owner = procedureCall.getProcedure().getReturnType().orElse(new ClassType(scope.getClassName()));
-        Type owner = procedureCall.getProcedure().getReturnType().orElse(new ClassType(scope.getClassName()));
+        Type owner = new ClassType(scope.getClassName());
         String ownerDescription = owner.getInternalName();
         String procedureName = procedureCall.getProcedure().getName();
         String methodDescriptor = getFunctionDescriptor(procedureCall);
@@ -127,7 +127,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         try {
             String functionName = procedureCall.getProcedure().getName();
             Collection<CalledArgument> parameters = procedureCall.getCalledArguments();
-            Optional<Type> owner = procedureCall.getProcedure().getReturnType();
+            Type owner = procedureCall.getProcedure().getReturnType();
             //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
             String className = scope.getClassName();
             Class<?> aClass = Class.forName(className);
@@ -143,7 +143,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         try {
             String functionName = functionCall.getFunction().getName();
             Collection<CalledArgument> parameters = functionCall.getCalledArguments();
-            Optional<Type> owner = functionCall.getFunction().getReturnType();
+            Type owner = functionCall.getFunction().getReturnType();
             //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
             String className = scope.getClassName();
             Class<?> aClass = Class.forName(className);

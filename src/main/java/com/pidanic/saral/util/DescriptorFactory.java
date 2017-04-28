@@ -16,7 +16,7 @@ public class DescriptorFactory {
 
     public static String getMethodDescriptor(Function function) {
         Collection<Argument> arguments = function.getArguments();
-        Type returnType = function.getReturnType().orElse(BuiltInType.VOID);
+        Type returnType = function.getReturnType();
         return getMethodDescriptor(arguments, returnType);
     }
 

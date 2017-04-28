@@ -41,7 +41,7 @@ public class Procedure extends BlockStatementImpl {
         ((BlockStatementGenerator) generator).generate(this);
     }
 
-    public Optional<Type> getReturnType() {
-        return Optional.empty();
+    public Type getReturnType() {
+        return returnType;
     }
 }

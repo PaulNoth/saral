@@ -43,8 +43,8 @@ public class Function extends BlockStatementImpl {
         ((BlockStatementGenerator) generator).generate(this);
     }
 
-    public Optional<Type> getReturnType() {
-        return Optional.of(returnType);
+    public Type getReturnType() {
+        return returnType;
     }
 
     public ReturnStatement getReturnStatement() {
