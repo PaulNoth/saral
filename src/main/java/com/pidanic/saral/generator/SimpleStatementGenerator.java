@@ -2,6 +2,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.exception.ProcedureCallNotFoundException;
+import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -68,12 +69,29 @@ public class SimpleStatementGenerator extends StatementGenerator {
             String realLocalVariableName = callArg.getName();
             param.accept(this, realLocalVariableName);
         }
-        //parameters.forEach((param, id) -> param.accept(this));
+        //Type owner = procedureCall.getProcedure().getReturnType().orElse(new ClassType(scope.getClassName()));
         Type owner = procedureCall.getProcedure().getReturnType().orElse(new ClassType(scope.getClassName()));
         String ownerDescription = owner.getInternalName();
         String procedureName = procedureCall.getProcedure().getName();
         String methodDescriptor = getFunctionDescriptor(procedureCall);
         methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, ownerDescription, procedureName, methodDescriptor, false);
+    }
+
+    public void generate(FunctionCall functionCall) {
+        List<Argument> parameters = functionCall.getFunction().getArguments();
+        List<CalledArgument> calledParameter = functionCall.getCalledArguments();
+        for(int i = 0; i < parameters.size(); i++) {
+            Argument param = parameters.get(i);
+            CalledArgument callArg = calledParameter.get(i);
+            String realLocalVariableName = callArg.getName();
+            param.accept(this, realLocalVariableName);
+        }
+        //Type owner = functionCall.getFunction().getReturnType().orElse(new ClassType(scope.getClassName()));
+        Type owner = new ClassType(scope.getClassName());
+        String ownerDescription = owner.getInternalName();
+        String functionName = functionCall.getFunction().getName();
+        String methodDescriptor = getFunctionDescriptor(functionCall);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, ownerDescription, functionName, methodDescriptor, false);
     }
 
     public void generate(Argument parameter, String localVariableName) {
@@ -91,9 +109,18 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 .orElse(getDescriptorForFunctionOnClasspath(procedureCall))
                 .orElseThrow(() -> new ProcedureCallNotFoundException(procedureCall));
     }
+    private String getFunctionDescriptor(FunctionCall functionCall) {
+        return Optional.of(getDescriptorForFunctionInScope(functionCall))
+                .orElse(getDescriptorForFunctionOnClasspath(functionCall))
+                .orElseThrow(() -> new FunctionCallNotFoundException(functionCall));
+    }
 
     private Optional<String> getDescriptorForFunctionInScope(ProcedureCall functionCall) {
         return Optional.ofNullable(DescriptorFactory.getMethodDescriptor(functionCall.getProcedure()));
+    }
+
+    private Optional<String> getDescriptorForFunctionInScope(FunctionCall functionCall) {
+        return Optional.ofNullable(DescriptorFactory.getMethodDescriptor(functionCall.getFunction()));
     }
 
     private Optional<String> getDescriptorForFunctionOnClasspath(ProcedureCall procedureCall) {
@@ -101,7 +128,24 @@ public class SimpleStatementGenerator extends StatementGenerator {
             String functionName = procedureCall.getProcedure().getName();
             Collection<CalledArgument> parameters = procedureCall.getCalledArguments();
             Optional<Type> owner = procedureCall.getProcedure().getReturnType();
-            String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            String className = scope.getClassName();
+            Class<?> aClass = Class.forName(className);
+            Method method = aClass.getMethod(functionName);
+            String methodDescriptor = org.objectweb.asm.Type.getMethodDescriptor(method);
+            return Optional.of(methodDescriptor);
+        } catch (ReflectiveOperationException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Optional<String> getDescriptorForFunctionOnClasspath(FunctionCall functionCall) {
+        try {
+            String functionName = functionCall.getFunction().getName();
+            Collection<CalledArgument> parameters = functionCall.getCalledArguments();
+            Optional<Type> owner = functionCall.getFunction().getReturnType();
+            //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            String className = scope.getClassName();
             Class<?> aClass = Class.forName(className);
             Method method = aClass.getMethod(functionName);
             String methodDescriptor = org.objectweb.asm.Type.getMethodDescriptor(method);

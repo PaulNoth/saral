@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.Procedure;
 import com.pidanic.saral.domain.Variable;
+import com.pidanic.saral.exception.FunctionNotFoundException;
 import com.pidanic.saral.exception.ProcedureNotFoundException;
 import com.pidanic.saral.exception.VariableNotFoundException;
 
@@ -64,6 +65,12 @@ public class Scope {
         return procedures.stream().filter(proc -> proc.getName().equals(procedureName))
                 .findFirst()
                 .orElseThrow(() -> new ProcedureNotFoundException(this, procedureName));
+    }
+
+    public Function getFunction(String functionName) {
+        return functions.stream().filter(proc -> proc.getName().equals(functionName))
+                .findFirst()
+                .orElseThrow(() -> new FunctionNotFoundException(this, functionName));
     }
 
     public String getClassName() {

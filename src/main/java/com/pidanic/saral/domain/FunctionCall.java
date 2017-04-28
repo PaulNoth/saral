@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ProcedureCall implements SimpleStatement {
+public class FunctionCall implements SimpleStatement {
 
-    private Procedure procedure;
+    private Function function;
     private List<CalledArgument> arguments;
 
-    public ProcedureCall(Procedure procedure, List<CalledArgument> calledArguments) {
-        this.procedure = procedure;
+    public FunctionCall(Function function, List<CalledArgument> calledArguments) {
+        this.function = function;
         this.arguments = new ArrayList<>(calledArguments);
     }
 
@@ -22,11 +22,11 @@ public class ProcedureCall implements SimpleStatement {
         ((SimpleStatementGenerator) generator).generate(this);
     }
 
-    public Procedure getProcedure() {
-        return procedure;
-    }
-
     public List<CalledArgument> getCalledArguments() {
         return Collections.unmodifiableList(arguments);
+    }
+
+    public Function getFunction() {
+        return function;
     }
 }

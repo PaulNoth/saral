@@ -48,4 +48,17 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
         return new ProcedureCall(proc, args);
     }
+
+    @Override
+    public SimpleStatement visitFunc_call(SaralParser.Func_callContext ctx) {
+        String functionName = ctx.ID().getText();
+        List<SaralParser.VarContext> calledParameters = ctx.paramlist().var();
+        List<CalledArgument> args = calledParameters.stream()
+                .map(param -> param.accept(new CalledArgumentVisitor()))
+                .collect(Collectors.toList());
+
+        Function proc = scope.getFunction(functionName);
+
+        return new FunctionCall(proc, args);
+    }
 }
