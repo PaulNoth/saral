@@ -95,6 +95,12 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProc_call(SaralParser.Proc_callContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#func_call}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc_call(SaralParser.Func_callContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#paramlist}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

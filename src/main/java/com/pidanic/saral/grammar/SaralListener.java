@@ -148,6 +148,16 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitProc_call(SaralParser.Proc_callContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#func_call}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunc_call(SaralParser.Func_callContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#func_call}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunc_call(SaralParser.Func_callContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#paramlist}.
 	 * @param ctx the parse tree
 	 */
