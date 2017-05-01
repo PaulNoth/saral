@@ -11,6 +11,12 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#init}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInit(SaralParser.InitContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#statements}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

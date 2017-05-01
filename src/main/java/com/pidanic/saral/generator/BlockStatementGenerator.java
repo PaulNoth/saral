@@ -1,6 +1,5 @@
 package com.pidanic.saral.generator;
 
-
 import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.Procedure;
 import com.pidanic.saral.domain.ReturnStatement;

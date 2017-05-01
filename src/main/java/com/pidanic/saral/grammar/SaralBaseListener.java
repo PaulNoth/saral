@@ -16,6 +16,18 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInit(SaralParser.InitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInit(SaralParser.InitContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterStatements(SaralParser.StatementsContext ctx) { }
 	/**
 	 * {@inheritDoc}

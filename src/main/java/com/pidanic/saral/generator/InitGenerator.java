@@ -9,15 +9,15 @@ import org.objectweb.asm.Opcodes;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StatementsGenerator {
+public class InitGenerator {
 
     private ClassWriter classWriter;
 
-    public StatementsGenerator(ClassWriter classWriter) {
+    public InitGenerator(ClassWriter classWriter) {
         this.classWriter = classWriter;
     }
 
-    public ClassWriter generate(Statements statements) {
+    public ClassWriter generate(Init statements) {
         Scope scope = statements.getScope();
         MethodVisitor mw = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
 

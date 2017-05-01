@@ -1,5 +1,6 @@
 package com.pidanic.saral;
 
+import com.pidanic.saral.domain.Init;
 import com.pidanic.saral.domain.Statements;
 import com.pidanic.saral.generator.ByteCodeGenerator;
 
@@ -15,12 +16,12 @@ public class Compiler {
 
     public void compile(String[] args) throws Exception{
         File file = new File(args[0]);
-        Statements compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(file);
+        Init compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(file);
 
         saveBytecodeToClassFile(compilationUnit);
     }
 
-    private static void saveBytecodeToClassFile(Statements compilationUnit) throws IOException {
+    private static void saveBytecodeToClassFile(Init compilationUnit) throws IOException {
         byte[] byteCode = new ByteCodeGenerator().generateByteCode(compilationUnit);
         String className = compilationUnit.getScope().getClassName();
         final String classFile = className + ".class";

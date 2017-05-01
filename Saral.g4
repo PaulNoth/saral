@@ -3,9 +3,11 @@ grammar Saral;
 INDENT : '{' ;
 DEDENT : '}' ;
 
-statements : statement* EOF;
-block : INDENT simpleStatement* DEDENT;
-func_block : INDENT simpleStatement* ret DEDENT;
+init : statements ;
+
+statements : statement*;
+block : INDENT statements DEDENT;
+func_block : INDENT statements ret DEDENT;
 ret: RET ID ;
 
 statement : simpleStatement

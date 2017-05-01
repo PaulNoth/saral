@@ -21,13 +21,13 @@ public class SaralParser extends Parser {
 		LPAR=8, RPAR=9, INT_T=10, STRING_T=11, VARIABLE=12, PRINT=13, EQUALS=14, 
 		RET=15, NUMBER=16, STRING=17, ID=18, WS=19;
 	public static final int
-		RULE_statements = 0, RULE_block = 1, RULE_func_block = 2, RULE_ret = 3, 
-		RULE_statement = 4, RULE_simpleStatement = 5, RULE_block_statement = 6, 
-		RULE_proc_definition = 7, RULE_func_definition = 8, RULE_arglist = 9, 
-		RULE_arg = 10, RULE_variable = 11, RULE_write = 12, RULE_proc_call = 13, 
-		RULE_func_call = 14, RULE_paramlist = 15, RULE_var = 16, RULE_value = 17;
+		RULE_init = 0, RULE_statements = 1, RULE_block = 2, RULE_func_block = 3, 
+		RULE_ret = 4, RULE_statement = 5, RULE_simpleStatement = 6, RULE_block_statement = 7, 
+		RULE_proc_definition = 8, RULE_func_definition = 9, RULE_arglist = 10, 
+		RULE_arg = 11, RULE_variable = 12, RULE_write = 13, RULE_proc_call = 14, 
+		RULE_func_call = 15, RULE_paramlist = 16, RULE_var = 17, RULE_value = 18;
 	public static final String[] ruleNames = {
-		"statements", "block", "func_block", "ret", "statement", "simpleStatement", 
+		"init", "statements", "block", "func_block", "ret", "statement", "simpleStatement", 
 		"block_statement", "proc_definition", "func_definition", "arglist", "arg", 
 		"variable", "write", "proc_call", "func_call", "paramlist", "var", "value"
 	};
@@ -91,8 +91,51 @@ public class SaralParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+	public static class InitContext extends ParserRuleContext {
+		public StatementsContext statements() {
+			return getRuleContext(StatementsContext.class,0);
+		}
+		public InitContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_init; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof SaralListener ) ((SaralListener)listener).enterInit(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof SaralListener ) ((SaralListener)listener).exitInit(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof SaralVisitor ) return ((SaralVisitor<? extends T>)visitor).visitInit(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final InitContext init() throws RecognitionException {
+		InitContext _localctx = new InitContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_init);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(38);
+			statements();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class StatementsContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(SaralParser.EOF, 0); }
 		public List<StatementContext> statement() {
 			return getRuleContexts(StatementContext.class);
 		}
@@ -120,27 +163,25 @@ public class SaralParser extends Parser {
 
 	public final StatementsContext statements() throws RecognitionException {
 		StatementsContext _localctx = new StatementsContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_statements);
+		enterRule(_localctx, 2, RULE_statements);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(39);
+			setState(43);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << FUNCTION) | (1L << PROC_CALL) | (1L << FUNC_CALL) | (1L << VARIABLE) | (1L << PRINT))) != 0)) {
 				{
 				{
-				setState(36);
+				setState(40);
 				statement();
 				}
 				}
-				setState(41);
+				setState(45);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(42);
-			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -156,13 +197,10 @@ public class SaralParser extends Parser {
 
 	public static class BlockContext extends ParserRuleContext {
 		public TerminalNode INDENT() { return getToken(SaralParser.INDENT, 0); }
+		public StatementsContext statements() {
+			return getRuleContext(StatementsContext.class,0);
+		}
 		public TerminalNode DEDENT() { return getToken(SaralParser.DEDENT, 0); }
-		public List<SimpleStatementContext> simpleStatement() {
-			return getRuleContexts(SimpleStatementContext.class);
-		}
-		public SimpleStatementContext simpleStatement(int i) {
-			return getRuleContext(SimpleStatementContext.class,i);
-		}
 		public BlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -184,28 +222,15 @@ public class SaralParser extends Parser {
 
 	public final BlockContext block() throws RecognitionException {
 		BlockContext _localctx = new BlockContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_block);
-		int _la;
+		enterRule(_localctx, 4, RULE_block);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(44);
+			setState(46);
 			match(INDENT);
+			setState(47);
+			statements();
 			setState(48);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROC_CALL) | (1L << FUNC_CALL) | (1L << VARIABLE) | (1L << PRINT))) != 0)) {
-				{
-				{
-				setState(45);
-				simpleStatement();
-				}
-				}
-				setState(50);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(51);
 			match(DEDENT);
 			}
 		}
@@ -222,16 +247,13 @@ public class SaralParser extends Parser {
 
 	public static class Func_blockContext extends ParserRuleContext {
 		public TerminalNode INDENT() { return getToken(SaralParser.INDENT, 0); }
+		public StatementsContext statements() {
+			return getRuleContext(StatementsContext.class,0);
+		}
 		public RetContext ret() {
 			return getRuleContext(RetContext.class,0);
 		}
 		public TerminalNode DEDENT() { return getToken(SaralParser.DEDENT, 0); }
-		public List<SimpleStatementContext> simpleStatement() {
-			return getRuleContexts(SimpleStatementContext.class);
-		}
-		public SimpleStatementContext simpleStatement(int i) {
-			return getRuleContext(SimpleStatementContext.class,i);
-		}
 		public Func_blockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -253,30 +275,17 @@ public class SaralParser extends Parser {
 
 	public final Func_blockContext func_block() throws RecognitionException {
 		Func_blockContext _localctx = new Func_blockContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_func_block);
-		int _la;
+		enterRule(_localctx, 6, RULE_func_block);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53);
+			setState(50);
 			match(INDENT);
-			setState(57);
-			_errHandler.sync(this);
-			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << PROC_CALL) | (1L << FUNC_CALL) | (1L << VARIABLE) | (1L << PRINT))) != 0)) {
-				{
-				{
-				setState(54);
-				simpleStatement();
-				}
-				}
-				setState(59);
-				_errHandler.sync(this);
-				_la = _input.LA(1);
-			}
-			setState(60);
+			setState(51);
+			statements();
+			setState(52);
 			ret();
-			setState(61);
+			setState(53);
 			match(DEDENT);
 			}
 		}
@@ -315,13 +324,13 @@ public class SaralParser extends Parser {
 
 	public final RetContext ret() throws RecognitionException {
 		RetContext _localctx = new RetContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_ret);
+		enterRule(_localctx, 8, RULE_ret);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63);
+			setState(55);
 			match(RET);
-			setState(64);
+			setState(56);
 			match(ID);
 			}
 		}
@@ -364,9 +373,9 @@ public class SaralParser extends Parser {
 
 	public final StatementContext statement() throws RecognitionException {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_statement);
+		enterRule(_localctx, 10, RULE_statement);
 		try {
-			setState(68);
+			setState(60);
 			switch (_input.LA(1)) {
 			case PROC_CALL:
 			case FUNC_CALL:
@@ -374,14 +383,14 @@ public class SaralParser extends Parser {
 			case PRINT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(66);
+				setState(58);
 				simpleStatement();
 				}
 				break;
 			case FUNCTION:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(67);
+				setState(59);
 				block_statement();
 				}
 				break;
@@ -434,33 +443,33 @@ public class SaralParser extends Parser {
 
 	public final SimpleStatementContext simpleStatement() throws RecognitionException {
 		SimpleStatementContext _localctx = new SimpleStatementContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_simpleStatement);
+		enterRule(_localctx, 12, RULE_simpleStatement);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(74);
+			setState(66);
 			switch (_input.LA(1)) {
 			case PRINT:
 				{
-				setState(70);
+				setState(62);
 				write();
 				}
 				break;
 			case VARIABLE:
 				{
-				setState(71);
+				setState(63);
 				variable();
 				}
 				break;
 			case PROC_CALL:
 				{
-				setState(72);
+				setState(64);
 				proc_call();
 				}
 				break;
 			case FUNC_CALL:
 				{
-				setState(73);
+				setState(65);
 				func_call();
 				}
 				break;
@@ -508,22 +517,22 @@ public class SaralParser extends Parser {
 
 	public final Block_statementContext block_statement() throws RecognitionException {
 		Block_statementContext _localctx = new Block_statementContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_block_statement);
+		enterRule(_localctx, 14, RULE_block_statement);
 		try {
-			setState(78);
+			setState(70);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(76);
+				setState(68);
 				proc_definition();
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(77);
+				setState(69);
 				func_definition();
 				}
 				break;
@@ -572,21 +581,21 @@ public class SaralParser extends Parser {
 
 	public final Proc_definitionContext proc_definition() throws RecognitionException {
 		Proc_definitionContext _localctx = new Proc_definitionContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_proc_definition);
+		enterRule(_localctx, 16, RULE_proc_definition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(80);
+			setState(72);
 			match(FUNCTION);
-			setState(81);
+			setState(73);
 			match(ID);
-			setState(82);
+			setState(74);
 			match(LPAR);
-			setState(83);
+			setState(75);
 			arglist();
-			setState(84);
+			setState(76);
 			match(RPAR);
-			setState(85);
+			setState(77);
 			block();
 			}
 		}
@@ -634,23 +643,23 @@ public class SaralParser extends Parser {
 
 	public final Func_definitionContext func_definition() throws RecognitionException {
 		Func_definitionContext _localctx = new Func_definitionContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_func_definition);
+		enterRule(_localctx, 18, RULE_func_definition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(87);
+			setState(79);
 			match(FUNCTION);
-			setState(88);
+			setState(80);
 			match(TYPE);
-			setState(89);
+			setState(81);
 			match(ID);
-			setState(90);
+			setState(82);
 			match(LPAR);
-			setState(91);
+			setState(83);
 			arglist();
-			setState(92);
+			setState(84);
 			match(RPAR);
-			setState(93);
+			setState(85);
 			func_block();
 			}
 		}
@@ -693,30 +702,30 @@ public class SaralParser extends Parser {
 
 	public final ArglistContext arglist() throws RecognitionException {
 		ArglistContext _localctx = new ArglistContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_arglist);
+		enterRule(_localctx, 20, RULE_arglist);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(103);
+			setState(95);
 			_la = _input.LA(1);
 			if (_la==TYPE) {
 				{
-				setState(95);
+				setState(87);
 				arg();
-				setState(100);
+				setState(92);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__0) {
 					{
 					{
-					setState(96);
+					setState(88);
 					match(T__0);
-					setState(97);
+					setState(89);
 					arg();
 					}
 					}
-					setState(102);
+					setState(94);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -760,13 +769,13 @@ public class SaralParser extends Parser {
 
 	public final ArgContext arg() throws RecognitionException {
 		ArgContext _localctx = new ArgContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_arg);
+		enterRule(_localctx, 22, RULE_arg);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105);
+			setState(97);
 			match(TYPE);
-			setState(106);
+			setState(98);
 			match(ID);
 			}
 		}
@@ -810,19 +819,19 @@ public class SaralParser extends Parser {
 
 	public final VariableContext variable() throws RecognitionException {
 		VariableContext _localctx = new VariableContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_variable);
+		enterRule(_localctx, 24, RULE_variable);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108);
+			setState(100);
 			match(VARIABLE);
-			setState(109);
+			setState(101);
 			match(TYPE);
-			setState(110);
+			setState(102);
 			match(ID);
-			setState(111);
+			setState(103);
 			match(EQUALS);
-			setState(112);
+			setState(104);
 			value();
 			}
 		}
@@ -861,13 +870,13 @@ public class SaralParser extends Parser {
 
 	public final WriteContext write() throws RecognitionException {
 		WriteContext _localctx = new WriteContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_write);
+		enterRule(_localctx, 26, RULE_write);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(114);
+			setState(106);
 			match(PRINT);
-			setState(115);
+			setState(107);
 			match(ID);
 			}
 		}
@@ -911,19 +920,19 @@ public class SaralParser extends Parser {
 
 	public final Proc_callContext proc_call() throws RecognitionException {
 		Proc_callContext _localctx = new Proc_callContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_proc_call);
+		enterRule(_localctx, 28, RULE_proc_call);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(117);
+			setState(109);
 			match(PROC_CALL);
-			setState(118);
+			setState(110);
 			match(ID);
-			setState(119);
+			setState(111);
 			match(LPAR);
-			setState(120);
+			setState(112);
 			paramlist();
-			setState(121);
+			setState(113);
 			match(RPAR);
 			}
 		}
@@ -967,19 +976,19 @@ public class SaralParser extends Parser {
 
 	public final Func_callContext func_call() throws RecognitionException {
 		Func_callContext _localctx = new Func_callContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_func_call);
+		enterRule(_localctx, 30, RULE_func_call);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(123);
+			setState(115);
 			match(FUNC_CALL);
-			setState(124);
+			setState(116);
 			match(ID);
-			setState(125);
+			setState(117);
 			match(LPAR);
-			setState(126);
+			setState(118);
 			paramlist();
-			setState(127);
+			setState(119);
 			match(RPAR);
 			}
 		}
@@ -1022,30 +1031,30 @@ public class SaralParser extends Parser {
 
 	public final ParamlistContext paramlist() throws RecognitionException {
 		ParamlistContext _localctx = new ParamlistContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_paramlist);
+		enterRule(_localctx, 32, RULE_paramlist);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(137);
+			setState(129);
 			_la = _input.LA(1);
 			if (_la==ID) {
 				{
-				setState(129);
+				setState(121);
 				var();
-				setState(134);
+				setState(126);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==T__0) {
 					{
 					{
-					setState(130);
+					setState(122);
 					match(T__0);
-					setState(131);
+					setState(123);
 					var();
 					}
 					}
-					setState(136);
+					setState(128);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
@@ -1088,11 +1097,11 @@ public class SaralParser extends Parser {
 
 	public final VarContext var() throws RecognitionException {
 		VarContext _localctx = new VarContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_var);
+		enterRule(_localctx, 34, RULE_var);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(139);
+			setState(131);
 			match(ID);
 			}
 		}
@@ -1131,12 +1140,12 @@ public class SaralParser extends Parser {
 
 	public final ValueContext value() throws RecognitionException {
 		ValueContext _localctx = new ValueContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_value);
+		enterRule(_localctx, 36, RULE_value);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(141);
+			setState(133);
 			_la = _input.LA(1);
 			if ( !(_la==NUMBER || _la==STRING) ) {
 			_errHandler.recoverInline(this);
@@ -1157,43 +1166,39 @@ public class SaralParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25\u0092\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\25\u008a\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
-		"\4\23\t\23\3\2\7\2(\n\2\f\2\16\2+\13\2\3\2\3\2\3\3\3\3\7\3\61\n\3\f\3"+
-		"\16\3\64\13\3\3\3\3\3\3\4\3\4\7\4:\n\4\f\4\16\4=\13\4\3\4\3\4\3\4\3\5"+
-		"\3\5\3\5\3\6\3\6\5\6G\n\6\3\7\3\7\3\7\3\7\5\7M\n\7\3\b\3\b\5\bQ\n\b\3"+
-		"\t\3\t\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3"+
-		"\13\7\13e\n\13\f\13\16\13h\13\13\5\13j\n\13\3\f\3\f\3\f\3\r\3\r\3\r\3"+
-		"\r\3\r\3\r\3\16\3\16\3\16\3\17\3\17\3\17\3\17\3\17\3\17\3\20\3\20\3\20"+
-		"\3\20\3\20\3\20\3\21\3\21\3\21\7\21\u0087\n\21\f\21\16\21\u008a\13\21"+
-		"\5\21\u008c\n\21\3\22\3\22\3\23\3\23\3\23\2\2\24\2\4\6\b\n\f\16\20\22"+
-		"\24\26\30\32\34\36 \"$\2\3\3\2\22\23\u008b\2)\3\2\2\2\4.\3\2\2\2\6\67"+
-		"\3\2\2\2\bA\3\2\2\2\nF\3\2\2\2\fL\3\2\2\2\16P\3\2\2\2\20R\3\2\2\2\22Y"+
-		"\3\2\2\2\24i\3\2\2\2\26k\3\2\2\2\30n\3\2\2\2\32t\3\2\2\2\34w\3\2\2\2\36"+
-		"}\3\2\2\2 \u008b\3\2\2\2\"\u008d\3\2\2\2$\u008f\3\2\2\2&(\5\n\6\2\'&\3"+
-		"\2\2\2(+\3\2\2\2)\'\3\2\2\2)*\3\2\2\2*,\3\2\2\2+)\3\2\2\2,-\7\2\2\3-\3"+
-		"\3\2\2\2.\62\7\4\2\2/\61\5\f\7\2\60/\3\2\2\2\61\64\3\2\2\2\62\60\3\2\2"+
-		"\2\62\63\3\2\2\2\63\65\3\2\2\2\64\62\3\2\2\2\65\66\7\5\2\2\66\5\3\2\2"+
-		"\2\67;\7\4\2\28:\5\f\7\298\3\2\2\2:=\3\2\2\2;9\3\2\2\2;<\3\2\2\2<>\3\2"+
-		"\2\2=;\3\2\2\2>?\5\b\5\2?@\7\5\2\2@\7\3\2\2\2AB\7\21\2\2BC\7\24\2\2C\t"+
-		"\3\2\2\2DG\5\f\7\2EG\5\16\b\2FD\3\2\2\2FE\3\2\2\2G\13\3\2\2\2HM\5\32\16"+
-		"\2IM\5\30\r\2JM\5\34\17\2KM\5\36\20\2LH\3\2\2\2LI\3\2\2\2LJ\3\2\2\2LK"+
-		"\3\2\2\2M\r\3\2\2\2NQ\5\20\t\2OQ\5\22\n\2PN\3\2\2\2PO\3\2\2\2Q\17\3\2"+
-		"\2\2RS\7\7\2\2ST\7\24\2\2TU\7\n\2\2UV\5\24\13\2VW\7\13\2\2WX\5\4\3\2X"+
-		"\21\3\2\2\2YZ\7\7\2\2Z[\7\6\2\2[\\\7\24\2\2\\]\7\n\2\2]^\5\24\13\2^_\7"+
-		"\13\2\2_`\5\6\4\2`\23\3\2\2\2af\5\26\f\2bc\7\3\2\2ce\5\26\f\2db\3\2\2"+
-		"\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2gj\3\2\2\2hf\3\2\2\2ia\3\2\2\2ij\3\2\2"+
-		"\2j\25\3\2\2\2kl\7\6\2\2lm\7\24\2\2m\27\3\2\2\2no\7\16\2\2op\7\6\2\2p"+
-		"q\7\24\2\2qr\7\20\2\2rs\5$\23\2s\31\3\2\2\2tu\7\17\2\2uv\7\24\2\2v\33"+
-		"\3\2\2\2wx\7\b\2\2xy\7\24\2\2yz\7\n\2\2z{\5 \21\2{|\7\13\2\2|\35\3\2\2"+
-		"\2}~\7\t\2\2~\177\7\24\2\2\177\u0080\7\n\2\2\u0080\u0081\5 \21\2\u0081"+
-		"\u0082\7\13\2\2\u0082\37\3\2\2\2\u0083\u0088\5\"\22\2\u0084\u0085\7\3"+
-		"\2\2\u0085\u0087\5\"\22\2\u0086\u0084\3\2\2\2\u0087\u008a\3\2\2\2\u0088"+
-		"\u0086\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008c\3\2\2\2\u008a\u0088\3\2"+
-		"\2\2\u008b\u0083\3\2\2\2\u008b\u008c\3\2\2\2\u008c!\3\2\2\2\u008d\u008e"+
-		"\7\24\2\2\u008e#\3\2\2\2\u008f\u0090\t\2\2\2\u0090%\3\2\2\2\f)\62;FLP"+
-		"fi\u0088\u008b";
+		"\4\23\t\23\4\24\t\24\3\2\3\2\3\3\7\3,\n\3\f\3\16\3/\13\3\3\4\3\4\3\4\3"+
+		"\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\7\3\7\5\7?\n\7\3\b\3\b\3\b\3\b\5"+
+		"\bE\n\b\3\t\3\t\5\tI\n\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3"+
+		"\13\3\13\3\13\3\13\3\13\3\f\3\f\3\f\7\f]\n\f\f\f\16\f`\13\f\5\fb\n\f\3"+
+		"\r\3\r\3\r\3\16\3\16\3\16\3\16\3\16\3\16\3\17\3\17\3\17\3\20\3\20\3\20"+
+		"\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\21\3\21\3\22\3\22\3\22\7\22\177"+
+		"\n\22\f\22\16\22\u0082\13\22\5\22\u0084\n\22\3\23\3\23\3\24\3\24\3\24"+
+		"\2\2\25\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&\2\3\3\2\22\23\u0080"+
+		"\2(\3\2\2\2\4-\3\2\2\2\6\60\3\2\2\2\b\64\3\2\2\2\n9\3\2\2\2\f>\3\2\2\2"+
+		"\16D\3\2\2\2\20H\3\2\2\2\22J\3\2\2\2\24Q\3\2\2\2\26a\3\2\2\2\30c\3\2\2"+
+		"\2\32f\3\2\2\2\34l\3\2\2\2\36o\3\2\2\2 u\3\2\2\2\"\u0083\3\2\2\2$\u0085"+
+		"\3\2\2\2&\u0087\3\2\2\2()\5\4\3\2)\3\3\2\2\2*,\5\f\7\2+*\3\2\2\2,/\3\2"+
+		"\2\2-+\3\2\2\2-.\3\2\2\2.\5\3\2\2\2/-\3\2\2\2\60\61\7\4\2\2\61\62\5\4"+
+		"\3\2\62\63\7\5\2\2\63\7\3\2\2\2\64\65\7\4\2\2\65\66\5\4\3\2\66\67\5\n"+
+		"\6\2\678\7\5\2\28\t\3\2\2\29:\7\21\2\2:;\7\24\2\2;\13\3\2\2\2<?\5\16\b"+
+		"\2=?\5\20\t\2><\3\2\2\2>=\3\2\2\2?\r\3\2\2\2@E\5\34\17\2AE\5\32\16\2B"+
+		"E\5\36\20\2CE\5 \21\2D@\3\2\2\2DA\3\2\2\2DB\3\2\2\2DC\3\2\2\2E\17\3\2"+
+		"\2\2FI\5\22\n\2GI\5\24\13\2HF\3\2\2\2HG\3\2\2\2I\21\3\2\2\2JK\7\7\2\2"+
+		"KL\7\24\2\2LM\7\n\2\2MN\5\26\f\2NO\7\13\2\2OP\5\6\4\2P\23\3\2\2\2QR\7"+
+		"\7\2\2RS\7\6\2\2ST\7\24\2\2TU\7\n\2\2UV\5\26\f\2VW\7\13\2\2WX\5\b\5\2"+
+		"X\25\3\2\2\2Y^\5\30\r\2Z[\7\3\2\2[]\5\30\r\2\\Z\3\2\2\2]`\3\2\2\2^\\\3"+
+		"\2\2\2^_\3\2\2\2_b\3\2\2\2`^\3\2\2\2aY\3\2\2\2ab\3\2\2\2b\27\3\2\2\2c"+
+		"d\7\6\2\2de\7\24\2\2e\31\3\2\2\2fg\7\16\2\2gh\7\6\2\2hi\7\24\2\2ij\7\20"+
+		"\2\2jk\5&\24\2k\33\3\2\2\2lm\7\17\2\2mn\7\24\2\2n\35\3\2\2\2op\7\b\2\2"+
+		"pq\7\24\2\2qr\7\n\2\2rs\5\"\22\2st\7\13\2\2t\37\3\2\2\2uv\7\t\2\2vw\7"+
+		"\24\2\2wx\7\n\2\2xy\5\"\22\2yz\7\13\2\2z!\3\2\2\2{\u0080\5$\23\2|}\7\3"+
+		"\2\2}\177\5$\23\2~|\3\2\2\2\177\u0082\3\2\2\2\u0080~\3\2\2\2\u0080\u0081"+
+		"\3\2\2\2\u0081\u0084\3\2\2\2\u0082\u0080\3\2\2\2\u0083{\3\2\2\2\u0083"+
+		"\u0084\3\2\2\2\u0084#\3\2\2\2\u0085\u0086\7\24\2\2\u0086%\3\2\2\2\u0087"+
+		"\u0088\t\2\2\2\u0088\'\3\2\2\2\n->DH^a\u0080\u0083";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

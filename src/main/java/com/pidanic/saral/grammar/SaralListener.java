@@ -8,6 +8,16 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface SaralListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#init}.
+	 * @param ctx the parse tree
+	 */
+	void enterInit(SaralParser.InitContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#init}.
+	 * @param ctx the parse tree
+	 */
+	void exitInit(SaralParser.InitContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#statements}.
 	 * @param ctx the parse tree
 	 */

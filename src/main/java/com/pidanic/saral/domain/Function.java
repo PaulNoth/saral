@@ -8,7 +8,6 @@ import com.pidanic.saral.util.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 public class Function extends BlockStatementImpl {
     private String name;

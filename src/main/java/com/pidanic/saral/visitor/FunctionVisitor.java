@@ -27,9 +27,8 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
                 .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
                 .collect(Collectors.toList());
 
-        List<SimpleStatement> simpleStatements = ctx.func_block().simpleStatement().stream()
-                .map(stmt -> stmt.accept(new SimpleStatementVisitor(scope)))
-                .collect(Collectors.toList());
+                StatementsVisitor statementsVisitor = new StatementsVisitor(scope);
+        Statements statements = ctx.func_block().statements().accept(statementsVisitor);
 
         String typeName = ctx.TYPE().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
@@ -38,6 +37,10 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
         ReturnStatement returnStatement = new ReturnStatement(retVariable);
 
+        List<SimpleStatement> simpleStatements = statements.getStatements().stream()
+                .filter(stmt -> stmt instanceof SimpleStatement)
+                .map(statement -> (SimpleStatement) statement)
+                .collect(Collectors.toList());
         Function function = new Function(scope, functionName, arguments, simpleStatements, retType, returnStatement);
 
         return function;
