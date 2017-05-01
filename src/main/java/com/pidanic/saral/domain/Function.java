@@ -8,12 +8,13 @@ import com.pidanic.saral.util.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class Function extends BlockStatementImpl {
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
-    private ReturnStatement retStatement;
+    private Optional<ReturnStatement> retStatement;
     private Type returnType;
 
     public Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType, ReturnStatement retStatement) {
@@ -22,7 +23,11 @@ public class Function extends BlockStatementImpl {
         this.arguments = new ArrayList<>(arguments);
         this.simpleStatements = new ArrayList<>(simpleStatements);
         this.returnType = returnType;
-        this.retStatement = retStatement;
+        this.retStatement = Optional.ofNullable(retStatement);
+    }
+
+    Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType) {
+        this(scope, name, arguments, simpleStatements, returnType, null);
     }
 
     public String getName() {
@@ -46,7 +51,7 @@ public class Function extends BlockStatementImpl {
         return returnType;
     }
 
-    public ReturnStatement getReturnStatement() {
+    public Optional<ReturnStatement> getReturnStatement() {
         return retStatement;
     }
 }

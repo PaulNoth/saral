@@ -32,7 +32,7 @@ public class StatementVisitor extends SaralBaseVisitor<Statement> {
     @Override
     public Statement visitProc_definition(SaralParser.Proc_definitionContext ctx) {
         Procedure procedure = ctx.accept(new ProcedureVisitor(scope));
-        scope.addProcedure(procedure);
+        scope.addFunction(procedure);
         return procedure;
     }
 
