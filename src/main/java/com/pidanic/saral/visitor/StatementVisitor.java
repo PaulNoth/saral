@@ -20,15 +20,6 @@ public class StatementVisitor extends SaralBaseVisitor<Statement> {
         return simpleStatement;
     }
 
-    //@Override
-    //public Statement visitBlock_statement(SaralParser.Block_statementContext ctx) {
-    //    Procedure procedure = ctx.proc_definition().accept(new ProcedureVisitor(scope));
-    //    Function function = ctx.func_definition().accept(new FunctionVisitor(scope));
-    //    scope.addProcedure(procedure);
-    //    scope.addFunction(function);
-    //    return procedure;
-    //}
-
     @Override
     public Statement visitProc_definition(SaralParser.Proc_definitionContext ctx) {
         Procedure procedure = ctx.accept(new ProcedureVisitor(scope));
