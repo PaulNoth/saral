@@ -85,3 +85,6 @@ meňak slovo hello = "hello"
 vrac z baru returnString(hello)
 
 ```
+
+### Odsadenie
+The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).

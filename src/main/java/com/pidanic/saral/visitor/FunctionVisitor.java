@@ -27,8 +27,17 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
                 .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
                 .collect(Collectors.toList());
 
-                StatementsVisitor statementsVisitor = new StatementsVisitor(scope);
-        Statements statements = ctx.func_block().statements().accept(statementsVisitor);
+        List<Statement> allStatements = ctx.func_block().statements().statement().stream().map(stmtCtx -> {
+            SaralParser.Block_statementContext block = stmtCtx.block_statement();
+            SaralParser.Simple_statementContext simpleStmt = stmtCtx.simple_statement();
+            Statement val;
+            if(block != null) {
+                val = block.accept(new StatementVisitor(scope));
+            } else {
+                val = simpleStmt.accept(new StatementVisitor(scope));
+            }
+            return val;
+        }).collect(Collectors.toList());
 
         String typeName = ctx.TYPE().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
@@ -37,7 +46,7 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
         ReturnStatement returnStatement = new ReturnStatement(retVariable);
 
-        List<SimpleStatement> simpleStatements = statements.getStatements().stream()
+        List<SimpleStatement> simpleStatements = allStatements.stream()
                 .filter(stmt -> stmt instanceof SimpleStatement)
                 .map(statement -> (SimpleStatement) statement)
                 .collect(Collectors.toList());

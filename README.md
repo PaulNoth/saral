@@ -34,15 +34,12 @@ ciskaj servus
 ### Dátové typy
 Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla) a `slovo` (reťazce znakov).
 
-
 ### Procedúry
 Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
 ```
 bar robim()
-{
    meňak neskutočné numeralio tri = 3
    ciskaj tri
-}
 ```
 
 `bar` nám vraví, že máme procedúru, ktorá ma meno `robim` a nemá žiadne parametre. 
@@ -50,9 +47,7 @@ bar robim()
 Nie je problém pridať parametre podporovaných dátových typov.
 ```
 bar tiezRobim(neskutočné numeralio x)
-{
     ciskaj x
-}
 ```
 
 Vytvorenú procedúru zavoláme prostredníctvom `paľ do baru`
@@ -68,17 +63,13 @@ paľ do baru tiezRobim(pejc)
 Opakuje sa nám rovnaký kód a chceme vrátiť nejakú hodnotu výpočtu? Môžme si vytvoriť funkciu.
 ```
 bar neskutočné numeralio vracimDaco()
-{
     meňak neskutočné numeralio pejc = 5
     vrac pejc
-}
 ```
 Samozrejme aj s ľubovoľným počtom parametrov.
 ```
 bar slovo vracimSlovo(slovo x)
-{
     vrac x
-}
 ```
 
 Vytvorenú funkcie zavoláme prostredníctvom `vrac z baru`
@@ -89,3 +80,6 @@ meňak slovo dupa = "dupa"
 vrac z baru vracimSlovo(dupa)
 
 ```
+
+### Odsadenie
+Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).

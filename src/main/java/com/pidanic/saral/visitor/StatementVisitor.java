@@ -14,7 +14,7 @@ public class StatementVisitor extends SaralBaseVisitor<Statement> {
     }
 
     @Override
-    public Statement visitSimpleStatement(SaralParser.SimpleStatementContext ctx) {
+    public Statement visitSimple_statement(SaralParser.Simple_statementContext ctx) {
         SimpleStatementVisitor simpleStatementVisitor = new SimpleStatementVisitor(scope);
         SimpleStatement simpleStatement = ctx.accept(simpleStatementVisitor);
         return simpleStatement;

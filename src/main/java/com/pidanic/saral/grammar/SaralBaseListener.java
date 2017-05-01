@@ -88,13 +88,13 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleStatement(SaralParser.SimpleStatementContext ctx) { }
+	@Override public void enterSimple_statement(SaralParser.Simple_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleStatement(SaralParser.SimpleStatementContext ctx) { }
+	@Override public void exitSimple_statement(SaralParser.Simple_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -25,9 +25,19 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
                 .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
                 .collect(Collectors.toList());
 
-        StatementsVisitor statementsVisitor = new StatementsVisitor(scope);
-        Statements statements = ctx.block().statements().accept(statementsVisitor);
-        List<SimpleStatement> simpleStatements = statements.getStatements().stream()
+        List<Statement> allStatements = ctx.block().statements().statement().stream().map(stmtCtx -> {
+            SaralParser.Block_statementContext block = stmtCtx.block_statement();
+            SaralParser.Simple_statementContext simpleStmt = stmtCtx.simple_statement();
+            Statement val;
+            if(block != null) {
+                val = block.accept(new StatementVisitor(scope));
+            } else {
+                val = simpleStmt.accept(new StatementVisitor(scope));
+            }
+            return val;
+        }).collect(Collectors.toList());
+
+        List<SimpleStatement> simpleStatements = allStatements.stream()
                 .filter(stmt -> stmt instanceof SimpleStatement)
                 .map(statement -> (SimpleStatement) statement)
                 .collect(Collectors.toList());

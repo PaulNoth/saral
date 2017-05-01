@@ -47,11 +47,11 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(SaralParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#simpleStatement}.
+	 * Visit a parse tree produced by {@link SaralParser#simple_statement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSimpleStatement(SaralParser.SimpleStatementContext ctx);
+	T visitSimple_statement(SaralParser.Simple_statementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#block_statement}.
 	 * @param ctx the parse tree
