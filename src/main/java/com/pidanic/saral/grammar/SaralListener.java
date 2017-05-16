@@ -118,25 +118,15 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitArglist(SaralParser.ArglistContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SaralParser#arg}.
+	 * Enter a parse tree produced by {@link SaralParser#var_declaration}.
 	 * @param ctx the parse tree
 	 */
-	void enterArg(SaralParser.ArgContext ctx);
+	void enterVar_declaration(SaralParser.Var_declarationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SaralParser#arg}.
+	 * Exit a parse tree produced by {@link SaralParser#var_declaration}.
 	 * @param ctx the parse tree
 	 */
-	void exitArg(SaralParser.ArgContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SaralParser#variable}.
-	 * @param ctx the parse tree
-	 */
-	void enterVariable(SaralParser.VariableContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SaralParser#variable}.
-	 * @param ctx the parse tree
-	 */
-	void exitVariable(SaralParser.VariableContext ctx);
+	void exitVar_declaration(SaralParser.Var_declarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
@@ -188,13 +178,43 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitVar(SaralParser.VarContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SaralParser#value}.
+	 * Enter a parse tree produced by {@link SaralParser#val}.
 	 * @param ctx the parse tree
 	 */
-	void enterValue(SaralParser.ValueContext ctx);
+	void enterVal(SaralParser.ValContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SaralParser#value}.
+	 * Exit a parse tree produced by {@link SaralParser#val}.
 	 * @param ctx the parse tree
 	 */
-	void exitValue(SaralParser.ValueContext ctx);
+	void exitVal(SaralParser.ValContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void enterType(SaralParser.TypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#type}.
+	 * @param ctx the parse tree
+	 */
+	void exitType(SaralParser.TypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#typeSimple}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeSimple(SaralParser.TypeSimpleContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#typeSimple}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeSimple(SaralParser.TypeSimpleContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#typeBasic}.
+	 * @param ctx the parse tree
+	 */
+	void enterTypeBasic(SaralParser.TypeBasicContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#typeBasic}.
+	 * @param ctx the parse tree
+	 */
+	void exitTypeBasic(SaralParser.TypeBasicContext ctx);
 }

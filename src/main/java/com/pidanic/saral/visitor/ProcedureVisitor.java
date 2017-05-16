@@ -5,6 +5,7 @@ import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,10 +21,20 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
     public Procedure visitProc_definition(SaralParser.Proc_definitionContext ctx) {
         String procedureName = ctx.ID().getText();
 
-        List<Argument> arguments = ctx.arglist().arg().stream()
-                .map(arg -> arg.accept(new ArgumentVisitor()))
-                .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
-                .collect(Collectors.toList());
+        //List<Argument> arguments = ctx.arglist().arg().stream()
+        //        .map(arg -> arg.accept(new ArgumentVisitor()))
+        //        .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
+        //        .collect(Collectors.toList());
+
+        List<Argument> arguments = new ArrayList<>();
+        for(int i = 0; i < ctx.arglist().ID().size(); i++) {
+            String argName = ctx.arglist().ID(i).getText();
+            String argType = ctx.arglist().type(i).getText();
+            LocalVariable var = new LocalVariable(argName, argType);
+            scope.addVariable(var);
+            arguments.add(new Argument(argName, argType));
+        }
+
 
         List<Statement> allStatements = ctx.block().statements().statement().stream().map(stmtCtx -> {
             SaralParser.Block_statementContext block = stmtCtx.block_statement();

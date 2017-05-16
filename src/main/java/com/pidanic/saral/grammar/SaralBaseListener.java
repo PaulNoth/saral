@@ -148,25 +148,13 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArg(SaralParser.ArgContext ctx) { }
+	@Override public void enterVar_declaration(SaralParser.Var_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArg(SaralParser.ArgContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariable(SaralParser.VariableContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariable(SaralParser.VariableContext ctx) { }
+	@Override public void exitVar_declaration(SaralParser.Var_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -232,13 +220,49 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterValue(SaralParser.ValueContext ctx) { }
+	@Override public void enterVal(SaralParser.ValContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitValue(SaralParser.ValueContext ctx) { }
+	@Override public void exitVal(SaralParser.ValContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterType(SaralParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitType(SaralParser.TypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypeSimple(SaralParser.TypeSimpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypeSimple(SaralParser.TypeSimpleContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTypeBasic(SaralParser.TypeBasicContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTypeBasic(SaralParser.TypeBasicContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -94,14 +94,7 @@ public class SaralBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitArg(SaralParser.ArgContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitVariable(SaralParser.VariableContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVar_declaration(SaralParser.Var_declarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -143,5 +136,26 @@ public class SaralBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitValue(SaralParser.ValueContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVal(SaralParser.ValContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitType(SaralParser.TypeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTypeSimple(SaralParser.TypeSimpleContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitTypeBasic(SaralParser.TypeBasicContext ctx) { return visitChildren(ctx); }
 }

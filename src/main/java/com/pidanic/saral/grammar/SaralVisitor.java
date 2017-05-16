@@ -77,17 +77,11 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArglist(SaralParser.ArglistContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#arg}.
+	 * Visit a parse tree produced by {@link SaralParser#var_declaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitArg(SaralParser.ArgContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SaralParser#variable}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariable(SaralParser.VariableContext ctx);
+	T visitVar_declaration(SaralParser.Var_declarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
@@ -119,9 +113,27 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVar(SaralParser.VarContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#value}.
+	 * Visit a parse tree produced by {@link SaralParser#val}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitValue(SaralParser.ValueContext ctx);
+	T visitVal(SaralParser.ValContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#type}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitType(SaralParser.TypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#typeSimple}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeSimple(SaralParser.TypeSimpleContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#typeBasic}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTypeBasic(SaralParser.TypeBasicContext ctx);
 }

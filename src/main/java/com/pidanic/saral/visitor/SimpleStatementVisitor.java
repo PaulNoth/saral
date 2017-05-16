@@ -26,10 +26,10 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     }
 
     @Override
-    public SimpleStatement visitVariable(SaralParser.VariableContext ctx) {
+    public SimpleStatement visitVar_declaration(SaralParser.Var_declarationContext ctx) {
         TerminalNode varName = ctx.ID();
-        SaralParser.ValueContext varValue = ctx.value();
-        String varType = ctx.TYPE().getText();
+        SaralParser.ValContext varValue = ctx.val();
+        String varType = ctx.type().typeBasic().getText();
         String varTextValue = varValue.getText();
         LocalVariable var = new LocalVariable(varName.getText(), varType);
         scope.addVariable(var);

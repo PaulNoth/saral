@@ -101,27 +101,30 @@ statement
 	;
 
 simple_statement : write
-                 | variable
+                 | var_declaration
                  | proc_call
                  | func_call
                  ;
 block_statement : proc_definition | func_definition | block;
 proc_definition : FUNCTION ID LPAR arglist RPAR EOL block;
-func_definition : FUNCTION TYPE ID LPAR arglist RPAR EOL func_block;
-arglist : (arg (',' arg)*)?;
-arg : TYPE ID ;
+func_definition : FUNCTION typeBasic ID LPAR arglist RPAR EOL func_block;
+arglist : (type ID (',' type ID)*)? ;
 
-variable : VARIABLE TYPE ID EQUALS value;
+var_declaration : VARIABLE type ID '=' val;
 write : PRINT ID ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;
 var: ID;
 
-value : NUMBER
+val : NUMBER
       | STRING ;
-TYPE : STRING_T
-     | INT_T;
+type : typeBasic;
+typeSimple
+	: INT_T ;
+typeBasic
+	: typeSimple | STRING_T
+	;
 
 FUNCTION: 'bar';
 PROC_CALL : 'paľ do baru';
@@ -132,11 +135,12 @@ INT_T : 'neskutočné numeralio';
 STRING_T : 'slovo';
 VARIABLE : 'meňak' ;
 PRINT : 'ciskaj' ;
-EQUALS : '=' ;
 RET : 'vrac';
-NUMBER : [0-9]+ ;
-STRING : '"'.*'"' ;
-ID : [a-zA-Z0-9ľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ]+ ;
+NUMBER : '0' | [1-9]DIGIT*;
+DIGIT : [0-9];
+STRING : '"' (~'"' | EOL)* '"' ;
+ID : '_'?(LETTER)(LETTER | DIGIT | '_')* ;
+LETTER : [a-zA-ZľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ];
 EOL :
     ({atStartOfInput()}? WS
     |

@@ -7,6 +7,7 @@ import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,10 +23,14 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
     public Function visitFunc_definition(SaralParser.Func_definitionContext ctx) {
         String functionName = ctx.ID().getText();
 
-        List<Argument> arguments = ctx.arglist().arg().stream()
-                .map(arg -> arg.accept(new ArgumentVisitor()))
-                .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
-                .collect(Collectors.toList());
+        List<Argument> arguments = new ArrayList<>();
+        for(int i = 0; i < ctx.arglist().ID().size(); i++) {
+            String argName = ctx.arglist().ID(i).getText();
+            String argType = ctx.arglist().type(i).getText();
+            LocalVariable var = new LocalVariable(argName, argType);
+            scope.addVariable(var);
+            arguments.add(new Argument(argName, argType));
+        }
 
         List<Statement> allStatements = ctx.func_block().statements().statement().stream().map(stmtCtx -> {
             SaralParser.Block_statementContext block = stmtCtx.block_statement();
@@ -39,7 +44,7 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
             return val;
         }).collect(Collectors.toList());
 
-        String typeName = ctx.TYPE().getText();
+        String typeName = ctx.typeBasic().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
 
         String returnVariableName = ctx.func_block().ret().ID().getText();
