@@ -119,6 +119,10 @@ var: ID;
 
 val : NUMBER
       | STRING ;
+expression : LPAR expression LPAR #Paren
+           | func_call #Func
+           | val #Value
+           ;
 type : typeBasic;
 typeSimple
 	: INT_T ;
