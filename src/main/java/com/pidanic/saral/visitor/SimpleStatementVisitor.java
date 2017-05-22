@@ -34,9 +34,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         TerminalNode varName = ctx.ID();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
-        //SaralParser.ValContext varValue = ctx.val();
         String varType = ctx.type().typeBasic().getText();
-        //String varTextValue = varValue.getText();
         Type type = TypeResolver.getFromTypeName(varType);
         LocalVariable var = new LocalVariable(varName.getText(), type);
         scope.addVariable(var);
@@ -48,23 +46,6 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         String procedureName = ctx.ID().getText();
         List<SaralParser.VarContext> calledParameters = ctx.paramlist().var();
         return createProcedureCall(procedureName, calledParameters);
-    }
-
-    //@Override
-    //public SimpleStatement visitFunc_call(SaralParser.Func_callContext ctx) {
-    //    String functionName = ctx.ID().getText();
-    //    List<SaralParser.VarContext> calledParameters = ctx.paramlist().var();
-    //    return createFunctionCall(functionName, calledParameters);
-    //}
-
-    private FunctionCall createFunctionCall(String functionName, List<SaralParser.VarContext> calledParameters) {
-        List<CalledArgument> args = calledParameters.stream()
-                .map(param -> param.accept(new CalledArgumentVisitor()))
-                .collect(Collectors.toList());
-
-        Function proc = scope.getFunction(functionName);
-
-        return new FunctionCall(proc, args);
     }
 
     private ProcedureCall createProcedureCall(String functionName, List<SaralParser.VarContext> calledParameters) {

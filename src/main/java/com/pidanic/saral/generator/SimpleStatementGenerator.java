@@ -30,7 +30,6 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(PrintVariable instruction) {
         final LocalVariable variable = instruction.getVariable();
-        //final String typeName = variable.getType();
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         String descriptor = "(" + type.getDescriptor() + ")V";
@@ -53,14 +52,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final int variableId = scope.getVariableIndex(variableName);
         expression.accept(expressionGenerator);
         if(type == BuiltInType.INT) {
-            //int val = Integer.valueOf(variableDeclaration.getValue());
-            //methodVisitor.visitIntInsn(Opcodes.BIPUSH, val);
             methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
         } else if(type == BuiltInType.STRING) {
-            //String stringValue = variableDeclaration.getValue();
-            //stringValue = StringUtils.removeStart(stringValue, "\"");
-            //stringValue = StringUtils.removeEnd(stringValue, "\"");
-            //methodVisitor.visitLdcInsn(stringValue);
             methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
         }
     }

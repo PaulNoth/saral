@@ -23,11 +23,6 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
     public Procedure visitProc_definition(SaralParser.Proc_definitionContext ctx) {
         String procedureName = ctx.ID().getText();
 
-        //List<Argument> arguments = ctx.arglist().arg().stream()
-        //        .map(arg -> arg.accept(new ArgumentVisitor()))
-        //        .peek(arg -> scope.addVariable(new LocalVariable(arg.getName(), arg.getType())))
-        //        .collect(Collectors.toList());
-
         List<Argument> arguments = new ArrayList<>();
         for(int i = 0; i < ctx.arglist().ID().size(); i++) {
             String argName = ctx.arglist().ID(i).getText();

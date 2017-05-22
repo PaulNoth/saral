@@ -22,15 +22,11 @@ public class ReturnStatementGenerator extends StatementGenerator {
 
     public void generate(ReturnStatement retStatement) {
         Expression returnVariable = retStatement.getExpression();
-        //String varName = returnVariable.getName();
-        //int varIndex = scope.getVariableIndex(varName);
         Type retType = returnVariable.getType();
         returnVariable.accept(new ExpressionGenerator(methodVisitor, scope));
         if(retType == BuiltInType.INT) {
-            //methodVisitor.visitVarInsn(Opcodes.ILOAD, varIndex);
             methodVisitor.visitInsn(Opcodes.IRETURN);
         } else {
-            //methodVisitor.visitVarInsn(Opcodes.ALOAD, varIndex);
             methodVisitor.visitInsn(Opcodes.ARETURN);
         }
     }

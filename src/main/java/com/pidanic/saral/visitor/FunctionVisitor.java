@@ -51,7 +51,6 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
 
         SaralParser.ExpressionContext expressionContext = ctx.func_block().ret().expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
-        //LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
         ReturnStatement returnStatement = new ReturnStatement(expression);
 
         List<SimpleStatement> simpleStatements = allStatements.stream()
