@@ -26,7 +26,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     }
 
     @Override
-    public SimpleStatement visitVar_declaration(SaralParser.Var_declarationContext ctx) {
+    public SimpleStatement visitVar_definition(SaralParser.Var_definitionContext ctx) {
         TerminalNode varName = ctx.ID();
         SaralParser.ValContext varValue = ctx.val();
         String varType = ctx.type().typeBasic().getText();

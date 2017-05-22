@@ -25,12 +25,12 @@ public class SaralParser extends Parser {
 		RULE_init = 0, RULE_statements = 1, RULE_block = 2, RULE_func_block = 3, 
 		RULE_ret = 4, RULE_statement = 5, RULE_simple_statement = 6, RULE_block_statement = 7, 
 		RULE_proc_definition = 8, RULE_func_definition = 9, RULE_arglist = 10, 
-		RULE_var_declaration = 11, RULE_write = 12, RULE_proc_call = 13, RULE_func_call = 14, 
+		RULE_var_definition = 11, RULE_write = 12, RULE_proc_call = 13, RULE_func_call = 14, 
 		RULE_paramlist = 15, RULE_var = 16, RULE_val = 17, RULE_type = 18, RULE_typeSimple = 19, 
 		RULE_typeBasic = 20;
 	public static final String[] ruleNames = {
 		"init", "statements", "block", "func_block", "ret", "statement", "simple_statement", 
-		"block_statement", "proc_definition", "func_definition", "arglist", "var_declaration", 
+		"block_statement", "proc_definition", "func_definition", "arglist", "var_definition", 
 		"write", "proc_call", "func_call", "paramlist", "var", "val", "type", 
 		"typeSimple", "typeBasic"
 	};
@@ -432,8 +432,8 @@ public class SaralParser extends Parser {
 		public WriteContext write() {
 			return getRuleContext(WriteContext.class,0);
 		}
-		public Var_declarationContext var_declaration() {
-			return getRuleContext(Var_declarationContext.class,0);
+		public Var_definitionContext var_definition() {
+			return getRuleContext(Var_definitionContext.class,0);
 		}
 		public Proc_callContext proc_call() {
 			return getRuleContext(Proc_callContext.class,0);
@@ -477,7 +477,7 @@ public class SaralParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(73);
-				var_declaration();
+				var_definition();
 				}
 				break;
 			case PROC_CALL:
@@ -791,7 +791,7 @@ public class SaralParser extends Parser {
 		return _localctx;
 	}
 
-	public static class Var_declarationContext extends ParserRuleContext {
+	public static class Var_definitionContext extends ParserRuleContext {
 		public TerminalNode VARIABLE() { return getToken(SaralParser.VARIABLE, 0); }
 		public TypeContext type() {
 			return getRuleContext(TypeContext.class,0);
@@ -800,28 +800,28 @@ public class SaralParser extends Parser {
 		public ValContext val() {
 			return getRuleContext(ValContext.class,0);
 		}
-		public Var_declarationContext(ParserRuleContext parent, int invokingState) {
+		public Var_definitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_var_declaration; }
+		@Override public int getRuleIndex() { return RULE_var_definition; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof SaralListener ) ((SaralListener)listener).enterVar_declaration(this);
+			if ( listener instanceof SaralListener ) ((SaralListener)listener).enterVar_definition(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof SaralListener ) ((SaralListener)listener).exitVar_declaration(this);
+			if ( listener instanceof SaralListener ) ((SaralListener)listener).exitVar_definition(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof SaralVisitor ) return ((SaralVisitor<? extends T>)visitor).visitVar_declaration(this);
+			if ( visitor instanceof SaralVisitor ) return ((SaralVisitor<? extends T>)visitor).visitVar_definition(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final Var_declarationContext var_declaration() throws RecognitionException {
-		Var_declarationContext _localctx = new Var_declarationContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_var_declaration);
+	public final Var_definitionContext var_definition() throws RecognitionException {
+		Var_definitionContext _localctx = new Var_definitionContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_var_definition);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

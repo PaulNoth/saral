@@ -94,7 +94,7 @@ public class SaralBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVar_declaration(SaralParser.Var_declarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitVar_definition(SaralParser.Var_definitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

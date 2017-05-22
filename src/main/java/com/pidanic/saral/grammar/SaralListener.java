@@ -118,15 +118,15 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitArglist(SaralParser.ArglistContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SaralParser#var_declaration}.
+	 * Enter a parse tree produced by {@link SaralParser#var_definition}.
 	 * @param ctx the parse tree
 	 */
-	void enterVar_declaration(SaralParser.Var_declarationContext ctx);
+	void enterVar_definition(SaralParser.Var_definitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link SaralParser#var_declaration}.
+	 * Exit a parse tree produced by {@link SaralParser#var_definition}.
 	 * @param ctx the parse tree
 	 */
-	void exitVar_declaration(SaralParser.Var_declarationContext ctx);
+	void exitVar_definition(SaralParser.Var_definitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree

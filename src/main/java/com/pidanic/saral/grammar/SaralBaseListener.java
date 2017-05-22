@@ -148,13 +148,13 @@ public class SaralBaseListener implements SaralListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVar_declaration(SaralParser.Var_declarationContext ctx) { }
+	@Override public void enterVar_definition(SaralParser.Var_definitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVar_declaration(SaralParser.Var_declarationContext ctx) { }
+	@Override public void exitVar_definition(SaralParser.Var_definitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

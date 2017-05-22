@@ -77,11 +77,11 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArglist(SaralParser.ArglistContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SaralParser#var_declaration}.
+	 * Visit a parse tree produced by {@link SaralParser#var_definition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVar_declaration(SaralParser.Var_declarationContext ctx);
+	T visitVar_definition(SaralParser.Var_definitionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
