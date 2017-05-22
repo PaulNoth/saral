@@ -1,15 +1,16 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 
 public class VariableDeclaration implements SimpleStatement {
     private String name;
-    private String value;
+    private Expression expression;
 
-    public VariableDeclaration(String name, String value) {
+    public VariableDeclaration(String name, Expression expression) {
         this.name = name;
-        this.value = value;
+        this.expression = expression;
     }
 
     @Override
@@ -21,7 +22,7 @@ public class VariableDeclaration implements SimpleStatement {
         return name;
     }
 
-    public String getValue() {
-        return value;
+    public Expression getExpression() {
+        return expression;
     }
 }

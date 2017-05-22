@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FunctionCall implements SimpleStatement {
+public class ProcedureCall implements SimpleStatement {
 
     private Function function;
     private List<CalledArgument> arguments;
 
-    public FunctionCall(Function function, List<CalledArgument> calledArguments) {
+    public ProcedureCall(Function function, List<CalledArgument> calledArguments) {
         this.function = function;
         this.arguments = new ArrayList<>(calledArguments);
     }

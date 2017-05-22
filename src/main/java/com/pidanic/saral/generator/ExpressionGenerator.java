@@ -1,8 +1,9 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.*;
-import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.domain.Argument;
+import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.expression.FunctionCall;
+import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
@@ -15,57 +16,30 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class SimpleStatementGenerator extends StatementGenerator {
+public class ExpressionGenerator extends StatementGenerator {
 
     private MethodVisitor methodVisitor;
     private Scope scope;
-    private ExpressionGenerator expressionGenerator;
 
-    public SimpleStatementGenerator(MethodVisitor methodVisitor, Scope scope) {
-        super();
+    public ExpressionGenerator(MethodVisitor methodVisitor, Scope scope) {
         this.methodVisitor = methodVisitor;
         this.scope = scope;
-        this.expressionGenerator = new ExpressionGenerator(methodVisitor, scope);
     }
 
-    public void generate(PrintVariable instruction) {
-        final LocalVariable variable = instruction.getVariable();
-        final String typeName = variable.getType();
-        final Type type = TypeResolver.getFromTypeName(typeName);
-        final int variableId = scope.getVariableIndex(variable.getName());
-        String descriptor = "(" + type.getDescriptor() + ")V";
-        methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, variableId);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "java/io/PrintStream", "println", descriptor, false);
-        } else if (type == BuiltInType.STRING) {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "java/io/PrintStream", "println", descriptor, false);
-        }
-    }
-
-    public void generate(VariableDeclaration variableDeclaration) {
-        final String variableName = variableDeclaration.getName();
-        final Expression expression = variableDeclaration.getExpression();
-        final Type type = expression.getType();
-        final int variableId = scope.getVariableIndex(variableName);
-        expression.accept(expressionGenerator);
+    public void generate(Value val) {
+        final Type type = TypeResolver.getFromValue(val.getValue());
         if(type == BuiltInType.INT) {
-            //int val = Integer.valueOf(variableDeclaration.getValue());
-            //methodVisitor.visitIntInsn(Opcodes.BIPUSH, val);
-            methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+            int value = Integer.valueOf(val.getValue());
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
         } else if(type == BuiltInType.STRING) {
-            //String stringValue = variableDeclaration.getValue();
-            //stringValue = StringUtils.removeStart(stringValue, "\"");
-            //stringValue = StringUtils.removeEnd(stringValue, "\"");
-            //methodVisitor.visitLdcInsn(stringValue);
-            methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+            String stringValue = val.getValue();
+            stringValue = StringUtils.removeStart(stringValue, "\"");
+            stringValue = StringUtils.removeEnd(stringValue, "\"");
+            methodVisitor.visitLdcInsn(stringValue);
         }
     }
 
-     public void generate(ProcedureCall functionCall) {
+    public void generate(FunctionCall functionCall) {
         List<Argument> parameters = functionCall.getFunction().getArguments();
         List<CalledArgument> calledParameter = functionCall.getCalledArguments();
         for(int i = 0; i < parameters.size(); i++) {
@@ -92,17 +66,17 @@ public class SimpleStatementGenerator extends StatementGenerator {
         }
     }
 
-    private String getFunctionDescriptor(ProcedureCall functionCall) {
+    private String getFunctionDescriptor(FunctionCall functionCall) {
         return Optional.of(getDescriptorForFunctionInScope(functionCall))
                 .orElse(getDescriptorForFunctionOnClasspath(functionCall))
                 .orElseThrow(() -> new FunctionCallNotFoundException(functionCall));
     }
 
-    private Optional<String> getDescriptorForFunctionInScope(ProcedureCall functionCall) {
+    private Optional<String> getDescriptorForFunctionInScope(FunctionCall functionCall) {
         return Optional.ofNullable(DescriptorFactory.getMethodDescriptor(functionCall.getFunction()));
     }
 
-    private Optional<String> getDescriptorForFunctionOnClasspath(ProcedureCall functionCall) {
+    private Optional<String> getDescriptorForFunctionOnClasspath(FunctionCall functionCall) {
         try {
             String functionName = functionCall.getFunction().getName();
             Collection<CalledArgument> parameters = functionCall.getCalledArguments();
@@ -117,4 +91,5 @@ public class SimpleStatementGenerator extends StatementGenerator {
             return Optional.empty();
         }
     }
+    // TODO
 }

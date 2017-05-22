@@ -1,5 +1,6 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.generator.ExpressionGenerator;
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 
 public class Argument {
@@ -19,7 +20,12 @@ public class Argument {
         return type;
     }
 
-    public void accept(SimpleStatementGenerator simpleStatementGenerator, String localVariableName) {
-        simpleStatementGenerator.generate(this, localVariableName);
+    public void accept(SimpleStatementGenerator expressionGenerator, String localVariableName) {
+        expressionGenerator.generate(this, localVariableName);
     }
+
+    public void accept(ExpressionGenerator expressionGenerator, String localVariableName) {
+        expressionGenerator.generate(this, localVariableName);
+    }
+
 }

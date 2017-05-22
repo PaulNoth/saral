@@ -797,8 +797,8 @@ public class SaralParser extends Parser {
 			return getRuleContext(TypeContext.class,0);
 		}
 		public TerminalNode ID() { return getToken(SaralParser.ID, 0); }
-		public ValContext val() {
-			return getRuleContext(ValContext.class,0);
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
 		}
 		public Var_definitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -834,7 +834,7 @@ public class SaralParser extends Parser {
 			setState(118);
 			match(T__1);
 			setState(119);
-			val();
+			expression();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1469,7 +1469,7 @@ public class SaralParser extends Parser {
 		"g\25\3\2\2\2hi\5(\25\2ip\7\22\2\2jk\7\3\2\2kl\5(\25\2lm\7\22\2\2mo\3\2"+
 		"\2\2nj\3\2\2\2or\3\2\2\2pn\3\2\2\2pq\3\2\2\2qt\3\2\2\2rp\3\2\2\2sh\3\2"+
 		"\2\2st\3\2\2\2t\27\3\2\2\2uv\7\f\2\2vw\5(\25\2wx\7\22\2\2xy\7\4\2\2yz"+
-		"\5$\23\2z\31\3\2\2\2{|\7\r\2\2|}\5\"\22\2}\33\3\2\2\2~\177\7\6\2\2\177"+
+		"\5&\24\2z\31\3\2\2\2{|\7\r\2\2|}\5\"\22\2}\33\3\2\2\2~\177\7\6\2\2\177"+
 		"\u0080\7\22\2\2\u0080\u0081\7\b\2\2\u0081\u0082\5 \21\2\u0082\u0083\7"+
 		"\t\2\2\u0083\35\3\2\2\2\u0084\u0085\7\7\2\2\u0085\u0086\7\22\2\2\u0086"+
 		"\u0087\7\b\2\2\u0087\u0088\5 \21\2\u0088\u0089\7\t\2\2\u0089\37\3\2\2"+
