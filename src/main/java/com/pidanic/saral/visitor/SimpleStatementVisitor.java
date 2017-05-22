@@ -6,6 +6,8 @@ import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
+import com.pidanic.saral.util.Type;
+import com.pidanic.saral.util.TypeResolver;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
@@ -35,7 +37,8 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         //SaralParser.ValContext varValue = ctx.val();
         String varType = ctx.type().typeBasic().getText();
         //String varTextValue = varValue.getText();
-        LocalVariable var = new LocalVariable(varName.getText(), varType);
+        Type type = TypeResolver.getFromTypeName(varType);
+        LocalVariable var = new LocalVariable(varName.getText(), type);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
     }

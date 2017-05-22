@@ -2,8 +2,10 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
+import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
+import com.pidanic.saral.domain.expression.VariableRef;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
@@ -36,6 +38,18 @@ public class ExpressionGenerator extends StatementGenerator {
             stringValue = StringUtils.removeStart(stringValue, "\"");
             stringValue = StringUtils.removeEnd(stringValue, "\"");
             methodVisitor.visitLdcInsn(stringValue);
+        }
+    }
+
+    public void generate(VariableRef varRef) {
+        String varName = varRef.getVarName();
+        int index = scope.getVariableIndex(varName);
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        Type type = localVariable.getType();
+        if (type == BuiltInType.INT) {
+            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
+        } else {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
         }
     }
 

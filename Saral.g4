@@ -93,7 +93,7 @@ init : statements ;
 statements : statement*;
 block : INDENT statements DEDENT;
 func_block : INDENT statements ret DEDENT;
-ret: RET ID EOL;
+ret: RET expression EOL;
 
 statement
 	: simple_statement EOL
@@ -117,8 +117,9 @@ func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;
 var: ID;
 
-val : NUMBER
-      | STRING ;
+val : var
+    | NUMBER
+    | STRING ;
 expression : func_call #Func
            | val #Value
            ;

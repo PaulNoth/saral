@@ -188,18 +188,6 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitVal(SaralParser.ValContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code Paren}
-	 * labeled alternative in {@link SaralParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterParen(SaralParser.ParenContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code Paren}
-	 * labeled alternative in {@link SaralParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitParen(SaralParser.ParenContext ctx);
-	/**
 	 * Enter a parse tree produced by the {@code Func}
 	 * labeled alternative in {@link SaralParser#expression}.
 	 * @param ctx the parse tree

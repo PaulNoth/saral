@@ -1,14 +1,15 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.ReturnStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 
 public class ReturnStatement implements Statement {
 
-    private LocalVariable returnVariable;
+    private Expression expression;
 
-    public ReturnStatement(LocalVariable variable) {
-        this.returnVariable = variable;
+    public ReturnStatement(Expression variable) {
+        this.expression = variable;
     }
 
     @Override
@@ -16,7 +17,7 @@ public class ReturnStatement implements Statement {
         ((ReturnStatementGenerator) generator).generate(this);
     }
 
-    public LocalVariable getReturnVariable() {
-        return returnVariable;
+    public Expression getExpression() {
+        return expression;
     }
 }

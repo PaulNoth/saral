@@ -1,6 +1,7 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -27,7 +28,8 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         for(int i = 0; i < ctx.arglist().ID().size(); i++) {
             String argName = ctx.arglist().ID(i).getText();
             String argType = ctx.arglist().type(i).getText();
-            LocalVariable var = new LocalVariable(argName, argType);
+            Type type = TypeResolver.getFromTypeName(argType);
+            LocalVariable var = new LocalVariable(argName, type);
             scope.addVariable(var);
             arguments.add(new Argument(argName, argType));
         }
@@ -47,9 +49,10 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         String typeName = ctx.typeBasic().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
 
-        String returnVariableName = ctx.func_block().ret().ID().getText();
-        LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
-        ReturnStatement returnStatement = new ReturnStatement(retVariable);
+        SaralParser.ExpressionContext expressionContext = ctx.func_block().ret().expression();
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
+        //LocalVariable retVariable = scope.getLocalVariable(returnVariableName);
+        ReturnStatement returnStatement = new ReturnStatement(expression);
 
         List<SimpleStatement> simpleStatements = allStatements.stream()
                 .filter(stmt -> stmt instanceof SimpleStatement)

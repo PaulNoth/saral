@@ -1,0 +1,35 @@
+bar robim()
+    meňak neskutočné numeralio tri = 3
+    ciskaj tri
+
+bar tiezRobim(neskutočné numeralio x)
+    ciskaj x
+
+bar neskutočné numeralio vracimDaco()
+    meňak neskutočné numeralio pejc = 5
+    vrac pejc
+
+bar neskutočné numeralio vracimDaco2()
+    vrac vrac z baru vracimDaco()
+
+bar slovo vracimSlovo(slovo x)
+    vrac x
+
+meňak neskutočné numeralio pejc = 5
+ciskaj pejc
+meňak slovo dupa = "dupa"
+ciskaj dupa
+
+paľ do baru robim()
+paľ do baru tiezRobim(pejc)
+vrac z baru vracimDaco()
+vrac z baru vracimSlovo(dupa)
+
+meňak neskutočné numeralio hodnota = vrac z baru vracimDaco()
+ciskaj hodnota
+
+meňak neskutočné numeralio hodnota2 = vrac z baru vracimDaco2()
+ciskaj hodnota2
+
+meňak slovo hodnotaSlovaZatvoriek = vrac z baru vracimSlovo(dupa)
+ciskaj hodnotaSlovaZatvoriek

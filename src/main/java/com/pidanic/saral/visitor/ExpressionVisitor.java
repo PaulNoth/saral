@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
+import com.pidanic.saral.domain.expression.VariableRef;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -51,8 +52,18 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
     @Override
     public Expression visitVal(SaralParser.ValContext ctx) {
-        String value = ctx.getText();
-        Type type = TypeResolver.getFromValue(ctx.getText());
-        return new Value(type, value);
+        if(ctx.var() == null) {
+            String value = ctx.getText();
+            Type type = TypeResolver.getFromValue(ctx.getText());
+            return new Value(type, value);
+        }
+        return visitVar(ctx.var());
+    }
+
+    @Override
+    public Expression visitVar(SaralParser.VarContext ctx) {
+        String varName = ctx.getText();
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        return new VariableRef(varName,localVariable.getType());
     }
 }

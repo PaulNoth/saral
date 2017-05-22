@@ -2,6 +2,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.ReturnStatement;
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
@@ -20,15 +21,16 @@ public class ReturnStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ReturnStatement retStatement) {
-        LocalVariable returnVariable = retStatement.getReturnVariable();
-        String varName = returnVariable.getName();
-        int varIndex = scope.getVariableIndex(varName);
-        Type retType = TypeResolver.getFromTypeName(returnVariable.getType());
+        Expression returnVariable = retStatement.getExpression();
+        //String varName = returnVariable.getName();
+        //int varIndex = scope.getVariableIndex(varName);
+        Type retType = returnVariable.getType();
+        returnVariable.accept(new ExpressionGenerator(methodVisitor, scope));
         if(retType == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, varIndex);
+            //methodVisitor.visitVarInsn(Opcodes.ILOAD, varIndex);
             methodVisitor.visitInsn(Opcodes.IRETURN);
         } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, varIndex);
+            //methodVisitor.visitVarInsn(Opcodes.ALOAD, varIndex);
             methodVisitor.visitInsn(Opcodes.ARETURN);
         }
     }

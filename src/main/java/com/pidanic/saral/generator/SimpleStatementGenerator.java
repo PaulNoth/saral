@@ -30,8 +30,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(PrintVariable instruction) {
         final LocalVariable variable = instruction.getVariable();
-        final String typeName = variable.getType();
-        final Type type = TypeResolver.getFromTypeName(typeName);
+        //final String typeName = variable.getType();
+        final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         String descriptor = "(" + type.getDescriptor() + ")V";
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");

@@ -1,16 +1,18 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.util.Type;
+
 public class LocalVariable {
 
     private final String name;
-    private final String type;
+    private final Type type;
 
-    public LocalVariable(String name, String type) {
+    public LocalVariable(String name, Type type) {
         this.name = name;
         this.type = type;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 

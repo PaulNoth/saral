@@ -4,6 +4,8 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
+import com.pidanic.saral.util.Type;
+import com.pidanic.saral.util.TypeResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,8 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
         for(int i = 0; i < ctx.arglist().ID().size(); i++) {
             String argName = ctx.arglist().ID(i).getText();
             String argType = ctx.arglist().type(i).getText();
-            LocalVariable var = new LocalVariable(argName, argType);
+            Type type = TypeResolver.getFromTypeName(argType);
+            LocalVariable var = new LocalVariable(argName, type);
             scope.addVariable(var);
             arguments.add(new Argument(argName, argType));
         }
