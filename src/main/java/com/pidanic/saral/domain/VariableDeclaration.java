@@ -2,9 +2,8 @@ package com.pidanic.saral.domain;
 
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
-import org.objectweb.asm.Opcodes;
 
-public class VariableDeclaration implements SimpleStatement, Opcodes {
+public class VariableDeclaration implements SimpleStatement {
     private String name;
     private String value;
 
