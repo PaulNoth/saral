@@ -119,6 +119,27 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVal(SaralParser.ValContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code Paren}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParen(SaralParser.ParenContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Func}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunc(SaralParser.FuncContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code Value}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitValue(SaralParser.ValueContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#type}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

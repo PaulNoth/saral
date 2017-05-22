@@ -111,7 +111,7 @@ func_definition : FUNCTION typeBasic ID LPAR arglist RPAR EOL func_block;
 arglist : (type ID (',' type ID)*)? ;
 
 var_definition : VARIABLE type ID '=' val;
-write : PRINT ID ;
+write : PRINT var ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;

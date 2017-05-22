@@ -19,7 +19,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     @Override
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
-        TerminalNode varName = ctx.ID();
+        TerminalNode varName = ctx.var().ID();
         LocalVariable localVariable = scope.getLocalVariable(varName.getText());
         LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType());
         return new PrintVariable(var);
