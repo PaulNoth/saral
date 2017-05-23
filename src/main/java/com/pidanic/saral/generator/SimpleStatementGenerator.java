@@ -51,17 +51,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final String variableName = variableDeclaration.getName();
         final int variableId = scope.getVariableIndex(variableName);
         final Optional<Expression> expressionOption = variableDeclaration.getExpression();
-        if(!expressionOption.isPresent()) {
-            //throw new VariableNotInitializedException(scope, variableName);
-            //LocalVariable var = scope.getLocalVariable(variableName);
-            //Type type = var.getType();
-            //if (type == BuiltInType.INT) {
-            //    methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
-            //} else if (type == BuiltInType.STRING) {
-            //    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
-            //}
-
-        } else {
+        if(expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
             expression.accept(expressionGenerator);
             final Type type = expression.getType();
@@ -71,6 +61,16 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
             }
         }
+        //else {
+            //throw new VariableNotInitializedException(scope, variableName);
+            //LocalVariable var = scope.getLocalVariable(variableName);
+            //Type type = var.getType();
+            //if (type == BuiltInType.INT) {
+            //    methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+            //} else if (type == BuiltInType.STRING) {
+            //    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+            //}
+        //}
     }
 
      public void generate(ProcedureCall functionCall) {
