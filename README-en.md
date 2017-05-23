@@ -1,6 +1,6 @@
 ## ŠARAL 2.0 - ŠARIŠ ALGORITMIK LENGVIDŽ 2.0
 
-[Slovensky](README-SK.md)
+[Slovensky](README.md)
 
 > I would like to introduce you with newest top level evolution in information crunching. It is a problem-science-tech-oriented programming language Šaral. The famous [šariš](https://en.wikipedia.org/wiki/%C5%A0ari%C5%A1)-american company IBM have always been trying to create a language, which a computer would understand as good as human understands
 
@@ -34,10 +34,8 @@ There are 2 data types supported - `neskutočné numeralio` (integer) a `slovo` 
 Do we repeat same code? No problem, we have procedures.
 ```
 bar iDoSomething()
-{
    meňak neskutočné numeralio three = 3
    ciskaj three
-}
 ```
 
 With `bar`, we declare procedure with name `iDoSomething`. It is without parameters. 
@@ -45,9 +43,7 @@ With `bar`, we declare procedure with name `iDoSomething`. It is without paramet
 We can add parameters. They need to be in supported data types.
 ```
 bar iDoSomethingElse(neskutočné numeralio x)
-{
     ciskaj x
-}
 ```
 
 We call the procedure with `paľ do baru`
@@ -63,18 +59,14 @@ paľ do baru iDoSomethingElse(five)
 Do we repeat same code? Do we want to return a calculated value? We have functions.
 ```
 bar neskutočné numeralio returnSomething()
-{
     meňak neskutočné numeralio pejc = 5
     vrac pejc
-}
 ```
 
 Function arguments are supported.
 ```
 bar slovo returnString(slovo x)
-{
     vrac x
-}
 ```
 
 We call the function with `vrac z baru`
@@ -86,5 +78,5 @@ vrac z baru returnString(hello)
 
 ```
 
-### Odsadenie
+### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).
