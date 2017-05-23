@@ -83,6 +83,12 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVar_definition(SaralParser.Var_definitionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SaralParser#var_declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVar_declaration(SaralParser.Var_declarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -118,6 +124,12 @@ public interface SaralVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVal(SaralParser.ValContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SaralParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(SaralParser.AssignmentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code Func}
 	 * labeled alternative in {@link SaralParser#expression}.

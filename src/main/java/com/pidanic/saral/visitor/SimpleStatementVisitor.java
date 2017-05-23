@@ -2,7 +2,7 @@ package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
+import com.pidanic.saral.exception.VariableNotFoundException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -56,5 +56,28 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Function proc = scope.getFunction(functionName);
 
         return new ProcedureCall(proc, args);
+    }
+
+    @Override
+    public SimpleStatement visitVar_declaration(SaralParser.Var_declarationContext ctx) {
+        TerminalNode varName = ctx.ID();
+        String varType = ctx.type().typeBasic().getText();
+        Type type = TypeResolver.getFromTypeName(varType);
+        LocalVariable var = new LocalVariable(varName.getText(), type);
+        scope.addVariable(var);
+        return new VariableDeclaration(varName.getText());
+    }
+
+    @Override
+    public SimpleStatement visitAssignment(SaralParser.AssignmentContext ctx) {
+        String varName = ctx.var().getText();
+        LocalVariable var = scope.getLocalVariable(varName);
+        if(var == null) {
+            throw new VariableNotFoundException(scope, varName);
+        }
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
+
+        return new VariableDeclaration(varName, expression);
     }
 }

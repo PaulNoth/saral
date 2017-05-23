@@ -4,12 +4,14 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
+import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import javax.swing.text.html.Option;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
@@ -47,14 +49,27 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(VariableDeclaration variableDeclaration) {
         final String variableName = variableDeclaration.getName();
-        final Expression expression = variableDeclaration.getExpression();
-        final Type type = expression.getType();
         final int variableId = scope.getVariableIndex(variableName);
-        expression.accept(expressionGenerator);
-        if(type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
-        } else if(type == BuiltInType.STRING) {
-            methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+        final Optional<Expression> expressionOption = variableDeclaration.getExpression();
+        if(!expressionOption.isPresent()) {
+            //throw new VariableNotInitializedException(scope, variableName);
+            //LocalVariable var = scope.getLocalVariable(variableName);
+            //Type type = var.getType();
+            //if (type == BuiltInType.INT) {
+            //    methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+            //} else if (type == BuiltInType.STRING) {
+            //    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+            //}
+
+        } else {
+            Expression expression = expressionOption.get();
+            expression.accept(expressionGenerator);
+            final Type type = expression.getType();
+            if (type == BuiltInType.INT) {
+                methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+            } else if (type == BuiltInType.STRING) {
+                methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+            }
         }
     }
 

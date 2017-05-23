@@ -102,6 +102,8 @@ statement
 
 simple_statement : write
                  | var_definition
+                 | assignment
+                 | var_declaration
                  | proc_call
                  | func_call
                  ;
@@ -111,6 +113,10 @@ func_definition : FUNCTION typeBasic ID LPAR arglist RPAR EOL func_block;
 arglist : (type ID (',' type ID)*)? ;
 
 var_definition : VARIABLE type ID '=' expression;
+var_declaration
+	: VARIABLE type ID
+	;
+
 write : PRINT var ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
@@ -120,6 +126,9 @@ var: ID;
 val : var
     | NUMBER
     | STRING ;
+assignment
+    : var '=' expression
+    ;
 expression : func_call #Func
            | val #Value
            ;

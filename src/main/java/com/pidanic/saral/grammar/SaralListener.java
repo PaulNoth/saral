@@ -128,6 +128,16 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitVar_definition(SaralParser.Var_definitionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SaralParser#var_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVar_declaration(SaralParser.Var_declarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#var_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVar_declaration(SaralParser.Var_declarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SaralParser#write}.
 	 * @param ctx the parse tree
 	 */
@@ -187,6 +197,16 @@ public interface SaralListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVal(SaralParser.ValContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SaralParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(SaralParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SaralParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(SaralParser.AssignmentContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code Func}
 	 * labeled alternative in {@link SaralParser#expression}.
