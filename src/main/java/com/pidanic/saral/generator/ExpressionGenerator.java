@@ -3,9 +3,11 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
@@ -104,5 +106,32 @@ public class ExpressionGenerator extends StatementGenerator {
         } catch (ReflectiveOperationException e) {
             return Optional.empty();
         }
+    }
+
+    public void generate(Addition expression) {
+        evaluateArithmeticComponents(expression);
+        methodVisitor.visitInsn(Opcodes.IADD);
+    }
+
+    public void generate(Substraction expression) {
+        evaluateArithmeticComponents(expression);
+        methodVisitor.visitInsn(Opcodes.ISUB);
+    }
+
+    public void generate(Multiplication expression) {
+        evaluateArithmeticComponents(expression);
+        methodVisitor.visitInsn(Opcodes.IMUL);
+    }
+
+    public void generate(Division expression) {
+        evaluateArithmeticComponents(expression);
+        methodVisitor.visitInsn(Opcodes.IDIV);
+    }
+
+    private void evaluateArithmeticComponents(ArithmeticExpression expression) {
+        Expression leftExpression = expression.getLeft();
+        Expression rightExpression = expression.getRight();
+        leftExpression.accept(this);
+        rightExpression.accept(this);
     }
 }

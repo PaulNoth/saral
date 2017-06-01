@@ -120,7 +120,10 @@ var: ID;
 val : var
     | NUMBER
     | STRING ;
-expression : func_call #Func
+expression : LPAR expression RPAR # Paren
+           | func_call #Func
+           | expression op=(MUL | DIV) expression # Mul
+           | expression op=(ADD | SUB) expression # Add
            | val #Value
            ;
 type : typeBasic;
@@ -133,8 +136,15 @@ typeBasic
 FUNCTION: 'bar';
 PROC_CALL : 'paľ do baru';
 FUNC_CALL : 'vrac z baru';
+
 LPAR : '(' {opened++;};
 RPAR : ')' {opened--;};
+
+ADD: '+';
+SUB: '-';
+MUL: '*';
+DIV: '/' | ':';
+
 INT_T : 'neskutočné numeralio';
 STRING_T : 'slovo';
 VARIABLE : 'meňak' ;

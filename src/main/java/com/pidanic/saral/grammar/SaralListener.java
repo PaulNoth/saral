@@ -188,6 +188,18 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitVal(SaralParser.ValContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(SaralParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Add}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(SaralParser.AddContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Func}
 	 * labeled alternative in {@link SaralParser#expression}.
 	 * @param ctx the parse tree
@@ -200,6 +212,18 @@ public interface SaralListener extends ParseTreeListener {
 	 */
 	void exitFunc(SaralParser.FuncContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code Mul}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMul(SaralParser.MulContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Mul}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMul(SaralParser.MulContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code Value}
 	 * labeled alternative in {@link SaralParser#expression}.
 	 * @param ctx the parse tree
@@ -211,6 +235,18 @@ public interface SaralListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitValue(SaralParser.ValueContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code Paren}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterParen(SaralParser.ParenContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code Paren}
+	 * labeled alternative in {@link SaralParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitParen(SaralParser.ParenContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SaralParser#type}.
 	 * @param ctx the parse tree
