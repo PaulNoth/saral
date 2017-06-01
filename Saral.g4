@@ -122,7 +122,7 @@ val : var
     | STRING ;
 expression : LPAR expression RPAR # Paren
            | func_call #Func
-           | expression op=(MUL | DIV) expression # Mul
+           | expression op=(MUL | DIV | MOD) expression # Mul
            | expression op=(ADD | SUB) expression # Add
            | val #Value
            ;
@@ -144,6 +144,7 @@ ADD: '+';
 SUB: '-';
 MUL: '*';
 DIV: '/' | ':';
+MOD: '%';
 
 INT_T : 'neskutočné numeralio';
 STRING_T : 'slovo';

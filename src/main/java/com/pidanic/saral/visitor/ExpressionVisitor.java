@@ -5,16 +5,12 @@ import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.domain.expression.VariableRef;
-import com.pidanic.saral.domain.expression.math.Addition;
-import com.pidanic.saral.domain.expression.math.Division;
-import com.pidanic.saral.domain.expression.math.Multiplication;
-import com.pidanic.saral.domain.expression.math.Substraction;
+import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
-import org.antlr.v4.runtime.Token;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -85,8 +81,11 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
         Expression left = leftExpression.accept(this);
         Expression right = rightExpression.accept(this);
-        if("*".equals(ctx.op.getText())) {
+        String operationSymbol = ctx.op.getText();
+        if("*".equals(operationSymbol)) {
             return new Multiplication(left, right);
+        } else if("%".equals(operationSymbol)) {
+            return new Modulo(left, right);
         }
         return new Division(left, right);
     }

@@ -128,6 +128,11 @@ public class ExpressionGenerator extends StatementGenerator {
         methodVisitor.visitInsn(Opcodes.IDIV);
     }
 
+    public void generate(Modulo expression) {
+        evaluateArithmeticComponents(expression);
+        methodVisitor.visitInsn(Opcodes.IREM);
+    }
+
     private void evaluateArithmeticComponents(ArithmeticExpression expression) {
         Expression leftExpression = expression.getLeft();
         Expression rightExpression = expression.getRight();
