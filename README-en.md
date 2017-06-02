@@ -9,6 +9,10 @@
 ### Compiler
 We need to have [`maven`](https://maven.apache.org/) installed.
 
+Then to generate a parser and a lexer files from `ANTLR` grammar - `Saral.g4`. (I recommend to download the [`antlr4`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.5.3) lib and copy it to the project folder).
+```
+./generate.sh
+```
 Šaral source files have `srl` extension and we can compile it to JVM bytecode. It outputs `class` file. 
 
 `java com.pidanic.saral.Compiler <saral_source_file.srl>`

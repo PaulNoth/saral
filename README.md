@@ -12,8 +12,12 @@ Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť t
 
 
 ### Kompilátor
-Na spustenie Šaral kompilatora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/)
+Na spustenie Šaral kompilátora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/).
 
+A vygenerovať súbory parsera a lexera, ktoré vzniknú z `ANTLR` gramatiky - `Saral.g4`. (Odporúčam stiahnuť knižnicu [`antlr4`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.5.3) a nakopírovať do projektu).
+```
+./generate.sh
+```
 Šaral zdrojové súbory majú príponu `srl` a prostredníctvom kompilátora ich preložíme do bajtkódu JVM, kde nám vznikne `.class` súbor. 
 
 `java com.pidanic.saral.Compiler <saral_source_file.srl>`
