@@ -1,10 +1,10 @@
-package com.pidanic.saral.util;
+package com.pidanic.saral.domain.expression.math;
 
 import org.objectweb.asm.Opcodes;
 
 import java.util.Arrays;
 
-public enum CompareSign {
+public enum CompareSign implements Sign {
     EQUAL("==", Opcodes.IF_ICMPNE),
     NOT_EQUAL("<>", Opcodes.IF_ICMPEQ),
     LESS("<", Opcodes.IF_ICMPGE),
@@ -21,6 +21,7 @@ public enum CompareSign {
         this.opcode = opcode;
     }
 
+    @Override
     public int getOpcode() {
         return opcode;
     }
@@ -29,5 +30,10 @@ public enum CompareSign {
         return Arrays.stream(values()).filter(cmpSign -> cmpSign.sign.equals(sign))
                 .findFirst()
                 .orElseThrow(() -> new UnsupportedOperationException("Sign not implemented: " + sign));
+    }
+
+    @Override
+    public String getSign() {
+        return sign;
     }
 }

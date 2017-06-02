@@ -5,12 +5,11 @@ import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.domain.expression.VariableRef;
-import com.pidanic.saral.domain.expression.compare.*;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
-import com.pidanic.saral.util.CompareSign;
+import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
@@ -87,12 +86,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         Expression left = leftExpression.accept(this);
         Expression right = rightExpression.accept(this);
         String operationSymbol = ctx.op.getText();
-        if("+".equals(operationSymbol)) {
-            return new Addition(left, right);
-        } else if("-".equals(operationSymbol)) {
-            return new Substraction(left, right);
-        }
-        throw new UnsupportedOperationException("Unknown operation: " + operationSymbol);
+        return new ArithmeticExpression(ArithmeticSign.fromString(operationSymbol), left, right);
     }
 
     @Override
@@ -103,14 +97,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         Expression left = leftExpression.accept(this);
         Expression right = rightExpression.accept(this);
         String operationSymbol = ctx.op.getText();
-        if("*".equals(operationSymbol)) {
-            return new Multiplication(left, right);
-        } else if("%".equals(operationSymbol)) {
-            return new Modulo(left, right);
-        } else if(":".equals(operationSymbol) || "/".equals(operationSymbol)) {
-            return new Division(left, right);
-        }
-        throw new UnsupportedOperationException("Unknown operation: " + operationSymbol);
+        return new ArithmeticExpression(ArithmeticSign.fromString(operationSymbol), left, right);
     }
 
     @Override

@@ -4,7 +4,6 @@ import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
-import com.pidanic.saral.domain.expression.compare.*;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
@@ -110,34 +109,14 @@ public class ExpressionGenerator extends StatementGenerator {
         }
     }
 
-    public void generate(Addition expression) {
+    public void generate(ArithmeticExpression expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IADD);
-    }
-
-    public void generate(Substraction expression) {
-        generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(Opcodes.ISUB);
-    }
-
-    public void generate(Multiplication expression) {
-        generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IMUL);
-    }
-
-    public void generate(Division expression) {
-        generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IDIV);
-    }
-
-    public void generate(Modulo expression) {
-        generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(Opcodes.IREM);
+        methodVisitor.visitInsn(expression.getSign().getOpcode());
     }
 
     public void generate(CompareExpression expression) {
         generateBinaryExpressionComponents(expression);
-        CompareSign compareSign = expression.getCompareSign();
+        Sign compareSign = expression.getSign();
         Label endLabel = new Label();
         Label falseLabel = new Label();
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
