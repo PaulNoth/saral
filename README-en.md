@@ -29,6 +29,57 @@ ciskaj hello
 ### Data Types
 There are 2 data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`)..
 
+### Operations
+#### Arithmetic operations
+There are supported mathematical operation between integers (type `neskutočné numeralio`) with precedence of parentheses and operations.
+- multiplication `*`
+- division `/` or `:`
+- addition `+`
+- substraction `-`
+- remainder (modulo) `%`
+
+```
+bar neskutočné numeralio returnSomething()
+    meňak neskutočné numeralio five = 5
+    vrac five
+    
+meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio b = 2 * 10
+meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio d = (1 + 1) * 3
+meňak neskutočné numeralio e = (10 / 2)
+meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio g = 11 % 2
+```
+
+#### Comparisons
+One can compare integer values (type `neskutočné numeralio`): 
+- equal `==`
+- not equal `<>`
+- greater than `>`
+- greater or equal `>=`
+- less than `<`
+- less or equal `<=`
+
+A result will be `pravda` (true) value or `ošaľ` (false) value.
+```
+meňak logický e = 4 == 4
+meňak logický e2 = 4 == 3
+meňak logický ne = 4 <> 4
+meňak logický ne2 = 4 <> 3
+meňak logický ge = 4 >= 4
+meňak logický ge2 = 4 >= 3
+meňak logický ge3 = 3 >= 4
+meňak logický le = 4 <= 4
+meňak logický le2 = 4 <= 3
+meňak logický le3 = 3 <= 4
+meňak logický g = 4 > 4
+meňak logický g2 = 4 > 3
+meňak logický g3 = 3 > 4
+meňak logický l = 4 < 4
+meňak logický l2 = 4 < 3
+meňak logický l3 = 3 < 4
+```
 
 ### Procedures
 Do we repeat same code? No problem, we have procedures.
@@ -59,8 +110,8 @@ paľ do baru iDoSomethingElse(five)
 Do we repeat same code? Do we want to return a calculated value? We have functions.
 ```
 bar neskutočné numeralio returnSomething()
-    meňak neskutočné numeralio pejc = 5
-    vrac pejc
+    meňak neskutočné numeralio five = 5
+    vrac five
 ```
 
 Function arguments are supported.

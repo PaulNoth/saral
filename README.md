@@ -34,6 +34,58 @@ ciskaj servus
 ### Dátové typy
 Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`).
 
+### Operácie
+#### Aritmetické operácie
+Podporované sú matematické operácie medzi celými číslami (typ `neskutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
+- násobenie `*`
+- delenie `/` alebo `:`
+- ščítanie `+`
+- odčítanie `-`
+- zvyšok po delení (modulo) `%`
+
+```
+bar neskutočné numeralio vracimDaco()
+    meňak neskutočné numeralio pejc = 5
+    vrac pejc
+    
+meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio b = 2 * 10
+meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio d = (1 + 1) * 3
+meňak neskutočné numeralio e = (10 / 2)
+meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio g = 11 % 2
+```
+
+#### Porovnávanie
+Funguje porovnávanie celých čísel (typ `neskutočné numeralio`): 
+- rovnosť `==`
+- nerovnosť `<>`
+- väčší `>`
+- väčší alebo rovný `>=`
+- menší `<`
+- menší alebo rovný `<=`
+
+Výsledok bude hodnoty `pravda`, ak je podmienka pravdivá a `ošaľ`, ak je nepravdivá.
+```
+meňak logický e = 4 == 4
+meňak logický e2 = 4 == 3
+meňak logický ne = 4 <> 4
+meňak logický ne2 = 4 <> 3
+meňak logický ge = 4 >= 4
+meňak logický ge2 = 4 >= 3
+meňak logický ge3 = 3 >= 4
+meňak logický le = 4 <= 4
+meňak logický le2 = 4 <= 3
+meňak logický le3 = 3 <= 4
+meňak logický g = 4 > 4
+meňak logický g2 = 4 > 3
+meňak logický g3 = 3 > 4
+meňak logický l = 4 < 4
+meňak logický l2 = 4 < 3
+meňak logický l3 = 3 < 4
+```
+
 ### Procedúry
 Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
 ```
