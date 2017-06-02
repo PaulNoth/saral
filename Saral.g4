@@ -117,9 +117,10 @@ func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;
 var: ID;
 
-val : var
-    | NUMBER
-    | STRING ;
+val : var # ValVar
+    | NUMBER # ValInt
+    | STRING # ValString
+    | BOOL # ValBool;
 expression : LPAR expression RPAR # Paren
            | func_call #Func
            | expression op=(MUL | DIV | MOD) expression # Mul
@@ -128,7 +129,7 @@ expression : LPAR expression RPAR # Paren
            ;
 type : typeBasic;
 typeSimple
-	: INT_T ;
+	: INT_T | BOOL_T;
 typeBasic
 	: typeSimple | STRING_T
 	;
@@ -146,11 +147,14 @@ MUL: '*';
 DIV: '/' | ':';
 MOD: '%';
 
+BOOL_T : 'logický';
 INT_T : 'neskutočné numeralio';
 STRING_T : 'slovo';
 VARIABLE : 'meňak' ;
 PRINT : 'ciskaj' ;
 RET : 'vrac';
+
+BOOL : 'pravda' | 'ošaľ' | 'skoroošaľ';
 NUMBER : '0' | [1-9]DIGIT*;
 DIGIT : [0-9];
 STRING : '"' (~'"' | EOL)* '"' ;

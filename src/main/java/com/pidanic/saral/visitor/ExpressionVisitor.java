@@ -40,13 +40,29 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitVal(SaralParser.ValContext ctx) {
-        if(ctx.var() == null) {
-            String value = ctx.getText();
-            Type type = TypeResolver.getFromValue(ctx.getText());
-            return new Value(type, value);
-        }
+    public Expression visitValVar(SaralParser.ValVarContext ctx) {
         return visitVar(ctx.var());
+    }
+
+    @Override
+    public Expression visitValInt(SaralParser.ValIntContext ctx) {
+        return visitValue(ctx);
+    }
+
+    @Override
+    public Expression visitValString(SaralParser.ValStringContext ctx) {
+        return visitValue(ctx);
+    }
+
+    @Override
+    public Expression visitValBool(SaralParser.ValBoolContext ctx) {
+        return visitValue(ctx);
+    }
+
+    private Expression visitValue(SaralParser.ValContext ctx) {
+        String value = ctx.getText();
+        Type type = TypeResolver.getFromValue(ctx.getText());
+        return new Value(type, value);
     }
 
     @Override

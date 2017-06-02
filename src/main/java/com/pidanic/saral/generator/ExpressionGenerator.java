@@ -16,11 +16,18 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class ExpressionGenerator extends StatementGenerator {
+
+    private static Map<String, Integer> SARAL_JAVA_BOOL_VALUES;
+    static {
+        Map<String, Integer> boolMapping = new HashMap<>(3);
+        boolMapping.put("pravda", 2);
+        boolMapping.put("skoroošaľ", 1);
+        boolMapping.put("ošaľ", 0);
+        SARAL_JAVA_BOOL_VALUES = Collections.unmodifiableMap(boolMapping);
+    }
 
     private MethodVisitor methodVisitor;
     private Scope scope;
@@ -30,10 +37,18 @@ public class ExpressionGenerator extends StatementGenerator {
         this.scope = scope;
     }
 
+    private static int convertToBoolean(String boolValue) {
+        return SARAL_JAVA_BOOL_VALUES.getOrDefault(boolValue, 0);
+    }
+
     public void generate(Value val) {
         final Type type = TypeResolver.getFromValue(val.getValue());
         if(type == BuiltInType.INT) {
             int value = Integer.valueOf(val.getValue());
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
+        } else if(type == BuiltInType.BOOLEAN) {
+            String boolValue = val.getValue();
+            int value = convertToBoolean(boolValue);
             methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
         } else if(type == BuiltInType.STRING) {
             String stringValue = val.getValue();

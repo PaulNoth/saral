@@ -1,12 +1,15 @@
 package com.pidanic.saral.util;
 
-import com.pidanic.saral.grammar.SaralParser;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 public class TypeResolver {
+
+    private static final Set<String> BOOL_VALUES;
+    static {
+        BOOL_VALUES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("pravda", "ošaľ", "skoroošaľ")));
+    }
 
     public static Type getFromTypeName(String type) {
         if(type == null) {
@@ -26,6 +29,9 @@ public class TypeResolver {
         if(StringUtils.isNumeric(value)) {
             return BuiltInType.INT;
         }
+        if(isBoolean(value)) {
+            return BuiltInType.BOOLEAN;
+        }
         return BuiltInType.STRING;
     }
 
@@ -33,5 +39,9 @@ public class TypeResolver {
         return Arrays.stream(BuiltInType.values())
                 .filter(type -> type.getName().equals(typeName))
                 .findFirst();
+    }
+
+    private static boolean isBoolean(String boolVal) {
+        return BOOL_VALUES.contains(boolVal);
     }
 }

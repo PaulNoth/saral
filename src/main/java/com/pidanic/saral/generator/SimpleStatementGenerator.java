@@ -34,7 +34,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final int variableId = scope.getVariableIndex(variable.getName());
         String descriptor = "(" + type.getDescriptor() + ")V";
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        if (type == BuiltInType.INT) {
+        if (type == BuiltInType.INT || type == BuiltInType.BOOLEAN) {
             methodVisitor.visitVarInsn(Opcodes.ILOAD, variableId);
             methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                     "java/io/PrintStream", "println", descriptor, false);
@@ -51,7 +51,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = expression.getType();
         final int variableId = scope.getVariableIndex(variableName);
         expression.accept(expressionGenerator);
-        if(type == BuiltInType.INT) {
+        if(type == BuiltInType.INT || type == BuiltInType.BOOLEAN) {
             methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
         } else if(type == BuiltInType.STRING) {
             methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);

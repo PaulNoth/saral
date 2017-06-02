@@ -2,3 +2,9 @@ meňak neskutočné numeralio pejc=5
 ciskaj pejc
 meňak slovo dupa="dupa"
 ciskaj dupa
+meňak logický p=pravda
+ciskaj p
+meňak logický o=ošaľ
+ciskaj o
+meňak logický so=skoroošaľ
+ciskaj so

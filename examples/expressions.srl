@@ -12,6 +12,9 @@ bar neskutočné numeralio vracimDaco()
 bar slovo vracimSlovo(slovo x)
     vrac x
 
+bar logický vracimPravdu()
+    vrac pravda
+
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
 meňak slovo dupa = "dupa"
@@ -27,3 +30,6 @@ ciskaj hodnota
 
 meňak slovo hodnotaSlovaZatvoriek = vrac z baru vracimSlovo(dupa)
 ciskaj hodnotaSlovaZatvoriek
+
+meňak logický p = vrac z baru vracimPravdu()
+ciskaj p

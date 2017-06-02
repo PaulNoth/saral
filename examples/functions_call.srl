@@ -12,6 +12,9 @@ bar neskutočné numeralio vracimDaco()
 bar slovo vracimSlovo(slovo x)
     vrac x
 
+bar logický vracimPravdu()
+    vrac pravda
+
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
 meňak slovo dupa = "dupa"
@@ -21,3 +24,4 @@ paľ do baru robim()
 paľ do baru tiezRobim(pejc)
 vrac z baru vracimDaco()
 vrac z baru vracimSlovo(dupa)
+vrac z baru vracimPravdu()

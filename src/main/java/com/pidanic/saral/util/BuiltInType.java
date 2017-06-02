@@ -1,7 +1,7 @@
 package com.pidanic.saral.util;
 
 public enum BuiltInType implements Type {
-    //BOOLEAN("bool", boolean.class, "Z"),
+    BOOLEAN("logický", boolean.class, "Z"),
     INT ("neskutočné numeralio", int.class, "I"),
     //CHAR ("char", char.class, "C"),
     //BYTE ("byte", byte.class, "B"),
