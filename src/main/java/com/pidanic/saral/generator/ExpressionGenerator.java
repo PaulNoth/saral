@@ -3,16 +3,15 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
-import com.pidanic.saral.domain.expression.Value;
-import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.compare.*;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import com.pidanic.saral.util.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -112,31 +111,44 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(Addition expression) {
-        evaluateArithmeticComponents(expression);
+        generateBinaryExpressionComponents(expression);
         methodVisitor.visitInsn(Opcodes.IADD);
     }
 
     public void generate(Substraction expression) {
-        evaluateArithmeticComponents(expression);
+        generateBinaryExpressionComponents(expression);
         methodVisitor.visitInsn(Opcodes.ISUB);
     }
 
     public void generate(Multiplication expression) {
-        evaluateArithmeticComponents(expression);
+        generateBinaryExpressionComponents(expression);
         methodVisitor.visitInsn(Opcodes.IMUL);
     }
 
     public void generate(Division expression) {
-        evaluateArithmeticComponents(expression);
+        generateBinaryExpressionComponents(expression);
         methodVisitor.visitInsn(Opcodes.IDIV);
     }
 
     public void generate(Modulo expression) {
-        evaluateArithmeticComponents(expression);
+        generateBinaryExpressionComponents(expression);
         methodVisitor.visitInsn(Opcodes.IREM);
     }
 
-    private void evaluateArithmeticComponents(ArithmeticExpression expression) {
+    public void generate(CompareExpression expression) {
+        generateBinaryExpressionComponents(expression);
+        CompareSign compareSign = expression.getCompareSign();
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_0);
+        methodVisitor.visitLabel(endLabel);
+    }
+
+    private void generateBinaryExpressionComponents(BinaryExpression expression) {
         Expression leftExpression = expression.getLeft();
         Expression rightExpression = expression.getRight();
         leftExpression.accept(this);

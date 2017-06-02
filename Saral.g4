@@ -125,6 +125,7 @@ expression : LPAR expression RPAR # Paren
            | func_call #Func
            | expression op=(MUL | DIV | MOD) expression # Mul
            | expression op=(ADD | SUB) expression # Add
+           | expression op=(EQ | NE | LE | GE | GT | LT) expression # Compare
            | val #Value
            ;
 type : typeBasic;
@@ -146,6 +147,13 @@ SUB: '-';
 MUL: '*';
 DIV: '/' | ':';
 MOD: '%';
+
+EQ: '==';
+NE: '<>';
+LE: '<=';
+GE: '>=';
+GT: '>';
+LT: '<';
 
 BOOL_T : 'logický';
 INT_T : 'neskutočné numeralio';
