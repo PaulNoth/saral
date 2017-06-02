@@ -118,7 +118,7 @@ paramlist: (var (',' var)*)? ;
 var: ID;
 
 val : var # ValVar
-    | NUMBER # ValInt
+    | INT # ValInt
     | STRING # ValString
     | BOOL # ValBool;
 expression : LPAR expression RPAR # Paren
@@ -155,6 +155,7 @@ PRINT : 'ciskaj' ;
 RET : 'vrac';
 
 BOOL : 'pravda' | 'ošaľ' | 'skoroošaľ';
+INT : NUMBER;
 NUMBER : '0' | [1-9]DIGIT*;
 DIGIT : [0-9];
 STRING : '"' (~'"' | EOL)* '"' ;
