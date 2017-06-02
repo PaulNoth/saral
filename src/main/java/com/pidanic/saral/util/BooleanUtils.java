@@ -8,8 +8,8 @@ public final class BooleanUtils {
 
     static {
         Map<String, Integer> boolMapping = new HashMap<>(3);
-        boolMapping.put("pravda", 2);
-        boolMapping.put("skoroošaľ", 1);
+        boolMapping.put("pravda", 1);
+        boolMapping.put("skoroošaľ", 2);
         boolMapping.put("ošaľ", 0);
         SARAL_JAVA_BOOL_VALUES = Collections.unmodifiableMap(boolMapping);
     }
