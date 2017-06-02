@@ -11,6 +11,7 @@ import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
+import com.pidanic.saral.util.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -20,25 +21,12 @@ import java.util.*;
 
 public class ExpressionGenerator extends StatementGenerator {
 
-    private static Map<String, Integer> SARAL_JAVA_BOOL_VALUES;
-    static {
-        Map<String, Integer> boolMapping = new HashMap<>(3);
-        boolMapping.put("pravda", 2);
-        boolMapping.put("skoroošaľ", 1);
-        boolMapping.put("ošaľ", 0);
-        SARAL_JAVA_BOOL_VALUES = Collections.unmodifiableMap(boolMapping);
-    }
-
     private MethodVisitor methodVisitor;
     private Scope scope;
 
     public ExpressionGenerator(MethodVisitor methodVisitor, Scope scope) {
         this.methodVisitor = methodVisitor;
         this.scope = scope;
-    }
-
-    private static int convertToBoolean(String boolValue) {
-        return SARAL_JAVA_BOOL_VALUES.getOrDefault(boolValue, 0);
     }
 
     public void generate(Value val) {
@@ -48,7 +36,7 @@ public class ExpressionGenerator extends StatementGenerator {
             methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
         } else if(type == BuiltInType.BOOLEAN) {
             String boolValue = val.getValue();
-            int value = convertToBoolean(boolValue);
+            int value = BooleanUtils.convertToBooleanValue(boolValue);
             methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
         } else if(type == BuiltInType.STRING) {
             String stringValue = val.getValue();
