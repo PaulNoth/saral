@@ -27,7 +27,7 @@ ciskaj hello
 ```
 
 ### Data Types
-There are 2 data types supported - `neskutočné numeralio` (integer) a `slovo` (string).
+There are 2 data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`)..
 
 
 ### Procedures

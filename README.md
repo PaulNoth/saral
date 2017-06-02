@@ -32,7 +32,7 @@ ciskaj servus
 ```
 
 ### Dátové typy
-Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla) a `slovo` (reťazce znakov).
+Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`).
 
 ### Procedúry
 Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
