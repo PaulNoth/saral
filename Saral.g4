@@ -105,10 +105,14 @@ simple_statement : write
                  | proc_call
                  | func_call
                  ;
-block_statement : proc_definition | func_definition | block;
+block_statement : proc_definition | if_statement | func_definition | block;
 proc_definition : FUNCTION ID LPAR arglist RPAR EOL block;
 func_definition : FUNCTION typeBasic ID LPAR arglist RPAR EOL func_block;
 arglist : (type ID (',' type ID)*)? ;
+
+if_statement
+	: IF expression THEN EOL block (ELSE EOL block)?
+	;
 
 var_definition : VARIABLE type ID '=' expression;
 write : PRINT var ;
@@ -161,6 +165,9 @@ STRING_T : 'slovo';
 VARIABLE : 'meňak' ;
 PRINT : 'ciskaj' ;
 RET : 'vrac';
+IF : 'keď';
+THEN : 'potom';
+ELSE : 'inak';
 
 BOOL : 'pravda' | 'ošaľ' | 'skoroošaľ';
 INT : NUMBER;

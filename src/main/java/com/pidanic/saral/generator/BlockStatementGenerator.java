@@ -1,53 +1,43 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.Function;
-import com.pidanic.saral.domain.ReturnStatement;
+import com.pidanic.saral.domain.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.scope.Scope;
-import com.pidanic.saral.util.DescriptorFactory;
-import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.util.List;
 
 public class BlockStatementGenerator extends StatementGenerator {
 
-    private final ClassWriter classWriter;
-    private final Scope scope;
+    private MethodVisitor methodVisitor;
+    private Scope scope;
 
-    public BlockStatementGenerator(ClassWriter classWriter, Scope scope) {
+    public BlockStatementGenerator(MethodVisitor methodVisitor, Scope scope) {
         super();
-        this.classWriter = classWriter;
+        this.methodVisitor = methodVisitor;
         this.scope = scope;
     }
 
-    public void generate(Function function) {
-        Scope scope = function.getScope();
-        String procedureName = function.getName();
+    public void generate(IfStatement ifStatement) {
+        Scope scope = ifStatement.getScope();
+        ExpressionGenerator expressionGenerator = new ExpressionGenerator(methodVisitor, scope);
+        SimpleStatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(methodVisitor, scope);
 
-        String descriptor = DescriptorFactory.getMethodDescriptor(function);
-        Collection<SimpleStatement> statements = function.getSimpleStatements();
-        int access = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
-        MethodVisitor mw = classWriter.visitMethod(access, procedureName, descriptor, null, null);
-        mw.visitCode();
+        Expression booleanExpression = ifStatement.getBooleanExpression();
+        booleanExpression.accept(expressionGenerator);
+        List<SimpleStatement> falseBlock = ifStatement.getFalseBlock();
+        List<SimpleStatement> trueBlock = ifStatement.getTrueBlock();
 
-        StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
-        statements.forEach(statement -> statement.accept(statementGenerator));
-
-        Optional<ReturnStatement> ret = function.getReturnStatement();
-        generateReturnStatement(scope, mw, ret);
-    }
-
-    private void generateReturnStatement(Scope scope, MethodVisitor mw, Optional<ReturnStatement> returnStatement) {
-        ReturnStatementGenerator returnStatementGenerator = new ReturnStatementGenerator(scope, mw);
-        if(returnStatement.isPresent()) {
-            returnStatementGenerator.generate(returnStatement.get());
-        } else {
-            mw.visitInsn(Opcodes.RETURN);
-        }
-        mw.visitMaxs(-1, -1);
-        mw.visitEnd();
+        Label trueLabel = new Label();
+        Label endLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, trueLabel);
+        falseBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(trueLabel);
+        trueBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
+        methodVisitor.visitLabel(endLabel);
     }
 }

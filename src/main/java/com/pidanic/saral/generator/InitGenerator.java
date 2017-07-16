@@ -1,6 +1,7 @@
 package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.scope.Scope;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -24,20 +25,24 @@ public class InitGenerator {
 
         List<Statement> instructionQueue = statements.getStatements();
 
-        BlockStatementGenerator blockStatementGenerator = new BlockStatementGenerator(classWriter, scope);
-        List<BlockStatement> procedures = instructionQueue.stream()
-                .filter(stmt -> stmt instanceof BlockStatement)
-                .map(statement -> (BlockStatement) statement)
+        CallableStatementGenerator callableStatementGenerator = new CallableStatementGenerator(classWriter, scope);
+        List<Function> functions = instructionQueue.stream()
+                .filter(stmt -> stmt instanceof CallableStatement)
+                .map(statement -> (Function) statement)
                 .collect(Collectors.toList());
-        procedures.forEach(procedure -> procedure.accept(blockStatementGenerator));
+        functions.forEach(procedure -> procedure.accept(callableStatementGenerator));
 
-        StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
-        List<SimpleStatement> simpleStatements = instructionQueue.stream()
-                .filter(stmt -> stmt instanceof SimpleStatement)
-                .map(statement -> (SimpleStatement) statement)
+        StatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(mw, scope);
+        StatementGenerator blockStatementGenerator = new BlockStatementGenerator(mw, scope);
+        List<Statement> notCallableStatements = instructionQueue.stream()
+                .filter(stmt -> !(stmt instanceof CallableStatement))
                 .collect(Collectors.toList());
-        for(Statement ins : simpleStatements) {
-            ins.accept(statementGenerator);
+        for(Statement ins : notCallableStatements) {
+            if(ins instanceof SimpleStatement) {
+                ins.accept(simpleStatementGenerator);
+            } else if (ins instanceof BlockStatement) {
+                ins.accept(blockStatementGenerator);
+            }
         }
 
         mw.visitInsn(Opcodes.RETURN);
