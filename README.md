@@ -137,5 +137,22 @@ vrac z baru vracimSlovo(dupa)
 
 ```
 
+### Podmienené vykonanie časti kódu
+Ako všetky problémovo orientované jazyky aj jazyk Šaral podporuje podmienené vykonanie, tzv `if-then-else`. V terminológii Šaralu `keď-potom-inak`
+
+```
+keď 1 > 0 potom
+    paľ do baru robim()
+inak
+    paľ do baru tiezRobim(pejc)
+```
+
+Časť `inak` je nepovinná
+```
+keď 2 > 0 potom
+    meňak neskutočné numeralio dva = 2
+    ciskaj dva
+```
+   
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).

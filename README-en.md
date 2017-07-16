@@ -133,5 +133,22 @@ vrac z baru returnString(hello)
 
 ```
 
+### Conditional statements
+Šaral language support conditional code execution as other problem-oriented programming languages, so called `if-then-else`. In Šaral terminology `keď-potom-inak`
+
+```
+keď 1 > 0 potom
+    paľ do baru iDoSomething()
+inak
+    paľ do baru iDoSomethingElse(five)
+```
+
+The `inak` part is optionial
+```
+keď 2 > 0 potom
+    meňak neskutočné numeralio two = 2
+    ciskaj two
+``` 
+
 ### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).
