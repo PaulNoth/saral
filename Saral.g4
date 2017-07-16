@@ -123,8 +123,11 @@ var: ID;
 
 val : var # ValVar
     | INT # ValInt
+    | FLOAT # ValFloat
     | STRING # ValString
-    | BOOL # ValBool;
+    | CHAR # ValChar
+    | BOOL # ValBool
+    ;
 expression : LPAR expression RPAR # Paren
            | func_call #Func
            | expression op=(MUL | DIV | MOD) expression # Mul
@@ -134,7 +137,7 @@ expression : LPAR expression RPAR # Paren
            ;
 type : typeBasic;
 typeSimple
-	: INT_T | BOOL_T;
+	: INT_T | BOOL_T | FLOAT_T | CHAR_T ;
 typeBasic
 	: typeSimple | STRING_T
 	;
@@ -161,7 +164,10 @@ LT: '<';
 
 BOOL_T : 'logický';
 INT_T : 'neskutočné numeralio';
-STRING_T : 'slovo';
+FLOAT_T: 'skutočné numeralio';
+CHAR_T: 'písmeno';
+STRING_T: 'slovo';
+
 VARIABLE : 'meňak' ;
 PRINT : 'ciskaj' ;
 RET : 'vrac';
@@ -171,9 +177,13 @@ ELSE : 'inak';
 
 BOOL : 'pravda' | 'ošaľ' | 'skoroošaľ';
 INT : NUMBER;
+FLOAT : NUMBER '.' DIGIT*;
+STRING : '"' (~'"' | EOL)* '"';
+CHAR : '\'' (~'\'') '\'';
+
 NUMBER : '0' | [1-9]DIGIT*;
 DIGIT : [0-9];
-STRING : '"' (~'"' | EOL)* '"' ;
+
 ID : '_'?(LETTER)(LETTER | DIGIT | '_')* ;
 LETTER : [a-zA-ZľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ];
 EOL :
