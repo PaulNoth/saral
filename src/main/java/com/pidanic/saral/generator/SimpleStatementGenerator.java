@@ -34,15 +34,9 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final int variableId = scope.getVariableIndex(variable.getName());
         String descriptor = "(" + type.getDescriptor() + ")V";
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        if (type == BuiltInType.INT || type == BuiltInType.BOOLEAN) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, variableId);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "java/io/PrintStream", "println", descriptor, false);
-        } else if (type == BuiltInType.STRING) {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "java/io/PrintStream", "println", descriptor, false);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                "java/io/PrintStream", "println", descriptor, false);
     }
 
     public void generate(VariableDeclaration variableDeclaration) {
@@ -51,11 +45,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = expression.getType();
         final int variableId = scope.getVariableIndex(variableName);
         expression.accept(expressionGenerator);
-        if(type == BuiltInType.INT || type == BuiltInType.BOOLEAN) {
-            methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
-        } else if(type == BuiltInType.STRING) {
-            methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
     }
 
      public void generate(ProcedureCall functionCall) {
@@ -78,11 +68,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
     public void generate(Argument parameter, String localVariableName) {
         Type type = TypeResolver.getFromTypeName(parameter.getType());
         int index = scope.getVariableIndex(localVariableName);
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
     private String getFunctionDescriptor(ProcedureCall functionCall) {

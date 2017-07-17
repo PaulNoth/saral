@@ -30,4 +30,10 @@ public class ClassType implements Type {
     public String getInternalName() {
         return  name.replace(".", "/");
     }
+
+    @Override
+    public TypeSpecificOpcodes getTypeSpecificOpcode() {
+        // TODO
+        return null;
+    }
 }

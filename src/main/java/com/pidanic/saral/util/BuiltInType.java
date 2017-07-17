@@ -54,6 +54,7 @@ public enum BuiltInType implements Type {
         return getDescriptor();
     }
 
+    @Override
     public TypeSpecificOpcodes getTypeSpecificOpcode() {
         return opCode;
     }
