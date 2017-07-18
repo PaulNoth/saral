@@ -10,6 +10,7 @@ import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.domain.expression.math.CompareSign;
+import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
@@ -47,17 +48,32 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
     @Override
     public Expression visitValInt(SaralParser.ValIntContext ctx) {
-        return visitValue(ctx);
+        String value = ctx.getText();
+        return new Value(BuiltInType.LONG, value);
     }
 
     @Override
     public Expression visitValString(SaralParser.ValStringContext ctx) {
-        return visitValue(ctx);
+        String value = ctx.getText();
+        return new Value(BuiltInType.STRING, value);
+    }
+
+    @Override
+    public Expression visitValChar(SaralParser.ValCharContext ctx) {
+        String value = ctx.getText();
+        return new Value(BuiltInType.CHAR, value);
+    }
+
+    @Override
+    public Expression visitValFloat(SaralParser.ValFloatContext ctx) {
+        String value = ctx.getText();
+        return new Value(BuiltInType.DOUBLE, value);
     }
 
     @Override
     public Expression visitValBool(SaralParser.ValBoolContext ctx) {
-        return visitValue(ctx);
+        String value = ctx.getText();
+        return new Value(BuiltInType.BOOLEAN, value);
     }
 
     private Expression visitValue(SaralParser.ValContext ctx) {

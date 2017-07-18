@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import scala.Char;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -32,14 +33,23 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(Value val) {
-        final Type type = TypeResolver.getFromValue(val.getValue());
-        if(type == BuiltInType.INT) {
-            Integer value = Integer.valueOf(val.getValue());
+        final Type type = val.getType();
+        if(TypeResolver.isInteger(type)) {
+            Long value = Long.valueOf(val.getValue());
             methodVisitor.visitLdcInsn(value);
         } else if(type == BuiltInType.BOOLEAN) {
             String boolValue = val.getValue();
             Integer value = BooleanUtils.convertToBooleanValue(boolValue);
             methodVisitor.visitLdcInsn(value);
+        } else if(TypeResolver.isDouble(type)) {
+            Double value = Double.valueOf(val.getValue());
+            methodVisitor.visitLdcInsn(value);
+        } else if(type == BuiltInType.CHAR) {
+            String stringValue = val.getValue();
+            stringValue = StringUtils.removeStart(stringValue, "\'");
+            stringValue = StringUtils.removeEnd(stringValue, "\'");
+            Character charr = stringValue.charAt(0);
+            methodVisitor.visitLdcInsn(charr);
         } else if(type == BuiltInType.STRING) {
             String stringValue = val.getValue();
             stringValue = StringUtils.removeStart(stringValue, "\"");
