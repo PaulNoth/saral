@@ -37,12 +37,12 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(Value val) {
         final Type type = TypeResolver.getFromValue(val.getValue());
         if(type == BuiltInType.INT) {
-            int value = Integer.valueOf(val.getValue());
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
+            Integer value = Integer.valueOf(val.getValue());
+            methodVisitor.visitLdcInsn(value);
         } else if(type == BuiltInType.BOOLEAN) {
             String boolValue = val.getValue();
-            int value = BooleanUtils.convertToBooleanValue(boolValue);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
+            Integer value = BooleanUtils.convertToBooleanValue(boolValue);
+            methodVisitor.visitLdcInsn(value);
         } else if(type == BuiltInType.STRING) {
             String stringValue = val.getValue();
             stringValue = StringUtils.removeStart(stringValue, "\"");
@@ -56,11 +56,7 @@ public class ExpressionGenerator extends StatementGenerator {
         int index = scope.getVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
         Type type = localVariable.getType();
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
     public void generate(FunctionCall functionCall) {
@@ -83,11 +79,7 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(Argument parameter, String localVariableName) {
         Type type = TypeResolver.getFromTypeName(parameter.getType());
         int index = scope.getVariableIndex(localVariableName);
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
     private String getFunctionDescriptor(FunctionCall functionCall) {
