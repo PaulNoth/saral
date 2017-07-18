@@ -86,7 +86,12 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         Expression left = leftExpression.accept(this);
         Expression right = rightExpression.accept(this);
         String operationSymbol = ctx.op.getText();
-        return new ArithmeticExpression(ArithmeticSign.fromString(operationSymbol), left, right);
+        Sign sign = ArithmeticSign.fromString(operationSymbol);
+        if(sign == ArithmeticSign.ADD) {
+            return new Addition(left, right);
+        } else {
+            return new Substraction(left, right);
+        }
     }
 
     @Override
@@ -97,7 +102,14 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         Expression left = leftExpression.accept(this);
         Expression right = rightExpression.accept(this);
         String operationSymbol = ctx.op.getText();
-        return new ArithmeticExpression(ArithmeticSign.fromString(operationSymbol), left, right);
+        Sign sign = ArithmeticSign.fromString(operationSymbol);
+        if(sign == ArithmeticSign.MOD) {
+            return new Modulo(left, right);
+        } else if(sign == ArithmeticSign.MULT) {
+            return new Multiplication(left, right);
+        } else {
+            return new Division(left, right);
+        }
     }
 
     @Override

@@ -7,10 +7,7 @@ import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.domain.expression.VariableRef;
-import com.pidanic.saral.domain.expression.math.ArithmeticExpression;
-import com.pidanic.saral.domain.expression.math.BinaryExpression;
-import com.pidanic.saral.domain.expression.math.CompareExpression;
-import com.pidanic.saral.domain.expression.math.Sign;
+import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
@@ -108,9 +105,29 @@ public class ExpressionGenerator extends StatementGenerator {
         }
     }
 
-    public void generate(ArithmeticExpression expression) {
+    public void generate(Addition expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getSign().getOpcode());
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getAdd());
+    }
+
+    public void generate(Substraction expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getSubstract());
+    }
+
+    public void generate(Multiplication expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getMultiply());
+    }
+
+    public void generate(Division expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getDivide());
+    }
+
+    public void generate(Modulo expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getModulo());
     }
 
     public void generate(CompareExpression expression) {

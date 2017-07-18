@@ -4,12 +4,12 @@ import static org.objectweb.asm.Opcodes.*;
 
 public enum TypeSpecificOpcodes {
 
-    INT(ILOAD, ISTORE, IRETURN, IADD, ISUB, IMUL, IDIV), //values (-127,127) - one byte.
-    LONG(LLOAD, LSTORE, LRETURN, LADD, LSUB, LMUL, LDIV),
-    FLOAT(FLOAD, FSTORE, FRETURN, FADD, FSUB, FMUL, FDIV),
-    DOUBLE(DLOAD, DSTORE, DRETURN, DADD, DSUB, DMUL, DDIV),
-    VOID(ALOAD, ASTORE, RETURN, 0, 0, 0, 0),
-    OBJECT(ALOAD, ASTORE, ARETURN, 0, 0, 0, 0);
+    INT(ILOAD, ISTORE, IRETURN, IADD, ISUB, IMUL, IDIV, IREM), //values (-127,127) - one byte.
+    LONG(LLOAD, LSTORE, LRETURN, LADD, LSUB, LMUL, LDIV, LREM),
+    FLOAT(FLOAD, FSTORE, FRETURN, FADD, FSUB, FMUL, FDIV, FREM),
+    DOUBLE(DLOAD, DSTORE, DRETURN, DADD, DSUB, DMUL, DDIV, DREM),
+    VOID(ALOAD, ASTORE, RETURN, 0, 0, 0, 0, 0),
+    OBJECT(ALOAD, ASTORE, ARETURN, 0, 0, 0, 0, 0);
 
     private final int load;
     private final int store;
@@ -18,8 +18,9 @@ public enum TypeSpecificOpcodes {
     private final int sub;
     private final int mul;
     private final int div;
+    private final int mod;
 
-    TypeSpecificOpcodes(int load, int store, int ret, int add, int sub, int mul, int div) {
+    TypeSpecificOpcodes(int load, int store, int ret, int add, int sub, int mul, int div, int mod) {
         this.load = load;
         this.store = store;
         this.ret = ret;
@@ -27,6 +28,7 @@ public enum TypeSpecificOpcodes {
         this.sub = sub;
         this.mul = mul;
         this.div = div;
+        this.mod = mod;
     }
 
     public int getLoad() {
@@ -55,5 +57,9 @@ public enum TypeSpecificOpcodes {
 
     public int getDivide() {
         return div;
+    }
+
+    public int getModulo() {
+        return mod;
     }
 }

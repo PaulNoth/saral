@@ -1,21 +1,17 @@
 package com.pidanic.saral.domain.expression.math;
 
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.generator.ExpressionGenerator;
 import com.pidanic.saral.util.BuiltInType;
+import com.pidanic.saral.util.Type;
 
-public class ArithmeticExpression extends BinaryExpression {
+abstract class ArithmeticExpression extends BinaryExpression {
 
-    public ArithmeticExpression(Sign sign, Expression left, Expression right) {
-        super(BuiltInType.INT, sign, left, right);
-        if(left.getType() != BuiltInType.INT || right.getType() != BuiltInType.INT) {
+    ArithmeticExpression(Sign sign, Expression left, Expression right) {
+        super(left.getType(), sign, left, right);
+        Type leftType = left.getType();
+        if(leftType == BuiltInType.STRING || leftType == BuiltInType.VOID) {
             throw new UnsupportedOperationException("Only numerical Arithmetic expression supported. Actual expression type. Left: "
                     + left.getType() + ", right: " + right.getType());
         }
-    }
-
-    @Override
-    public void accept(ExpressionGenerator generator) {
-        generator.generate(this);
     }
 }
