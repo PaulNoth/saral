@@ -36,7 +36,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                "java/io/PrintStream", "println", descriptor, false);
+                "Ljava/io/PrintStream;", "println", descriptor, false);
     }
 
     public void generate(VariableDeclaration variableDeclaration) {
