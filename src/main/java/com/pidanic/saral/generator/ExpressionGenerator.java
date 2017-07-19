@@ -15,7 +15,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import scala.Char;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
