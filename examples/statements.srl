@@ -10,7 +10,7 @@ meňak logický so=skoroošaľ
 ciskaj so
 meňak skutočné numeralio cislo = 1.2
 ciskaj cislo
-meňak písmeno p = 'a'
-ciskaj p
+meňak písmeno pis = 'a'
+ciskaj pis
 meňak neskutočné numeralio veľo=5000000000
 ciskaj veľo
