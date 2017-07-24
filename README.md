@@ -36,8 +36,17 @@ ciskaj servus
 ```
 
 ### Dátové typy
-Podporuje momentálne 2 dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`).
-
+Podporuje momentálne dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (znak), `skutočné numeralio` (reálne čísla).
+```
+meňak neskutočné numeralio pejc = 5
+meňak slovo dupa= "dupa"
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+meňak skutočné numeralio cislo = 1.2
+meňak písmeno pis = 'a'
+meňak neskutočné numeralio veľo = 5000000000
+```
 ### Operácie
 #### Aritmetické operácie
 Podporované sú matematické operácie medzi celými číslami (typ `neskutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.

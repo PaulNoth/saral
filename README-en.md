@@ -31,7 +31,18 @@ ciskaj hello
 ```
 
 ### Data Types
-There are 2 data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`)..
+There are data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (character), `skutočné numeralio` (floats).
+
+```
+meňak neskutočné numeralio five = 5
+meňak slovo hello = "hello"
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+meňak skutočné numeralio number = 1.2
+meňak písmeno ch = 'a'
+meňak neskutočné numeralio bigNumber = 5000000000
+```
 
 ### Operations
 #### Arithmetic operations
