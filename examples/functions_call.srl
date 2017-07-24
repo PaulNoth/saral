@@ -54,9 +54,9 @@ ciskaj p
 meňak skutočné numeralio snum = vrac z baru vracimDesatinneCislo()
 ciskaj snum
 
-neskutočné numeralio nn = 2
-logický l = pravda
-skutočné numeralio sn = 2.1
-slovo s = "to slovo"
-písmeno p = 'x'
+meňak neskutočné numeralio nn = 2
+meňak logický l = pravda
+meňak skutočné numeralio sn = 2.1
+meňak slovo s = "to slovo"
+meňak písmeno p = 'x'
 paľ do baru všetkyTypyParametrov(nn, l, sn, s, p)
