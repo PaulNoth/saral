@@ -46,12 +46,12 @@ meňak neskutočné numeralio bigNumber = 5000000000
 
 ### Operations
 #### Arithmetic operations
-There are supported mathematical operation between integers (type `neskutočné numeralio`) with precedence of parentheses and operations.
+There are supported mathematical operation between integers and floats (type `neskutočné numeralio`, `skutočné numeralio`) with precedence of parentheses and operations.
 - multiplication `*`
 - division `/` or `:`
 - addition `+`
 - substraction `-`
-- remainder (modulo) `%`
+- remainder (modulo) `%` (only for type `neskutočné numeralio`)
 
 ```
 bar neskutočné numeralio returnSomething()

@@ -49,12 +49,12 @@ meňak neskutočné numeralio veľo = 5000000000
 ```
 ### Operácie
 #### Aritmetické operácie
-Podporované sú matematické operácie medzi celými číslami (typ `neskutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
+Podporované sú matematické operácie medzi celými a reálnymi číslami (typ `neskutočné numeralio`, `skutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
 - násobenie `*`
 - delenie `/` alebo `:`
 - ščítanie `+`
 - odčítanie `-`
-- zvyšok po delení (modulo) `%`
+- zvyšok po delení (modulo) `%` (len pre typ `neskutočné numeralio`)
 
 ```
 bar neskutočné numeralio vracimDaco()
