@@ -33,3 +33,37 @@ ciskaj hodnota2
 
 meňak slovo hodnotaSlovaZatvoriek = vrac z baru vracimSlovo(dupa)
 ciskaj hodnotaSlovaZatvoriek
+
+meňak logický e = 4 == 4
+meňak logický e2 = 4 == 3
+meňak logický ne = 4 <> 4
+meňak logický ne2 = 4 <> 3
+meňak logický ge = 4 >= 4
+meňak logický ge2 = 4 >= 3
+meňak logický ge3 = 3 >= 4
+meňak logický le = 4 <= 4
+meňak logický le2 = 4 <= 3
+meňak logický le3 = 3 <= 4
+meňak logický g = 4 > 4
+meňak logický g2 = 4 > 3
+meňak logický g3 = 3 > 4
+meňak logický l = 4 < 4
+meňak logický l2 = 4 < 3
+meňak logický l3 = 3 < 4
+
+ciskaj e
+ciskaj e2
+ciskaj ne
+ciskaj ne2
+ciskaj ge
+ciskaj ge2
+ciskaj ge3
+ciskaj le
+ciskaj le2
+ciskaj le3
+ciskaj g
+ciskaj g2
+ciskaj g3
+ciskaj l
+ciskaj l2
+ciskaj l3

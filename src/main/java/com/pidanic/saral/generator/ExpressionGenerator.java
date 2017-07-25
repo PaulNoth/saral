@@ -3,13 +3,16 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.domain.expression.Value;
 import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
@@ -29,10 +32,23 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(Value val) {
-        final Type type = TypeResolver.getFromValue(val.getValue());
-        if(type == BuiltInType.INT) {
-            int value = Integer.valueOf(val.getValue());
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, value);
+        final Type type = val.getType();
+        if(TypeResolver.isInteger(type)) {
+            Long value = Long.valueOf(val.getValue());
+            methodVisitor.visitLdcInsn(value);
+        } else if(type == BuiltInType.BOOLEAN) {
+            String boolValue = val.getValue();
+            Integer value = BooleanUtils.convertToBooleanValue(boolValue);
+            methodVisitor.visitLdcInsn(value);
+        } else if(TypeResolver.isDouble(type)) {
+            Double value = Double.valueOf(val.getValue());
+            methodVisitor.visitLdcInsn(value);
+        } else if(type == BuiltInType.CHAR) {
+            String stringValue = val.getValue();
+            stringValue = StringUtils.removeStart(stringValue, "\'");
+            stringValue = StringUtils.removeEnd(stringValue, "\'");
+            Character charr = stringValue.charAt(0);
+            methodVisitor.visitLdcInsn(charr);
         } else if(type == BuiltInType.STRING) {
             String stringValue = val.getValue();
             stringValue = StringUtils.removeStart(stringValue, "\"");
@@ -46,11 +62,7 @@ public class ExpressionGenerator extends StatementGenerator {
         int index = scope.getVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
         Type type = localVariable.getType();
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
     public void generate(FunctionCall functionCall) {
@@ -73,11 +85,7 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(Argument parameter, String localVariableName) {
         Type type = TypeResolver.getFromTypeName(parameter.getType());
         int index = scope.getVariableIndex(localVariableName);
-        if (type == BuiltInType.INT) {
-            methodVisitor.visitVarInsn(Opcodes.ILOAD, index);
-        } else {
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
-        }
+        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
     private String getFunctionDescriptor(FunctionCall functionCall) {
@@ -104,5 +112,50 @@ public class ExpressionGenerator extends StatementGenerator {
         } catch (ReflectiveOperationException e) {
             return Optional.empty();
         }
+    }
+
+    public void generate(Addition expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getAdd());
+    }
+
+    public void generate(Substraction expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getSubstract());
+    }
+
+    public void generate(Multiplication expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getMultiply());
+    }
+
+    public void generate(Division expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getDivide());
+    }
+
+    public void generate(Modulo expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getModulo());
+    }
+
+    public void generate(CompareExpression expression) {
+        generateBinaryExpressionComponents(expression);
+        Sign compareSign = expression.getSign();
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_0);
+        methodVisitor.visitLabel(endLabel);
+    }
+
+    private void generateBinaryExpressionComponents(BinaryExpression expression) {
+        Expression leftExpression = expression.getLeft();
+        Expression rightExpression = expression.getRight();
+        leftExpression.accept(this);
+        rightExpression.accept(this);
     }
 }

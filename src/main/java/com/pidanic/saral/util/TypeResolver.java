@@ -1,10 +1,9 @@
 package com.pidanic.saral.util;
 
-import com.pidanic.saral.grammar.SaralParser;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.*;
 
 public class TypeResolver {
 
@@ -23,9 +22,17 @@ public class TypeResolver {
         if(StringUtils.isEmpty(value)) {
             return BuiltInType.VOID;
         }
-        if(StringUtils.isNumeric(value)) {
-            return BuiltInType.INT;
+        if(BooleanUtils.isBooleanValue(value)) {
+            return BuiltInType.BOOLEAN;
         }
+        if(value.matches("[0-9]+.[0-9]+]")) {
+            double val = Double.parseDouble(value);
+            return BuiltInType.DOUBLE;
+        }
+        if(StringUtils.isNumeric(value)) {
+            return BuiltInType.LONG;
+        }
+
         return BuiltInType.STRING;
     }
 
@@ -33,5 +40,13 @@ public class TypeResolver {
         return Arrays.stream(BuiltInType.values())
                 .filter(type -> type.getName().equals(typeName))
                 .findFirst();
+    }
+
+    public static boolean isInteger(Type type) {
+        return type == BuiltInType.LONG;
+    }
+
+    public static boolean isDouble(Type type) {
+        return type == BuiltInType.DOUBLE;
     }
 }

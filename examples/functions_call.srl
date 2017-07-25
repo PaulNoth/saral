@@ -12,6 +12,32 @@ bar neskutočné numeralio vracimDaco()
 bar slovo vracimSlovo(slovo x)
     vrac x
 
+bar logický vracimPravdu()
+    vrac pravda
+
+bar písmeno vracimPismeno()
+    vrac 'b'
+
+bar skutočné numeralio vracimDesatinneCislo()
+    vrac 2.3
+
+bar tiezRobim2(skutočné numeralio sn)
+    ciskaj sn
+
+bar tiezRobim3(písmeno p)
+    ciskaj p
+
+bar tiezRobim4(logický l)
+    ciskaj l
+
+bar všetkyTypyParametrov(neskutočné numeralio nn, logický l, skutočné numeralio sn, slovo s, písmeno p)
+    ciskaj nn
+    ciskaj l
+    ciskaj sn
+    ciskaj s
+    ciskaj p
+
+
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
 meňak slovo dupa = "dupa"
@@ -21,3 +47,16 @@ paľ do baru robim()
 paľ do baru tiezRobim(pejc)
 vrac z baru vracimDaco()
 vrac z baru vracimSlovo(dupa)
+vrac z baru vracimPravdu()
+
+meňak písmeno p = vrac z baru vracimPismeno()
+ciskaj p
+meňak skutočné numeralio snum = vrac z baru vracimDesatinneCislo()
+ciskaj snum
+
+meňak neskutočné numeralio nn = 2
+meňak logický l = pravda
+meňak skutočné numeralio sn = 2.1
+meňak slovo s = "to slovo"
+meňak písmeno p = 'x'
+paľ do baru všetkyTypyParametrov(nn, l, sn, s, p)

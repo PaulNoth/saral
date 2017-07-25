@@ -4,12 +4,15 @@ import com.pidanic.saral.domain.Function;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.exception.FunctionNotFoundException;
 import com.pidanic.saral.exception.VariableNotFoundException;
+import com.pidanic.saral.util.BuiltInType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Scope {
+
+    private static final LocalVariable EMPTY = new LocalVariable("empty", BuiltInType.BOOLEAN);
 
     private List<LocalVariable> localVariables;
     private List<Function> functions;
@@ -33,6 +36,9 @@ public class Scope {
 
     public void addVariable(LocalVariable localVariable) {
         localVariables.add(localVariable);
+        if(localVariable.getType() == BuiltInType.LONG || localVariable.getType() == BuiltInType.DOUBLE) {
+            localVariables.add(EMPTY);
+        }
     }
 
     public LocalVariable getLocalVariable(String varName) {

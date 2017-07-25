@@ -2,3 +2,15 @@ meňak neskutočné numeralio pejc=5
 ciskaj pejc
 meňak slovo dupa="dupa"
 ciskaj dupa
+meňak logický p=pravda
+ciskaj p
+meňak logický o=ošaľ
+ciskaj o
+meňak logický so=skoroošaľ
+ciskaj so
+meňak skutočné numeralio cislo = 1.2
+ciskaj cislo
+meňak písmeno pis = 'a'
+ciskaj pis
+meňak neskutočné numeralio veľo=5000000000
+ciskaj veľo

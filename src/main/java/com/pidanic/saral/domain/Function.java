@@ -1,6 +1,6 @@
 package com.pidanic.saral.domain;
 
-import com.pidanic.saral.generator.BlockStatementGenerator;
+import com.pidanic.saral.generator.CallableStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.Type;
@@ -10,11 +10,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class Function extends BlockStatementImpl {
+public class Function extends CallableStatement {
     private String name;
     private List<Argument> arguments;
     private List<SimpleStatement> simpleStatements;
-    private Optional<ReturnStatement> retStatement;
+    private ReturnStatement retStatement;
     private Type returnType;
 
     public Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType, ReturnStatement retStatement) {
@@ -23,7 +23,7 @@ public class Function extends BlockStatementImpl {
         this.arguments = new ArrayList<>(arguments);
         this.simpleStatements = new ArrayList<>(simpleStatements);
         this.returnType = returnType;
-        this.retStatement = Optional.ofNullable(retStatement);
+        this.retStatement = retStatement;
     }
 
     Function(Scope scope, String name, List<Argument> arguments, List<SimpleStatement> simpleStatements, Type returnType) {
@@ -44,7 +44,7 @@ public class Function extends BlockStatementImpl {
 
     @Override
     public void accept(StatementGenerator generator) {
-        ((BlockStatementGenerator) generator).generate(this);
+        ((CallableStatementGenerator) generator).generate(this);
     }
 
     public Type getReturnType() {
@@ -52,6 +52,6 @@ public class Function extends BlockStatementImpl {
     }
 
     public Optional<ReturnStatement> getReturnStatement() {
-        return retStatement;
+        return Optional.ofNullable(retStatement);
     }
 }

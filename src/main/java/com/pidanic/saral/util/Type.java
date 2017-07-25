@@ -5,4 +5,5 @@ public interface Type {
     Class<?> getTypeClass();
     String getDescriptor();
     String getInternalName();
+    TypeSpecificOpcodes getTypeSpecificOpcode();
 }
