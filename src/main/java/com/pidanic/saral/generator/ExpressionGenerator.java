@@ -5,7 +5,6 @@ import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.logic.And;
-import com.pidanic.saral.domain.expression.logic.LogicExpression;
 import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
