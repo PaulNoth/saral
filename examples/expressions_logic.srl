@@ -1,0 +1,31 @@
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+
+ciskaj p
+ciskaj o
+ciskaj so
+
+meňak logická pap = p a p
+meňak logická pao = p a o
+meňak logická paso = p a so
+
+ciskaj pap
+ciskaj pao
+ciskaj paso
+
+meňak logická pabop = p abo p
+meňak logická paboo = p abo o
+meňak logická paboso = p abo so
+
+ciskaj pabop
+ciskaj paboo
+ciskaj paboso
+
+meňak logická nep = ne p
+meňak logická neo = ne o
+meňak logická neso = ne so
+
+ciskaj nep
+ciskaj neo
+ciskaj neso
