@@ -133,6 +133,9 @@ expression : LPAR expression RPAR # Paren
            | expression op=(MUL | DIV | MOD) expression # Mul
            | expression op=(ADD | SUB) expression # Add
            | expression op=(EQ | NE | LE | GE | GT | LT) expression # Compare
+           | op=NOT expression # BoolNot
+           | expression op=AND expression # BoolAnd
+           | expression op=OR expression # BoolOr
            | val #Value
            ;
 type : typeBasic;
@@ -148,6 +151,10 @@ FUNC_CALL : 'vrac z baru';
 
 LPAR : '(' {opened++;};
 RPAR : ')' {opened--;};
+
+AND : 'a';
+OR : 'abo';
+NOT : 'ne';
 
 ADD: '+';
 SUB: '-';
