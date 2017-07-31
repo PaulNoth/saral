@@ -1,5 +1,7 @@
 package com.pidanic.saral.util;
 
+import org.objectweb.asm.Opcodes;
+
 import static org.objectweb.asm.Opcodes.*;
 
 public enum TypeSpecificOpcodes {
@@ -61,5 +63,17 @@ public enum TypeSpecificOpcodes {
 
     public int getModulo() {
         return mod;
+    }
+
+    public int getAnd() {
+        return Opcodes.IAND;
+    }
+
+    public int getOr() {
+        return Opcodes.IOR;
+    }
+
+    public int getNot() {
+        return Opcodes.INEG;
     }
 }

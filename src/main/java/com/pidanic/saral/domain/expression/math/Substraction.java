@@ -5,7 +5,7 @@ import com.pidanic.saral.generator.ExpressionGenerator;
 
 public class Substraction extends ArithmeticExpression {
     public Substraction(Expression left, Expression right) {
-        super(ArithmeticSign.MULT, left, right);
+        super(ArithmeticSign.SUB, left, right);
     }
 
     @Override

@@ -6,25 +6,25 @@ ciskaj p
 ciskaj o
 ciskaj so
 
-meňak logická pap = p a p
-meňak logická pao = p a o
-meňak logická paso = p a so
+meňak logický pap = p a p
+meňak logický pao = p a o
+meňak logický paso = p a so
 
 ciskaj pap
 ciskaj pao
 ciskaj paso
 
-meňak logická pabop = p abo p
-meňak logická paboo = p abo o
-meňak logická paboso = p abo so
+meňak logický pabop = p abo p
+meňak logický paboo = p abo o
+meňak logický paboso = p abo so
 
 ciskaj pabop
 ciskaj paboo
 ciskaj paboso
 
-meňak logická nep = ne p
-meňak logická neo = ne o
-meňak logická neso = ne so
+meňak logický nep = ne p
+meňak logický neo = ne o
+meňak logický neso = ne so
 
 ciskaj nep
 ciskaj neo

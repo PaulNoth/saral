@@ -3,10 +3,11 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
-import com.pidanic.saral.domain.expression.Value;
-import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.logic.And;
+import com.pidanic.saral.domain.expression.logic.LogicExpression;
+import com.pidanic.saral.domain.expression.logic.Negation;
+import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
@@ -157,5 +158,24 @@ public class ExpressionGenerator extends StatementGenerator {
         Expression rightExpression = expression.getRight();
         leftExpression.accept(this);
         rightExpression.accept(this);
+    }
+
+    public void generate(Negation expression) {
+        Expression expr = expression.getExpression();
+        expr.accept(this);
+        methodVisitor.visitInsn(expr.getType().getTypeSpecificOpcode().getNot());
+        // TODO
+    }
+
+    public void generate(And expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getAnd());
+        // TODO
+    }
+
+    public void generate(Or expression) {
+        generateBinaryExpressionComponents(expression);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getOr());
+        // TODO
     }
 }
