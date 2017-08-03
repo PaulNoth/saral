@@ -165,15 +165,15 @@ public class ExpressionGenerator extends StatementGenerator {
 
         //methodVisitor.visitInsn(expr.getType().getTypeSpecificOpcode().getNot());
 
-        methodVisitor.visitInsn(Opcodes.ICONST_2);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
         Label endLabel = new Label();
         Label falseLabel = new Label();
         methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel);
-        methodVisitor.visitInsn(Opcodes.ICONST_2);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
         methodVisitor.visitLabel(falseLabel);
         expr.accept(this);
-        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
         methodVisitor.visitInsn(Opcodes.IXOR);
         methodVisitor.visitLabel(endLabel);
     }
