@@ -72,8 +72,4 @@ public enum TypeSpecificOpcodes {
     public int getOr() {
         return Opcodes.IOR;
     }
-
-    public int getNot() {
-        return Opcodes.INEG;
-    }
 }

@@ -162,8 +162,20 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(Negation expression) {
         Expression expr = expression.getExpression();
         expr.accept(this);
-        methodVisitor.visitInsn(expr.getType().getTypeSpecificOpcode().getNot());
-        // TODO
+
+        //methodVisitor.visitInsn(expr.getType().getTypeSpecificOpcode().getNot());
+
+        methodVisitor.visitInsn(Opcodes.ICONST_2);
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel);
+        methodVisitor.visitInsn(Opcodes.ICONST_2);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel);
+        expr.accept(this);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitInsn(Opcodes.IXOR);
+        methodVisitor.visitLabel(endLabel);
     }
 
     public void generate(And expression) {
