@@ -18,7 +18,7 @@ public enum Logic {
         if(this == PRAVDA) {
            return other;
         } else if(this == SKOROOSAL) {
-           return other == PRAVDA ? SKOROOSAL : OSAL;
+           return other == OSAL ? OSAL : SKOROOSAL;
         }
         return OSAL;
     }

@@ -10,17 +10,45 @@ meňak logický pap = p a p
 meňak logický pao = p a o
 meňak logický paso = p a so
 
+meňak logický oap = o a p
+meňak logický oao = o a o
+meňak logický oaso = o a so
+
+meňak logický soap = so a p
+meňak logický soao = so a o
+meňak logický soaso = so a so
+
 ciskaj pap
 ciskaj pao
 ciskaj paso
+ciskaj oap
+ciskaj oao
+ciskaj oaso
+ciskaj soap
+ciskaj soao
+ciskaj soaso
 
 meňak logický pabop = p abo p
 meňak logický paboo = p abo o
 meňak logický paboso = p abo so
 
+meňak logický oabop = o abo p
+meňak logický oaboo = o abo o
+meňak logický oaboso = o abo so
+
+meňak logický soabop = so abo p
+meňak logický soaboo = so abo o
+meňak logický soaboso = so abo so
+
 ciskaj pabop
 ciskaj paboo
 ciskaj paboso
+ciskaj oabop
+ciskaj oaboo
+ciskaj oaboso
+ciskaj soabop
+ciskaj soaboo
+ciskaj soaboso
 
 meňak logický nep = ne p
 meňak logický neo = ne o
