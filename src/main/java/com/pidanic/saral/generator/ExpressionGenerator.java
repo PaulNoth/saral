@@ -3,10 +3,10 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
-import com.pidanic.saral.domain.expression.Value;
-import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.logic.And;
+import com.pidanic.saral.domain.expression.logic.Negation;
+import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.scope.Scope;
@@ -157,5 +157,93 @@ public class ExpressionGenerator extends StatementGenerator {
         Expression rightExpression = expression.getRight();
         leftExpression.accept(this);
         rightExpression.accept(this);
+    }
+
+    public void generate(Negation expression) {
+        Expression expr = expression.getExpression();
+        expr.accept(this);
+
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel);
+        expr.accept(this);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitInsn(Opcodes.IXOR);
+        methodVisitor.visitLabel(endLabel);
+    }
+
+    public void generate(And expression) {
+        generateBinaryExpressionComponents(expression);
+
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        Label falseLabel2 = new Label();
+        Label falseLabel3 = new Label();
+        // comparing value of the right expression it is "false"
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel);
+        methodVisitor.visitInsn(Opcodes.POP);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(falseLabel);
+
+        // comparing value of the right expression again it if it "true"
+        expression.getRight().accept(this);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel2);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel2);
+
+        // comparing value of the left expression if "false"
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel3);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(falseLabel3);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+
+        methodVisitor.visitLabel(endLabel);
+    }
+
+    public void generate(Or expression) {
+        generateBinaryExpressionComponents(expression);
+
+        Label endLabel = new Label();
+        Label falseLabel = new Label();
+        Label falseLabel2 = new Label();
+        Label falseLabel3 = new Label();
+        // comparing value of the right expression if "true"
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel);
+        methodVisitor.visitInsn(Opcodes.POP);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(falseLabel);
+
+        // comparing value of the right expression again if "false"
+        expression.getRight().accept(this);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel2);
+
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(falseLabel2);
+
+        // comparing value of the left expression if "true"
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, falseLabel3);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(falseLabel3);
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+
+        methodVisitor.visitLabel(endLabel);
     }
 }

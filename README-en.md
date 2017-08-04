@@ -96,6 +96,101 @@ meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
 ```
 
+#### Logical operations
+There are 3 supported logic values in Saral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
+`pravda` (`true`), `ošaľ` (`false`), `skoroošaľ` (`undefined`)
+
+There are 3 corresponding logic operations
+- `ne` - negation
+- `a` - operation `and`
+- `abo` - operation `or`
+
+These tables show all combinations of operations and values with their results
+
+##### `ne` operation
+|a| `ne` a |  
+|:-:|:------:|
+|ošaľ|pravda|
+|skoroošaľ|skoroošaľ|
+|pravda|ošaľ|
+
+##### `abo` operation
+|abo| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|skoroošaľ|pravda|
+|**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
+|**pravda**|pravda|pravda|pravda|
+
+##### `a` operation
+|a| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|ošaľ|ošaľ|
+|**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
+|**pravda**|ošaľ|skoroošaľ|pravda|
+
+```
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+
+ciskaj p
+ciskaj o
+ciskaj so
+
+meňak logický pap = p a p
+meňak logický pao = p a o
+meňak logický paso = p a so
+
+meňak logický oap = o a p
+meňak logický oao = o a o
+meňak logický oaso = o a so
+
+meňak logický soap = so a p
+meňak logický soao = so a o
+meňak logický soaso = so a so
+
+ciskaj pap
+ciskaj pao
+ciskaj paso
+ciskaj oap
+ciskaj oao
+ciskaj oaso
+ciskaj soap
+ciskaj soao
+ciskaj soaso
+
+meňak logický pabop = p abo p
+meňak logický paboo = p abo o
+meňak logický paboso = p abo so
+
+meňak logický oabop = o abo p
+meňak logický oaboo = o abo o
+meňak logický oaboso = o abo so
+
+meňak logický soabop = so abo p
+meňak logický soaboo = so abo o
+meňak logický soaboso = so abo so
+
+ciskaj pabop
+ciskaj paboo
+ciskaj paboso
+ciskaj oabop
+ciskaj oaboo
+ciskaj oaboso
+ciskaj soabop
+ciskaj soaboo
+ciskaj soaboso
+
+meňak logický nep = ne p
+meňak logický neo = ne o
+meňak logický neso = ne so
+
+ciskaj nep
+ciskaj neo
+ciskaj neso
+
+```
+
 ### Procedures
 Do we repeat same code? No problem, we have procedures.
 ```

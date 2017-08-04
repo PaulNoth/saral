@@ -5,7 +5,7 @@ import com.pidanic.saral.generator.ExpressionGenerator;
 
 public class Multiplication extends ArithmeticExpression {
     public Multiplication(Expression left, Expression right) {
-        super(ArithmeticSign.MOD, left, right);
+        super(ArithmeticSign.MULT, left, right);
     }
 
     @Override
