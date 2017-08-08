@@ -36,7 +36,19 @@ ciskaj servus
 ```
 
 ### Dátové typy
-Podporuje momentálne dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (znak), `skutočné numeralio` (reálne čísla).
+Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
+
+`neskutočné numeralio` predstavuje celé čísla. Ich podporovaný rozsah na platforme JVM je v intervale [-9223372036854775808; 9223372036854775807] alebo [-2<sup>63</sup>; 2<sup>63</sup>-1].
+
+`skutočné numeralio` sú reálne čísla, vyjadrené desatinným číslom v rozsahu približne
+2<sup>-1074</sup>&nbsp;<=&nbsp;x&nbsp;<=&nbsp;(2-2<sup>-52</sup>)&nbsp;&times;&nbsp;2<sup>1023</sup>.
+
+Typ `písmeno` je jeden znak, písmeno, číslo, písmeno s diakritikou, tabulátor, nový riadok, a pod. Vyjadrený je medzi apostrofmi.
+
+`slovo` vyjadruje sekvenciu znakov (typu `písmeno`). <code>slovo</code> je ohraničené dvoma dvojitými úvodzovkami.
+
+Typ `logický` predstavuje bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`.
+
 ```
 meňak neskutočné numeralio pejc = 5
 meňak slovo dupa= "dupa"
