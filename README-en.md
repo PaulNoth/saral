@@ -31,7 +31,19 @@ ciskaj hello
 ```
 
 ### Data Types
-There are data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (character), `skutočné numeralio` (floats).
+There are data types supported - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
+
+`neskutočné numeralio` represents integers. Using JVM platform, one could use them with following range [-9223372036854775808; 9223372036854775807] or [-2<sup>63</sup>; 2<sup>63</sup>-1].
+
+`skutočné numeralio` are for real numbers, expressed as decimals in range approximately
+2<sup>-1074</sup>&nbsp;<=&nbsp;x&nbsp;<=&nbsp;(2-2<sup>-52</sup>)&nbsp;&times;&nbsp;2<sup>1023</sup>.
+
+Type `písmeno` is a single character, that is a letter, a digit, a punctuation mark, a tab, a space or something similar. A char literal is a single one character enclosed in single quote marks (apostrophes).
+
+`slovo` is sequence of characters enclosed in double quotes.
+
+Type `logický` represents boolean/kleene values - `pravda` (`true`), `skoroošaľ` (`undefined`), `ošaľ` (`false`).
+
 
 ```
 meňak neskutočné numeralio five = 5
