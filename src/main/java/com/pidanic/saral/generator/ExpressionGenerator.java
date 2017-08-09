@@ -147,7 +147,7 @@ public class ExpressionGenerator extends StatementGenerator {
         if (expression.getLeft().getType() == BuiltInType.LONG) {
             methodVisitor.visitInsn(Opcodes.LCMP);
         } else if (expression.getLeft().getType() == BuiltInType.DOUBLE) {
-           // methodVisitor.visitInsn(Opcodes.DCMPG);
+            methodVisitor.visitInsn(Opcodes.DCMPG);
         }
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
         methodVisitor.visitInsn(Opcodes.ICONST_1);

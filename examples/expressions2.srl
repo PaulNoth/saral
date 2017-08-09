@@ -67,3 +67,9 @@ ciskaj g3
 ciskaj l
 ciskaj l2
 ciskaj l3
+
+meňak logický enn = 4.0 == 4.0
+meňak logický enn2 = 4.0 == 3.0
+
+ciskaj enn
+ciskaj enn2
