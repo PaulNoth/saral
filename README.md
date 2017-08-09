@@ -83,7 +83,7 @@ meňak neskutočné numeralio g = 11 % 2
 ```
 
 #### Porovnávanie
-Funguje porovnávanie celých čísel (typ `neskutočné numeralio`): 
+Funguje porovnávanie výrazov, kde obidve strany výrazu sú rovnakého typu (typ `neskutočné numeralio`, alebo `skutočné numeralio`): 
 - rovnosť `==`
 - nerovnosť `<>`
 - väčší `>`
@@ -109,6 +109,8 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
+meňak logický enn = 4.0 == 4.0
+meňak logický enn2 = 4.0 == 3.0
 ```
 
 #### Logické operácie

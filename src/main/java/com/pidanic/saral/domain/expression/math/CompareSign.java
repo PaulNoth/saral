@@ -6,12 +6,13 @@ import org.objectweb.asm.Opcodes;
 import java.util.Arrays;
 
 public enum CompareSign implements Sign {
-    EQUAL("==", Opcodes.IF_ICMPNE),
-    NOT_EQUAL("<>", Opcodes.IF_ICMPEQ),
-    LESS("<", Opcodes.IF_ICMPGE),
-    GREATER(">", Opcodes.IF_ICMPLE),
-    LESS_OR_EQUAL("<=", Opcodes.IF_ICMPGT),
-    GREATER_OR_EQUAL(">=", Opcodes.IF_ICMPLT);
+    // comparing longs pushes 1, 0, -1 on the stack. then compare with the 0
+    EQUAL("==", Opcodes.IFNE),
+    NOT_EQUAL("<>", Opcodes.IFEQ),
+    LESS("<", Opcodes.IFGE),
+    GREATER(">", Opcodes.IFLE),
+    LESS_OR_EQUAL("<=", Opcodes.IFGT),
+    GREATER_OR_EQUAL(">=", Opcodes.IFLT);
 
     private String sign;
     //reversed. '>' evalutes to le -> less or equal

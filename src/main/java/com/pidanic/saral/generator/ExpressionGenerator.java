@@ -144,6 +144,11 @@ public class ExpressionGenerator extends StatementGenerator {
         Sign compareSign = expression.getSign();
         Label endLabel = new Label();
         Label falseLabel = new Label();
+        if (expression.getLeft().getType() == BuiltInType.LONG) {
+            methodVisitor.visitInsn(Opcodes.LCMP);
+        } else if (expression.getLeft().getType() == BuiltInType.DOUBLE) {
+            methodVisitor.visitInsn(Opcodes.DCMPG);
+        }
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
         methodVisitor.visitInsn(Opcodes.ICONST_1);
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
