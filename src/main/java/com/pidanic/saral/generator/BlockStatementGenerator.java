@@ -1,7 +1,7 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.ForStatement;
-import com.pidanic.saral.domain.IfStatement;
+import com.pidanic.saral.domain.block.ForStatement;
+import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.scope.Scope;

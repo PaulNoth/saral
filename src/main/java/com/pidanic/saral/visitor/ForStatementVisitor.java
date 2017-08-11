@@ -1,6 +1,7 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.EmptyForStatementBlockException;
 import com.pidanic.saral.exception.IncompatibleTypeForStatement;

@@ -1,6 +1,6 @@
 package com.pidanic.saral.visitor;
 
-import com.pidanic.saral.domain.IfStatement;
+import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.grammar.SaralBaseVisitor;

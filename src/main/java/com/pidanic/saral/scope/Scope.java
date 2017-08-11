@@ -1,6 +1,6 @@
 package com.pidanic.saral.scope;
 
-import com.pidanic.saral.domain.Function;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.exception.FunctionNotFoundException;
 import com.pidanic.saral.exception.VariableExistsException;

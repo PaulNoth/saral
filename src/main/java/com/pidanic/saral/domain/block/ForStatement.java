@@ -1,5 +1,8 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.domain.block;
 
+import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.VariableDeclaration;
+import com.pidanic.saral.domain.block.BlockStatementImpl;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.BlockStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;

@@ -1,5 +1,6 @@
 package com.pidanic.saral.domain;
 
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 

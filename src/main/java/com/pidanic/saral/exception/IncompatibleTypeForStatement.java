@@ -1,6 +1,6 @@
 package com.pidanic.saral.exception;
 
-import com.pidanic.saral.domain.ForStatement;
+import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.Type;
 
