@@ -33,4 +33,11 @@ public class BlockStatementVisitor extends SaralBaseVisitor<BlockStatement> {
        IfStatement ifStatement = ctx.accept(ifStatementVisitor);
        return ifStatement;
     }
+
+    @Override
+    public BlockStatement visitFor_statement(SaralParser.For_statementContext ctx) {
+        ForStatementVisitor forStatementVisitor = new ForStatementVisitor(scope);
+        ForStatement forStatement = ctx.accept(forStatementVisitor);
+        return forStatement;
+    }
 }

@@ -1,5 +1,6 @@
 package com.pidanic.saral.generator;
 
+import com.pidanic.saral.domain.ForStatement;
 import com.pidanic.saral.domain.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.expression.Expression;
@@ -39,5 +40,9 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitLabel(trueLabel);
         trueBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
         methodVisitor.visitLabel(endLabel);
+    }
+
+    public void generate(ForStatement forLoop) {
+        // TODO
     }
 }

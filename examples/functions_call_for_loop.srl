@@ -12,7 +12,7 @@ zrob s meňakom x od 4 do 10
     ciskaj x
 
 zrob s meňakom y od 1 do 10
-    meňak x = y * y
+    meňak neskutočné numeralio x = y * y
     ciskaj x
 
 vrac z baru vracimSlovo(dupa)
