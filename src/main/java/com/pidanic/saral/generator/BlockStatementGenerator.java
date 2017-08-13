@@ -64,6 +64,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         CompareExpression iteratorGreaterThanEndConditional = new CompareExpression(CompareSign.GREATER, iteratorVarRef, to);
         CompareExpression iteratorLessThanEndConditional = new CompareExpression(CompareSign.LESS, iteratorVarRef, to);
 
+        int localVariableIndex = loopScope.getVariableIndex(iteratorVariable.getName());
         iteratorVariable.accept(simpleStatementGenerator);
 
         //Pushes 0 or 1 onto the stack
@@ -74,7 +75,6 @@ public class BlockStatementGenerator extends StatementGenerator {
         iteratorGreaterThanEndConditional.accept(expressionGenerator);
         methodVisitor.visitJumpInsn(Opcodes.IFNE, decrementationSection);
 
-        int localVariableIndex = loopScope.getVariableIndex(iteratorVariable.getName());
         //Incrementation section
         methodVisitor.visitLabel(incrementationSection);
         block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
