@@ -72,8 +72,13 @@ public class BlockStatementGenerator extends StatementGenerator {
         // IFNE - is value on the stack (result of conditional) different than 0 (success)?
         methodVisitor.visitJumpInsn(Opcodes.IFNE, incrementationSection);
 
-        iteratorGreaterThanEndConditional.accept(expressionGenerator);
-        methodVisitor.visitJumpInsn(Opcodes.IFNE, decrementationSection);
+        //Decrementation section
+        methodVisitor.visitLabel(decrementationSection);
+        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        decrementIteratorVariable(localVariableIndex);
+        iteratorLessThanEndConditional.accept(expressionGenerator);
+        methodVisitor.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
 
         //Incrementation section
         methodVisitor.visitLabel(incrementationSection);
@@ -81,15 +86,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         incrementIteratorVariable(localVariableIndex);
         iteratorGreaterThanEndConditional.accept(expressionGenerator); //is iterator greater than range end?
         methodVisitor.visitJumpInsn(Opcodes.IFEQ, incrementationSection); //if it is not go back loop again
-        //the iterator is greater than end range. Break out of the loop, skipping decrementation section
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
-
-        //Decrementation section
-        methodVisitor.visitLabel(decrementationSection);
-        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
-        decrementIteratorVariable(localVariableIndex);
-        iteratorLessThanEndConditional.accept(expressionGenerator);
-        methodVisitor.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
 
         methodVisitor.visitLabel(endLoopSection);
     }
