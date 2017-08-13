@@ -3,7 +3,6 @@ package com.pidanic.saral.visitor;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.exception.EmptyForStatementBlockException;
 import com.pidanic.saral.exception.IncompatibleTypeForStatement;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
@@ -47,9 +46,6 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
                 .filter(stmt -> stmt.simple_statement() != null)
                 .map(stmt -> stmt.simple_statement().accept(simpleStatementVisitor))
                 .collect(Collectors.toList());
-        if(block.isEmpty()) {
-            throw new EmptyForStatementBlockException(scope);
-        }
         return new ForStatement(scope, var, from, to, block);
     }
 }
