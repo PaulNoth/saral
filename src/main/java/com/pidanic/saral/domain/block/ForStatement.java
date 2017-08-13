@@ -22,10 +22,14 @@ public class ForStatement extends BlockStatementImpl {
 
     public ForStatement(Scope scope, VariableDeclaration var, Expression from, Expression to, List<SimpleStatement> block) {
         super(scope);
-        this.block = Collections.unmodifiableList(block);
         this.var = var;
         this.from = from;
         this.to = to;
+        if(block != null) {
+            this.block = Collections.unmodifiableList(block);
+        } else {
+            this.block = Collections.emptyList();
+        }
     }
 
     @Override
