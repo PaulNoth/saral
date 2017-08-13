@@ -2,7 +2,6 @@ package com.pidanic.saral.domain.block;
 
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.VariableDeclaration;
-import com.pidanic.saral.domain.block.BlockStatementImpl;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.BlockStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
@@ -32,5 +31,21 @@ public class ForStatement extends BlockStatementImpl {
     @Override
     public void accept(StatementGenerator generator) {
         ((BlockStatementGenerator) generator).generate(this);
+    }
+
+    public Expression getFromExpression() {
+        return from;
+    }
+
+    public Expression getToExpression() {
+        return to;
+    }
+
+    public VariableDeclaration getVariable() {
+        return var;
+    }
+
+    public List<SimpleStatement> getBlock() {
+        return block;
     }
 }
