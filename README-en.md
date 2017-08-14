@@ -253,6 +253,26 @@ vrac z baru returnString(hello)
 
 ```
 
+### For-loops
+One can execute a part of the code with defined range with `zrob s meňakom <variable> od <value/variable> do <value/variable>` (so called. *for-loop*). The upper bound is always **included**.
+```
+zrob s meňakom x od 4 do 10
+    ciskaj x
+```
+or
+```
+meňak neskutočné numeralio l = 4
+meňak neskutočné numeralio u = 10
+zrob s meňakom x od l do u
+    ciskaj x
+```
+Decremented for loop is possible as well
+```
+zrob s meňakom y od 10 do 1
+    meňak neskutočné numeralio x = y * y
+    ciskaj x
+```
+
 ### Conditional statements
 Šaral language support conditional code execution as other problem-oriented programming languages, so called `if-then-else`. In Šaral terminology `keď-potom-inak`
 

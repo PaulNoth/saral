@@ -272,5 +272,25 @@ keď 2 > 0 potom
     ciskaj dva
 ```
    
+### Ohraničné opakovanie kódu
+Ak chceme vykonať časť kódu istý počet krát, použijeme konštrukciu `zrob s meňakom <meňak> od <hodnota/premenná> do <hodnota/premenná>` (tzv. *kolečko*). Horné ohraničenie sa vždy ráta aj vrátanie.
+```
+zrob s meňakom x od 4 do 10
+    ciskaj x
+```
+alebo
+```
+meňak neskutočné numeralio d = 4
+meňak neskutočné numeralio h = 10
+zrob s meňakom x od d do h
+    ciskaj x
+```
+Môžme definovať kolečko aj s klesajúcimi hranicami
+```
+zrob s meňakom y od 10 do 1
+    meňak neskutočné numeralio x = y * y
+    ciskaj x
+```
+
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).
