@@ -1,8 +1,13 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.IfStatement;
+import com.pidanic.saral.domain.VariableDeclaration;
+import com.pidanic.saral.domain.block.ForStatement;
+import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.expression.math.CompareExpression;
+import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.scope.Scope;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
@@ -39,5 +44,64 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitLabel(trueLabel);
         trueBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
         methodVisitor.visitLabel(endLabel);
+    }
+
+    public void generate(ForStatement forLoop) {
+        Scope loopScope = forLoop.getScope();
+        SimpleStatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(methodVisitor, loopScope);
+        ExpressionGenerator expressionGenerator = new ExpressionGenerator(methodVisitor, loopScope);
+
+        VariableDeclaration iteratorVariable = forLoop.getVariable();
+        Expression from = forLoop.getFromExpression();
+        Expression to = forLoop.getToExpression();
+        List<SimpleStatement> block = forLoop.getBlock();
+        Expression iteratorVarRef = new VariableRef(iteratorVariable.getName(), from.getType());
+
+        Label incrementationSection = new Label();
+        Label decrementationSection = new Label();
+        Label endLoopSection = new Label();
+
+        CompareExpression iteratorGreaterThanEndConditional = new CompareExpression(CompareSign.GREATER, iteratorVarRef, to);
+        CompareExpression iteratorLessThanEndConditional = new CompareExpression(CompareSign.LESS, iteratorVarRef, to);
+
+        int localVariableIndex = loopScope.getVariableIndex(iteratorVariable.getName());
+        iteratorVariable.accept(simpleStatementGenerator);
+
+        //Pushes 0 or 1 onto the stack
+        iteratorLessThanEndConditional.accept(expressionGenerator);
+        // IFNE - is value on the stack (result of conditional) different than 0 (success)?
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, incrementationSection);
+
+        //Decrementation section
+        methodVisitor.visitLabel(decrementationSection);
+        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        decrementIteratorVariable(localVariableIndex);
+        iteratorLessThanEndConditional.accept(expressionGenerator);
+        methodVisitor.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
+
+        //Incrementation section
+        methodVisitor.visitLabel(incrementationSection);
+        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        incrementIteratorVariable(localVariableIndex);
+        iteratorGreaterThanEndConditional.accept(expressionGenerator); //is iterator greater than range end?
+        methodVisitor.visitJumpInsn(Opcodes.IFEQ, incrementationSection); //if it is not go back loop again
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
+
+        methodVisitor.visitLabel(endLoopSection);
+    }
+
+    private void incrementIteratorVariable(int variableIndex) {
+        methodVisitor.visitVarInsn(Opcodes.LLOAD, variableIndex);
+        methodVisitor.visitInsn(Opcodes.LCONST_1);
+        methodVisitor.visitInsn(Opcodes.LADD);
+        methodVisitor.visitVarInsn(Opcodes.LSTORE, variableIndex);
+    }
+
+    private void decrementIteratorVariable(int variableIndex) {
+        methodVisitor.visitVarInsn(Opcodes.LLOAD, variableIndex);
+        methodVisitor.visitInsn(Opcodes.LCONST_1);
+        methodVisitor.visitInsn(Opcodes.LSUB);
+        methodVisitor.visitVarInsn(Opcodes.LSTORE, variableIndex);
     }
 }

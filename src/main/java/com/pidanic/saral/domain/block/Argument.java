@@ -1,4 +1,4 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.domain.block;
 
 import com.pidanic.saral.generator.ExpressionGenerator;
 import com.pidanic.saral.generator.SimpleStatementGenerator;

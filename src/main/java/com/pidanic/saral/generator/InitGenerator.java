@@ -2,6 +2,9 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.Statement;
+import com.pidanic.saral.domain.block.BlockStatement;
+import com.pidanic.saral.domain.block.CallableStatement;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.scope.Scope;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;

@@ -31,7 +31,19 @@ ciskaj hello
 ```
 
 ### Data Types
-There are data types supported - `neskutočné numeralio` (integer), `slovo` (string) `logický` (boolean/kleene - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (character), `skutočné numeralio` (floats).
+There are data types supported - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
+
+`neskutočné numeralio` represents integers. Using JVM platform, one could use them with following range [-9223372036854775808; 9223372036854775807] or [-2<sup>63</sup>; 2<sup>63</sup>-1].
+
+`skutočné numeralio` are for real numbers, expressed as decimals in range approximately
+2<sup>-1074</sup>&nbsp;<=&nbsp;x&nbsp;<=&nbsp;(2-2<sup>-52</sup>)&nbsp;&times;&nbsp;2<sup>1023</sup>.
+
+Type `písmeno` is a single character, that is a letter, a digit, a punctuation mark, a tab, a space or something similar. A char literal is a single one character enclosed in single quote marks (apostrophes).
+
+`slovo` is sequence of characters enclosed in double quotes.
+
+Type `logický` represents boolean/kleene values - `pravda` (`true`), `skoroošaľ` (`undefined`), `ošaľ` (`false`).
+
 
 ```
 meňak neskutočné numeralio five = 5
@@ -68,7 +80,7 @@ meňak neskutočné numeralio g = 11 % 2
 ```
 
 #### Comparisons
-One can compare integer values (type `neskutočné numeralio`): 
+One can compare expressions with same type on both sides (type `neskutočné numeralio` or `skutočné numeralio`): 
 - equal `==`
 - not equal `<>`
 - greater than `>`
@@ -94,10 +106,107 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
+meňak logický enn = 4.0 == 4.0
+meňak logický enn2 = 4.0 == 3.0
+```
+
+#### Logical operations
+There are 3 supported logic values in Saral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
+`pravda` (`true`), `ošaľ` (`false`), `skoroošaľ` (`undefined`)
+
+There are 3 corresponding logic operations
+- `ne` - negation
+- `a` - operation `and`
+- `abo` - operation `or`
+
+These tables show all combinations of operations and values with their results
+
+##### `ne` operation
+|a| `ne` a |  
+|:-:|:------:|
+|ošaľ|pravda|
+|skoroošaľ|skoroošaľ|
+|pravda|ošaľ|
+
+##### `abo` operation
+|abo| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|skoroošaľ|pravda|
+|**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
+|**pravda**|pravda|pravda|pravda|
+
+##### `a` operation
+|a| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|ošaľ|ošaľ|
+|**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
+|**pravda**|ošaľ|skoroošaľ|pravda|
+
+```
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+
+ciskaj p
+ciskaj o
+ciskaj so
+
+meňak logický pap = p a p
+meňak logický pao = p a o
+meňak logický paso = p a so
+
+meňak logický oap = o a p
+meňak logický oao = o a o
+meňak logický oaso = o a so
+
+meňak logický soap = so a p
+meňak logický soao = so a o
+meňak logický soaso = so a so
+
+ciskaj pap
+ciskaj pao
+ciskaj paso
+ciskaj oap
+ciskaj oao
+ciskaj oaso
+ciskaj soap
+ciskaj soao
+ciskaj soaso
+
+meňak logický pabop = p abo p
+meňak logický paboo = p abo o
+meňak logický paboso = p abo so
+
+meňak logický oabop = o abo p
+meňak logický oaboo = o abo o
+meňak logický oaboso = o abo so
+
+meňak logický soabop = so abo p
+meňak logický soaboo = so abo o
+meňak logický soaboso = so abo so
+
+ciskaj pabop
+ciskaj paboo
+ciskaj paboso
+ciskaj oabop
+ciskaj oaboo
+ciskaj oaboso
+ciskaj soabop
+ciskaj soaboo
+ciskaj soaboso
+
+meňak logický nep = ne p
+meňak logický neo = ne o
+meňak logický neso = ne so
+
+ciskaj nep
+ciskaj neo
+ciskaj neso
+
 ```
 
 ### Procedures
-Do we repeat same code? No problem, we have procedures.
+Do we repeat same code and we want to reuse it? No problem, we have procedures.
 ```
 bar iDoSomething()
    meňak neskutočné numeralio three = 3
@@ -142,6 +251,26 @@ vrac z baru returnSomething()
 meňak slovo hello = "hello"
 vrac z baru returnString(hello)
 
+```
+
+### For-loops
+One can execute a part of the code with defined range with `zrob s meňakom <variable> od <value/variable> do <value/variable>` (so called. *for-loop*). The upper bound is always **included**.
+```
+zrob s meňakom x od 4 do 10
+    ciskaj x
+```
+or
+```
+meňak neskutočné numeralio l = 4
+meňak neskutočné numeralio u = 10
+zrob s meňakom x od l do u
+    ciskaj x
+```
+Decremented for loop is possible as well
+```
+zrob s meňakom y od 10 do 1
+    meňak neskutočné numeralio x = y * y
+    ciskaj x
 ```
 
 ### Conditional statements

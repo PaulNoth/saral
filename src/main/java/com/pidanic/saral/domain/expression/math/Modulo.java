@@ -7,7 +7,7 @@ import com.pidanic.saral.util.TypeResolver;
 
 public class Modulo extends ArithmeticExpression {
     public Modulo(Expression left, Expression right) {
-        super(ArithmeticSign.MULT, left, right);
+        super(ArithmeticSign.MOD, left, right);
         if(!TypeResolver.isInteger(left.getType()) || !TypeResolver.isInteger(right.getType())) {
             throw new UnsupportedOperationException("Only numerical Integer expression supported. Actual expression type. Left: "
                     + left.getType() + ", right: " + right.getType());

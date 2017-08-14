@@ -36,7 +36,19 @@ ciskaj servus
 ```
 
 ### Dátové typy
-Podporuje momentálne dátové typy - `neskutočné numeralio` (celé čísla), `slovo` (reťazce znakov) `logický` (bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`), `písmeno` (znak), `skutočné numeralio` (reálne čísla).
+Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
+
+`neskutočné numeralio` predstavuje celé čísla. Ich podporovaný rozsah na platforme JVM je v intervale [-9223372036854775808; 9223372036854775807] alebo [-2<sup>63</sup>; 2<sup>63</sup>-1].
+
+`skutočné numeralio` sú reálne čísla, vyjadrené desatinným číslom v rozsahu približne
+2<sup>-1074</sup>&nbsp;<=&nbsp;x&nbsp;<=&nbsp;(2-2<sup>-52</sup>)&nbsp;&times;&nbsp;2<sup>1023</sup>.
+
+Typ `písmeno` je jeden znak, písmeno, číslo, písmeno s diakritikou, tabulátor, nový riadok, a pod. Vyjadrený je medzi apostrofmi.
+
+`slovo` vyjadruje sekvenciu znakov (typu `písmeno`). <code>slovo</code> je ohraničené dvoma dvojitými úvodzovkami.
+
+Typ `logický` predstavuje bool/kleene hodnoty - `pravda`, `skoroošaľ`, `ošaľ`.
+
 ```
 meňak neskutočné numeralio pejc = 5
 meňak slovo dupa= "dupa"
@@ -71,7 +83,7 @@ meňak neskutočné numeralio g = 11 % 2
 ```
 
 #### Porovnávanie
-Funguje porovnávanie celých čísel (typ `neskutočné numeralio`): 
+Funguje porovnávanie výrazov, kde obidve strany výrazu sú rovnakého typu (typ `neskutočné numeralio`, alebo `skutočné numeralio`): 
 - rovnosť `==`
 - nerovnosť `<>`
 - väčší `>`
@@ -97,10 +109,107 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
+meňak logický enn = 4.0 == 4.0
+meňak logický enn2 = 4.0 == 3.0
+```
+
+#### Logické operácie
+V jazyku Šaral poznáme 3 logické hodnoty, ktoré zodpovedajú hodnotám [Kleeneho logiky](https://en.wikipedia.org/wiki/Three-valued_logic) - 
+`pravda` (`true`), `ošaľ` (`false`), `skoroošaľ` (`undefined`)
+
+Tomu zodpovedajú aj podporované logické operácie:
+- `ne` - negácia
+- `a` - logická operácia `and`
+- `abo` - logická operácia `or`
+
+Výsledky kombinácie logických operácii a hodnôt zobrazujú tabuľky
+
+##### Operácia `ne`
+|a| `ne` a |  
+|:-:|:------:|
+|ošaľ|pravda|
+|skoroošaľ|skoroošaľ|
+|pravda|ošaľ|
+
+##### Operácia `abo`
+|abo| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|skoroošaľ|pravda|
+|**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
+|**pravda**|pravda|pravda|pravda|
+
+##### Operácia `a`
+|a| ošaľ | skoroošaľ | pravda | 
+|:-:|:------:|:-----------:|:--------:|
+|**ošaľ**|ošaľ|ošaľ|ošaľ|
+|**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
+|**pravda**|ošaľ|skoroošaľ|pravda|
+
+```
+meňak logický p = pravda
+meňak logický o = ošaľ
+meňak logický so = skoroošaľ
+
+ciskaj p
+ciskaj o
+ciskaj so
+
+meňak logický pap = p a p
+meňak logický pao = p a o
+meňak logický paso = p a so
+
+meňak logický oap = o a p
+meňak logický oao = o a o
+meňak logický oaso = o a so
+
+meňak logický soap = so a p
+meňak logický soao = so a o
+meňak logický soaso = so a so
+
+ciskaj pap
+ciskaj pao
+ciskaj paso
+ciskaj oap
+ciskaj oao
+ciskaj oaso
+ciskaj soap
+ciskaj soao
+ciskaj soaso
+
+meňak logický pabop = p abo p
+meňak logický paboo = p abo o
+meňak logický paboso = p abo so
+
+meňak logický oabop = o abo p
+meňak logický oaboo = o abo o
+meňak logický oaboso = o abo so
+
+meňak logický soabop = so abo p
+meňak logický soaboo = so abo o
+meňak logický soaboso = so abo so
+
+ciskaj pabop
+ciskaj paboo
+ciskaj paboso
+ciskaj oabop
+ciskaj oaboo
+ciskaj oaboso
+ciskaj soabop
+ciskaj soaboo
+ciskaj soaboso
+
+meňak logický nep = ne p
+meňak logický neo = ne o
+meňak logický neso = ne so
+
+ciskaj nep
+ciskaj neo
+ciskaj neso
+
 ```
 
 ### Procedúry
-Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
+Opakuje sa nám rovnaký kód a chceme ho prepoužiť? Nevadí, môžme si vytvoriť procedúru.
 ```
 bar robim()
    meňak neskutočné numeralio tri = 3
@@ -163,5 +272,25 @@ keď 2 > 0 potom
     ciskaj dva
 ```
    
+### Ohraničné opakovanie kódu
+Ak chceme vykonať časť kódu istý počet krát, použijeme konštrukciu `zrob s meňakom <meňak> od <hodnota/premenná> do <hodnota/premenná>` (tzv. *kolečko*). Horné ohraničenie sa vždy ráta aj vrátanie.
+```
+zrob s meňakom x od 4 do 10
+    ciskaj x
+```
+alebo
+```
+meňak neskutočné numeralio d = 4
+meňak neskutočné numeralio h = 10
+zrob s meňakom x od d do h
+    ciskaj x
+```
+Môžme definovať kolečko aj s klesajúcimi hranicami
+```
+zrob s meňakom y od 10 do 1
+    meňak neskutočné numeralio x = y * y
+    ciskaj x
+```
+
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).

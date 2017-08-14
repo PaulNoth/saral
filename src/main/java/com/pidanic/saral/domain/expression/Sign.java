@@ -1,4 +1,4 @@
-package com.pidanic.saral.domain.expression.math;
+package com.pidanic.saral.domain.expression;
 
 public interface Sign {
     int getOpcode();

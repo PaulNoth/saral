@@ -1,6 +1,6 @@
 package com.pidanic.saral.visitor;
 
-import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.block.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -32,5 +32,12 @@ public class BlockStatementVisitor extends SaralBaseVisitor<BlockStatement> {
        IfStatementVisitor ifStatementVisitor = new IfStatementVisitor(scope);
        IfStatement ifStatement = ctx.accept(ifStatementVisitor);
        return ifStatement;
+    }
+
+    @Override
+    public BlockStatement visitFor_statement(SaralParser.For_statementContext ctx) {
+        ForStatementVisitor forStatementVisitor = new ForStatementVisitor(scope);
+        ForStatement forStatement = ctx.accept(forStatementVisitor);
+        return forStatement;
     }
 }

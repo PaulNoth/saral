@@ -1,10 +1,9 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
-import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
-import com.pidanic.saral.domain.expression.Value;
-import com.pidanic.saral.domain.expression.VariableRef;
+import com.pidanic.saral.domain.block.Function;
+import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.logic.*;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
@@ -137,5 +136,33 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         Expression right = rightExpression.accept(this);
         String operationSymbol = ctx.op.getText();
         return new CompareExpression(CompareSign.fromString(operationSymbol), left, right);
+    }
+
+    @Override
+    public Expression visitBoolNot(SaralParser.BoolNotContext ctx) {
+        SaralParser.ExpressionContext expression = ctx.expression();
+
+        Expression expr = expression.accept(this);
+        return new Negation(expr);
+    }
+
+    @Override
+    public Expression visitBoolAnd(SaralParser.BoolAndContext ctx) {
+        SaralParser.ExpressionContext leftExpression = ctx.expression(0);
+        SaralParser.ExpressionContext rightExpression = ctx.expression(1);
+
+        Expression left = leftExpression.accept(this);
+        Expression right = rightExpression.accept(this);
+        return new And(left, right);
+    }
+
+    @Override
+    public Expression visitBoolOr(SaralParser.BoolOrContext ctx) {
+        SaralParser.ExpressionContext leftExpression = ctx.expression(0);
+        SaralParser.ExpressionContext rightExpression = ctx.expression(1);
+
+        Expression left = leftExpression.accept(this);
+        Expression right = rightExpression.accept(this);
+        return new Or(left, right);
     }
 }

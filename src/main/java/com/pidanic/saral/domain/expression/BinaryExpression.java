@@ -1,6 +1,5 @@
-package com.pidanic.saral.domain.expression.math;
+package com.pidanic.saral.domain.expression;
 
-import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.util.Type;
 
 public abstract class BinaryExpression extends Expression {
@@ -8,7 +7,7 @@ public abstract class BinaryExpression extends Expression {
     private Expression right;
     private Sign sign;
 
-    BinaryExpression(Type type, Sign sign, Expression left, Expression right) {
+    public BinaryExpression(Type type, Sign sign, Expression left, Expression right) {
         super(type);
         if(left.getType() != right.getType()) {
             throw new UnsupportedOperationException("Binary expression should have both sides with the same type. Left side: "

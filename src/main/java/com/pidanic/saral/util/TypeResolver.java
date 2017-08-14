@@ -49,4 +49,12 @@ public class TypeResolver {
     public static boolean isDouble(Type type) {
         return type == BuiltInType.DOUBLE;
     }
+
+    public static boolean isBoolean(Type type) {
+        return type == BuiltInType.BOOLEAN;
+    }
+
+    public static boolean isNumber(Type type) {
+        return isInteger(type) || isDouble(type);
+    }
 }

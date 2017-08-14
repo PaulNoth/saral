@@ -1,5 +1,7 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.domain.block;
 
+import com.pidanic.saral.domain.ReturnStatement;
+import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.generator.CallableStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 import com.pidanic.saral.scope.Scope;
