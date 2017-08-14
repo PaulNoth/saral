@@ -209,7 +209,7 @@ ciskaj neso
 ```
 
 ### Procedúry
-Opakuje sa nám rovnaký kód? Nevadí, môžme si vytvoriť procedúru.
+Opakuje sa nám rovnaký kód a chceme ho prepoužiť? Nevadí, môžme si vytvoriť procedúru.
 ```
 bar robim()
    meňak neskutočné numeralio tri = 3

@@ -206,7 +206,7 @@ ciskaj neso
 ```
 
 ### Procedures
-Do we repeat same code? No problem, we have procedures.
+Do we repeat same code and we want to reuse it? No problem, we have procedures.
 ```
 bar iDoSomething()
    meňak neskutočné numeralio three = 3
