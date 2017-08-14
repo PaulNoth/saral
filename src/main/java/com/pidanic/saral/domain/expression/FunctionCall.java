@@ -1,7 +1,7 @@
 package com.pidanic.saral.domain.expression;
 
 import com.pidanic.saral.domain.CalledArgument;
-import com.pidanic.saral.domain.Function;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.generator.ExpressionGenerator;
 
 import java.util.ArrayList;

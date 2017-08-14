@@ -1,6 +1,7 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.logic.*;
 import com.pidanic.saral.domain.expression.math.*;

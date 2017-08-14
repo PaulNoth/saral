@@ -1,6 +1,6 @@
 package com.pidanic.saral.generator;
 
-import com.pidanic.saral.domain.Argument;
+import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.*;

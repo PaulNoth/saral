@@ -1,8 +1,8 @@
 package com.pidanic.saral.util;
 
-import com.pidanic.saral.domain.Argument;
-import com.pidanic.saral.domain.Function;
-import com.pidanic.saral.domain.Procedure;
+import com.pidanic.saral.domain.block.Argument;
+import com.pidanic.saral.domain.block.Function;
+import com.pidanic.saral.domain.block.Procedure;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

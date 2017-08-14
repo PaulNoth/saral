@@ -1,8 +1,9 @@
 package com.pidanic.saral.scope;
 
-import com.pidanic.saral.domain.Function;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.exception.FunctionNotFoundException;
+import com.pidanic.saral.exception.VariableExistsException;
 import com.pidanic.saral.exception.VariableNotFoundException;
 import com.pidanic.saral.util.BuiltInType;
 
@@ -35,10 +36,17 @@ public class Scope {
     }
 
     public void addVariable(LocalVariable localVariable) {
+        if(existsLocalVariable(localVariable.getName())) {
+            throw new VariableExistsException(this, localVariable.getName());
+        }
         localVariables.add(localVariable);
         if(localVariable.getType() == BuiltInType.LONG || localVariable.getType() == BuiltInType.DOUBLE) {
             localVariables.add(EMPTY);
         }
+    }
+
+    private boolean existsLocalVariable(String variableName) {
+        return localVariables.stream().anyMatch(variable -> variable.getName().equals(variableName));
     }
 
     public LocalVariable getLocalVariable(String varName) {

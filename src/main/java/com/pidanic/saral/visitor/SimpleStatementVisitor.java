@@ -1,8 +1,8 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
+import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.domain.expression.FunctionCall;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;

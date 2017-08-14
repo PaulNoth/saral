@@ -105,13 +105,20 @@ simple_statement : write
                  | proc_call
                  | func_call
                  ;
-block_statement : proc_definition | if_statement | func_definition | block;
+block_statement : proc_definition
+                | if_statement
+                | func_definition
+                | for_statement
+                | block;
 proc_definition : FUNCTION ID LPAR arglist RPAR EOL block;
 func_definition : FUNCTION typeBasic ID LPAR arglist RPAR EOL func_block;
 arglist : (type ID (',' type ID)*)? ;
 
 if_statement
 	: IF expression THEN EOL block (ELSE EOL block)?
+	;
+for_statement
+	: FOR var FROM val TO val EOL block
 	;
 
 var_definition : VARIABLE type ID '=' expression;
@@ -176,6 +183,9 @@ CHAR_T: 'písmeno';
 STRING_T: 'slovo';
 
 VARIABLE : 'meňak' ;
+FOR : 'zrob s meňakom';
+FROM : 'od';
+TO : 'do';
 PRINT : 'ciskaj' ;
 RET : 'vrac';
 IF : 'keď';
