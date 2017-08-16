@@ -2,20 +2,16 @@ package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
-import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.block.Function;
-import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
+import com.pidanic.saral.util.FunctionHelper;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 public class FunctionVisitor extends SaralBaseVisitor<Function> {
 
     private Scope scope;
@@ -28,27 +24,8 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
     public Function visitFunc_definition(SaralParser.Func_definitionContext ctx) {
         String functionName = ctx.ID().getText();
 
-        List<Argument> arguments = new ArrayList<>();
-        for(int i = 0; i < ctx.arglist().ID().size(); i++) {
-            String argName = ctx.arglist().ID(i).getText();
-            String argType = ctx.arglist().type(i).getText();
-            Type type = TypeResolver.getFromTypeName(argType);
-            LocalVariable var = new LocalVariable(argName, type);
-            scope.addVariable(var);
-            arguments.add(new Argument(argName, argType));
-        }
-
-        List<Statement> allStatements = ctx.func_block().statements().statement().stream().map(stmtCtx -> {
-            SaralParser.Block_statementContext block = stmtCtx.block_statement();
-            SaralParser.Simple_statementContext simpleStmt = stmtCtx.simple_statement();
-            Statement val;
-            if(block != null) {
-                val = block.accept(new StatementVisitor(scope));
-            } else {
-                val = simpleStmt.accept(new StatementVisitor(scope));
-            }
-            return val;
-        }).collect(Collectors.toList());
+        List<Argument> arguments = FunctionHelper.parseFunctionArguments(ctx.arglist(), scope);
+        List<Statement> allStatements = FunctionHelper.parseFunctionStatements(ctx.func_block().statements(), scope);
 
         String typeName = ctx.typeBasic().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
@@ -57,10 +34,7 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         ReturnStatement returnStatement = new ReturnStatement(expression);
 
-        List<Statement> simpleStatements = allStatements.stream()
-                .filter(stmt -> stmt instanceof SimpleStatement || stmt instanceof ForStatement || stmt instanceof IfStatement)
-                .collect(Collectors.toList());
-        Function function = new Function(scope, functionName, arguments, simpleStatements, retType, returnStatement);
+        Function function = new Function(scope, functionName, arguments, allStatements, retType, returnStatement);
 
         return function;
     }
