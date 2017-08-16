@@ -11,7 +11,8 @@ public enum ArithmeticSign implements Sign {
     MULT("*", Opcodes.IMUL),
     DIV("/", Opcodes.IDIV),
     DIV2(":", Opcodes.IDIV),
-    MOD("%", Opcodes.IREM);
+    MOD("%", Opcodes.IREM),
+    UNARY_MINUS("-", Opcodes.INEG);
 
     private String sign;
     private int opcode;

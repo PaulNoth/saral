@@ -251,4 +251,8 @@ public class ExpressionGenerator extends StatementGenerator {
 
         methodVisitor.visitLabel(endLabel);
     }
+
+    public void generate(UnaryMinus unaryMinus) {
+        // TODO
+    }
 }
