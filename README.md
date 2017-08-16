@@ -67,19 +67,23 @@ Podporované sú matematické operácie medzi celými a reálnymi číslami (typ
 - ščítanie `+`
 - odčítanie `-`
 - zvyšok po delení (modulo) `%` (len pre typ `neskutočné numeralio`)
+- negácia `-` (unárna operácia)
 
 ```
 bar neskutočné numeralio vracimDaco()
     meňak neskutočné numeralio pejc = 5
     vrac pejc
     
-meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
 meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
-meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio f = (10 : 2)
 meňak neskutočné numeralio g = 11 % 2
+meňak neskutočné numeralio h = -aa
+meňak skutočné numeralio i = 1.0
+meňak skutočné numeralio j = -i
 ```
 
 #### Porovnávanie

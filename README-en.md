@@ -64,19 +64,23 @@ There are supported mathematical operation between integers and floats (type `ne
 - addition `+`
 - substraction `-`
 - remainder (modulo) `%` (only for type `neskutočné numeralio`)
+- negation `-` (unary minus)
 
 ```
 bar neskutočné numeralio returnSomething()
     meňak neskutočné numeralio five = 5
     vrac five
     
-meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac z baru returnSomething())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
-meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio f = (10 : 2)
 meňak neskutočné numeralio g = 11 % 2
+meňak neskutočné numeralio h = -aa
+meňak skutočné numeralio i = 1.0
+meňak skutočné numeralio j = -i
 ```
 
 #### Comparisons
