@@ -251,4 +251,10 @@ public class ExpressionGenerator extends StatementGenerator {
 
         methodVisitor.visitLabel(endLabel);
     }
+
+    public void generate(UnaryMinus unaryMinus) {
+        Expression expression = unaryMinus.getExpression();
+        expression.accept(this);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getNegation());
+    }
 }

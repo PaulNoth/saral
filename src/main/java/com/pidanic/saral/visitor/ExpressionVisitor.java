@@ -110,6 +110,12 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitUnaryMinus(SaralParser.UnaryMinusContext ctx) {
+        Expression expression = ctx.expression().accept(this);
+        return new UnaryMinus(expression);
+    }
+
+    @Override
     public Expression visitMul(SaralParser.MulContext ctx) {
         SaralParser.ExpressionContext leftExpression = ctx.expression(0);
         SaralParser.ExpressionContext rightExpression = ctx.expression(1);

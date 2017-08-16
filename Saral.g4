@@ -137,6 +137,7 @@ val : var # ValVar
     ;
 expression : LPAR expression RPAR # Paren
            | func_call #Func
+           | op=SUB expression # UnaryMinus
            | expression op=(MUL | DIV | MOD) expression # Mul
            | expression op=(ADD | SUB) expression # Add
            | expression op=(EQ | NE | LE | GE | GT | LT) expression # Compare
