@@ -1,7 +1,8 @@
 bar robim()
     meňak neskutočné numeralio tri = 3
-    ciskaj tri
+    ciskaj tri // return tri
 
+// toto je komentár (this is a comment)
 bar tiezRobim(neskutočné numeralio x)
     ciskaj x
 

@@ -214,8 +214,7 @@ EOL :
         String spaces = getText().replaceAll("[\r\n]+", "");
         int next = _input.LA(1);
 
-        if(opened > 0 || next == '\r' || next == '\n') {
-         // || next == '/') should skip comment
+        if(opened > 0 || next == '\r' || next == '\n' || next == '/') {
             skip();
         } else {
             emit(commonToken(EOL, newLine));
@@ -241,4 +240,5 @@ EOL :
     ;
 
 EMPTY_LINE : {getCharPositionInLine()==0}? ((' '|'\t')* EOL) -> skip ;
+COMMENT: '//' ~[\r\n]* -> skip;
 WS: [ \t]+ -> skip ;
