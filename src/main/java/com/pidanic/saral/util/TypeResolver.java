@@ -22,7 +22,7 @@ public class TypeResolver {
         if(StringUtils.isEmpty(value)) {
             return BuiltInType.VOID;
         }
-        if(BooleanUtils.isBooleanValue(value)) {
+        if(Logic.isBooleanValue(value)) {
             return BuiltInType.BOOLEAN;
         }
         if(value.matches("[0-9]+.[0-9]+]")) {
