@@ -30,6 +30,16 @@ meňak slovo hello = "hello"
 ciskaj hello
 ```
 
+### Comments
+They start with `//` and can appear at the beginning of a line and they will take whole line or at the end of a statement
+```
+meňak neskutočné numeralio five = 5
+// this is a comment
+ciskaj five
+meňak slovo hello = "hello" // nice greeting
+ciskaj hello
+```
+
 ### Data Types
 There are data types supported - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 

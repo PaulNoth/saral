@@ -35,6 +35,16 @@ meňak slovo servus = "servus"
 ciskaj servus
 ```
 
+### Komentáre
+Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberejú celý riadok, alebo za výrazom
+```
+meňak neskutočné numeralio pejc = 5
+// toto je komentár
+ciskaj pejc
+meňak slovo servus = "servus" // pekný pozdrav
+ciskaj servus
+```
+
 ### Dátové typy
 Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 
