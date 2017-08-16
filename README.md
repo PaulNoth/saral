@@ -35,6 +35,16 @@ meňak slovo servus = "servus"
 ciskaj servus
 ```
 
+### Komentáre
+Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberú celý riadok, alebo za výrazom
+```
+meňak neskutočné numeralio pejc = 5
+// toto je komentár
+ciskaj pejc
+meňak slovo servus = "servus" // pekný pozdrav
+ciskaj servus
+```
+
 ### Dátové typy
 Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 
@@ -170,15 +180,15 @@ meňak logický soap = so a p
 meňak logický soao = so a o
 meňak logický soaso = so a so
 
-ciskaj pap
-ciskaj pao
-ciskaj paso
-ciskaj oap
-ciskaj oao
-ciskaj oaso
-ciskaj soap
-ciskaj soao
-ciskaj soaso
+ciskaj pap      // pravda
+ciskaj pao      // ošaľ
+ciskaj paso     // skoroošaľ
+ciskaj oap      // ošaľ
+ciskaj oao      // ošaľ
+ciskaj oaso     // ošaľ
+ciskaj soap     // skorošaľ
+ciskaj soao     // ošaľ
+ciskaj soaso    // skoroošaľ
 
 meňak logický pabop = p abo p
 meňak logický paboo = p abo o
@@ -192,24 +202,23 @@ meňak logický soabop = so abo p
 meňak logický soaboo = so abo o
 meňak logický soaboso = so abo so
 
-ciskaj pabop
-ciskaj paboo
-ciskaj paboso
-ciskaj oabop
-ciskaj oaboo
-ciskaj oaboso
-ciskaj soabop
-ciskaj soaboo
-ciskaj soaboso
+ciskaj pabop    // pravda
+ciskaj paboo    // pravda
+ciskaj paboso   // pravda
+ciskaj oabop    // pravda
+ciskaj oaboo    // ošaľ
+ciskaj oaboso   // skoroošaľ
+ciskaj soabop   // pravda
+ciskaj soaboo   // skoroošaľ
+ciskaj soaboso  // skoroošaľ
 
 meňak logický nep = ne p
 meňak logický neo = ne o
 meňak logický neso = ne so
 
-ciskaj nep
-ciskaj neo
-ciskaj neso
-
+ciskaj nep      // ošaľ
+ciskaj neo      // pravda
+ciskaj neso     // skoroošaľ
 ```
 
 ### Procedúry

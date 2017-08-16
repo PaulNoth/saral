@@ -22,11 +22,21 @@ Then run compiled program.
 `java <saral_source_file.class>`
 
 ### Program
-It is for JVM, but you do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`-
+It is for JVM, but you do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`.
 ```
 meňak neskutočné numeralio five = 5
 ciskaj five
 meňak slovo hello = "hello"
+ciskaj hello
+```
+
+### Comments
+They start with `//` and can appear at the beginning of a line and they will take whole line or at the end of a statement
+```
+meňak neskutočné numeralio five = 5
+// this is a comment
+ciskaj five
+meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
@@ -167,15 +177,15 @@ meňak logický soap = so a p
 meňak logický soao = so a o
 meňak logický soaso = so a so
 
-ciskaj pap
-ciskaj pao
-ciskaj paso
-ciskaj oap
-ciskaj oao
-ciskaj oaso
-ciskaj soap
-ciskaj soao
-ciskaj soaso
+ciskaj pap      // pravda
+ciskaj pao      // ošaľ
+ciskaj paso     // skoroošaľ
+ciskaj oap      // ošaľ
+ciskaj oao      // ošaľ
+ciskaj oaso     // ošaľ
+ciskaj soap     // skorošaľ
+ciskaj soao     // ošaľ
+ciskaj soaso    // skoroošaľ
 
 meňak logický pabop = p abo p
 meňak logický paboo = p abo o
@@ -189,24 +199,23 @@ meňak logický soabop = so abo p
 meňak logický soaboo = so abo o
 meňak logický soaboso = so abo so
 
-ciskaj pabop
-ciskaj paboo
-ciskaj paboso
-ciskaj oabop
-ciskaj oaboo
-ciskaj oaboso
-ciskaj soabop
-ciskaj soaboo
-ciskaj soaboso
+ciskaj pabop    // pravda
+ciskaj paboo    // pravda
+ciskaj paboso   // pravda
+ciskaj oabop    // pravda
+ciskaj oaboo    // ošaľ
+ciskaj oaboso   // skoroošaľ
+ciskaj soabop   // pravda
+ciskaj soaboo   // skoroošaľ
+ciskaj soaboso  // skoroošaľ
 
 meňak logický nep = ne p
 meňak logický neo = ne o
 meňak logický neso = ne so
 
-ciskaj nep
-ciskaj neo
-ciskaj neso
-
+ciskaj nep      // ošaľ
+ciskaj neo      // pravda
+ciskaj neso     // skoroošaľ
 ```
 
 ### Procedures
