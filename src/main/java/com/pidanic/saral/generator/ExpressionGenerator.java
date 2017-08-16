@@ -38,7 +38,7 @@ public class ExpressionGenerator extends StatementGenerator {
             methodVisitor.visitLdcInsn(value);
         } else if(type == BuiltInType.BOOLEAN) {
             String boolValue = val.getValue();
-            Integer value = BooleanUtils.convertToBooleanValue(boolValue);
+            Integer value = Logic.getFromString(boolValue).getIntValue();
             methodVisitor.visitLdcInsn(value);
         } else if(TypeResolver.isDouble(type)) {
             Double value = Double.valueOf(val.getValue());

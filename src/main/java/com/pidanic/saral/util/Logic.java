@@ -1,6 +1,7 @@
 package com.pidanic.saral.util;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public enum Logic {
     PRAVDA(1, "pravda"), OSAL(0, "ošaľ"), SKOROOSAL(2, "skoroošaľ");
@@ -50,7 +51,15 @@ public enum Logic {
     }
 
     public static Logic getFromString(String value) {
+        return getFromValue(value).orElse(Logic.OSAL);
+    }
+
+    public static boolean isBooleanValue(String value) {
+        return getFromValue(value).isPresent();
+    }
+
+    private static Optional<Logic> getFromValue(String value) {
         return Arrays.stream(values()).filter(val -> val.sValue.compareToIgnoreCase(value) == 0)
-                .findFirst().orElse(Logic.OSAL);
+                .findFirst();
     }
 }
