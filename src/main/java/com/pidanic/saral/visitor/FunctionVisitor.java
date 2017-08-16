@@ -2,7 +2,9 @@ package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
+import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.block.Function;
+import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
@@ -55,9 +57,8 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         ReturnStatement returnStatement = new ReturnStatement(expression);
 
-        List<SimpleStatement> simpleStatements = allStatements.stream()
-                .filter(stmt -> stmt instanceof SimpleStatement)
-                .map(statement -> (SimpleStatement) statement)
+        List<Statement> simpleStatements = allStatements.stream()
+                .filter(stmt -> stmt instanceof SimpleStatement || stmt instanceof ForStatement || stmt instanceof IfStatement)
                 .collect(Collectors.toList());
         Function function = new Function(scope, functionName, arguments, simpleStatements, retType, returnStatement);
 

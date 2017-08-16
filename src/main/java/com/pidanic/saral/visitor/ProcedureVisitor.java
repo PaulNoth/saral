@@ -1,8 +1,7 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
-import com.pidanic.saral.domain.block.Argument;
-import com.pidanic.saral.domain.block.Procedure;
+import com.pidanic.saral.domain.block.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -48,9 +47,8 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
             return val;
         }).collect(Collectors.toList());
 
-        List<SimpleStatement> simpleStatements = allStatements.stream()
-                .filter(stmt -> stmt instanceof SimpleStatement)
-                .map(statement -> (SimpleStatement) statement)
+        List<Statement> simpleStatements = allStatements.stream()
+                .filter(stmt -> stmt instanceof SimpleStatement || stmt instanceof ForStatement || stmt instanceof IfStatement)
                 .collect(Collectors.toList());
         Procedure procedure = new Procedure(scope, procedureName, arguments, simpleStatements);
 

@@ -48,7 +48,7 @@ bar robim3()
 bar robim4()
     meňak neskutočné numeralio tritri = 3
     zrob s meňakom x od 1 do tritri
-        ciskaj tritri
+        ciskaj x
 
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
@@ -72,3 +72,6 @@ meňak skutočné numeralio sn = 2.1
 meňak slovo s = "to slovo"
 meňak písmeno pi = 'x'
 paľ do baru všetkyTypyParametrov(nn, l, sn, s, pi)
+
+paľ do baru robim3()
+paľ do baru robim4()

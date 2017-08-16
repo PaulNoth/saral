@@ -1,8 +1,9 @@
 package com.pidanic.saral.generator;
 
+import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.ReturnStatement;
-import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.DescriptorFactory;
 import org.objectweb.asm.ClassWriter;
@@ -28,13 +29,20 @@ public class CallableStatementGenerator extends StatementGenerator {
         String procedureName = function.getName();
 
         String descriptor = DescriptorFactory.getMethodDescriptor(function);
-        Collection<SimpleStatement> statements = function.getSimpleStatements();
+        Collection<Statement> statements = function.getStatements();
         int access = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
         MethodVisitor mw = classWriter.visitMethod(access, procedureName, descriptor, null, null);
         mw.visitCode();
 
-        StatementGenerator statementGenerator = new SimpleStatementGenerator(mw, scope);
-        statements.forEach(statement -> statement.accept(statementGenerator));
+        StatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(mw, scope);
+        StatementGenerator statementGenerator = new BlockStatementGenerator(mw, scope);
+        statements.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(statementGenerator);
+            }
+        });
 
         Optional<ReturnStatement> ret = function.getReturnStatement();
         generateReturnStatement(scope, mw, ret);
