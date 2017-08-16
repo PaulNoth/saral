@@ -253,6 +253,8 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(UnaryMinus unaryMinus) {
-        // TODO
+        Expression expression = unaryMinus.getExpression();
+        expression.accept(this);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getNegation());
     }
 }
