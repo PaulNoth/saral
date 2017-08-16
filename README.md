@@ -36,7 +36,7 @@ ciskaj servus
 ```
 
 ### Komentáre
-Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberejú celý riadok, alebo za výrazom
+Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberú celý riadok, alebo za výrazom
 ```
 meňak neskutočné numeralio pejc = 5
 // toto je komentár
