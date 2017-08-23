@@ -38,6 +38,7 @@ meňak neskutočné numeralio g = 11 % 2
 meňak neskutočné numeralio h = -aa
 meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
+meňak skutočné numeralio l = 1 + 1.0
 ciskaj aa
 ciskaj b
 ciskaj c
@@ -48,3 +49,4 @@ ciskaj g
 ciskaj h
 ciskaj i
 ciskaj j
+ciskaj l

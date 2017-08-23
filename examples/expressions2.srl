@@ -51,6 +51,8 @@ meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
 
+meňak logický e3 = 4 == 4.0
+
 ciskaj e
 ciskaj e2
 ciskaj nee
@@ -67,6 +69,8 @@ ciskaj g3
 ciskaj l
 ciskaj l2
 ciskaj l3
+
+ciskaj e3
 
 meňak logický enn = 4.0 == 4.0
 meňak logický enn2 = 4.0 == 3.0
