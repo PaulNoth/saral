@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.domain.expression.logic.And;
 import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
@@ -256,5 +257,11 @@ public class ExpressionGenerator extends StatementGenerator {
         Expression expression = unaryMinus.getExpression();
         expression.accept(this);
         methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getNegation());
+    }
+
+    public void generate(CastExpression castExpression) {
+        Expression expression = castExpression.getExpression();
+        expression.accept(this);
+        methodVisitor.visitInsn(castExpression.getSign().getOpcode());
     }
 }
