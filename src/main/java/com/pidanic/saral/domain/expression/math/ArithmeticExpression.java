@@ -9,11 +9,16 @@ import com.pidanic.saral.util.Type;
 abstract class ArithmeticExpression extends BinaryExpression {
 
     ArithmeticExpression(Sign sign, Expression left, Expression right) {
-        super(left.getType(), sign, left, right);
-        Type leftType = left.getType();
-        if(leftType == BuiltInType.STRING || leftType == BuiltInType.VOID) {
-            throw new UnsupportedOperationException("Only numerical Arithmetic expression supported. Actual expression type. Left: "
-                    + left.getType() + ", right: " + right.getType());
+        super(calculateExpressionType(left.getType(), right.getType()), sign, left, right);
+    }
+
+    private static Type calculateExpressionType(Type leftType, Type rightType) {
+        if(leftType == BuiltInType.LONG && rightType == BuiltInType.DOUBLE) {
+            return BuiltInType.DOUBLE;
         }
+        if(leftType == BuiltInType.DOUBLE && rightType == BuiltInType.LONG) {
+            return BuiltInType.DOUBLE;
+        }
+        return leftType;
     }
 }

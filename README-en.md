@@ -83,7 +83,7 @@ bar neskutočné numeralio returnSomething()
     
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru returnSomething())
+meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)
@@ -91,6 +91,7 @@ meňak neskutočné numeralio g = 11 % 2
 meňak neskutočné numeralio h = -aa
 meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
+meňak skutočné numeralio l = 1 + 1.0
 ```
 
 #### Comparisons
@@ -106,7 +107,7 @@ A result will be `pravda` (true) value or `ošaľ` (false) value.
 ```
 meňak logický e = 4 == 4
 meňak logický e2 = 4 == 3
-meňak logický ne = 4 <> 4
+meňak logický nee = 4 <> 4
 meňak logický ne2 = 4 <> 3
 meňak logický ge = 4 >= 4
 meňak logický ge2 = 4 >= 3
@@ -120,8 +121,8 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
-meňak logický enn = 4.0 == 4.0
-meňak logický enn2 = 4.0 == 3.0
+meňak logický e3 = 4 == 4.0
+meňak logický l4 = 4 < 4.1
 ```
 
 #### Logical operations
