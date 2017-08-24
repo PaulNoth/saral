@@ -37,6 +37,18 @@ bar všetkyTypyParametrov(neskutočné numeralio nn, logický l, skutočné nume
     ciskaj s
     ciskaj p
 
+bar robim3()
+    meňak neskutočné numeralio tri = 3
+    keď tri > 3 potom
+        ciskaj tri
+    inak
+        meňak slovo vypisem = "Neda sa"
+        ciskaj vypisem
+
+bar robim4()
+    meňak neskutočné numeralio tritri = 3
+    zrob s meňakom x od 1 do tritri
+        ciskaj x
 
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
@@ -58,5 +70,8 @@ meňak neskutočné numeralio nn = 2
 meňak logický l = pravda
 meňak skutočné numeralio sn = 2.1
 meňak slovo s = "to slovo"
-meňak písmeno p = 'x'
-paľ do baru všetkyTypyParametrov(nn, l, sn, s, p)
+meňak písmeno pi = 'x'
+paľ do baru všetkyTypyParametrov(nn, l, sn, s, pi)
+
+paľ do baru robim3()
+paľ do baru robim4()

@@ -1,4 +1,4 @@
-## ŠARAL 2.0 - ŠARIŠ ALGORITMIK LENGVIDŽ 2.0
+## ŠARAL 2.0 - ŠARIŠ ALGORITHMIC LANGUAGE 2.0
 
 [Slovensky](README.md)
 
@@ -22,11 +22,21 @@ Then run compiled program.
 `java <saral_source_file.class>`
 
 ### Program
-It is for JVM, but you do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`-
+It is for JVM, but you do not need to have `class`es. We declare few variables with `meňak` and print them to the console with `ciskaj`.
 ```
 meňak neskutočné numeralio five = 5
 ciskaj five
 meňak slovo hello = "hello"
+ciskaj hello
+```
+
+### Comments
+They start with `//` and can appear at the beginning of a line and they will take whole line or at the end of a statement
+```
+meňak neskutočné numeralio five = 5
+// this is a comment
+ciskaj five
+meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
@@ -64,19 +74,24 @@ There are supported mathematical operation between integers and floats (type `ne
 - addition `+`
 - substraction `-`
 - remainder (modulo) `%` (only for type `neskutočné numeralio`)
+- negation `-` (unary minus)
 
 ```
 bar neskutočné numeralio returnSomething()
     meňak neskutočné numeralio five = 5
     vrac five
     
-meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
 meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
-meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio f = (10 : 2)
 meňak neskutočné numeralio g = 11 % 2
+meňak neskutočné numeralio h = -aa
+meňak skutočné numeralio i = 1.0
+meňak skutočné numeralio j = -i
+meňak skutočné numeralio l = 1 + 1.0
 ```
 
 #### Comparisons
@@ -92,7 +107,7 @@ A result will be `pravda` (true) value or `ošaľ` (false) value.
 ```
 meňak logický e = 4 == 4
 meňak logický e2 = 4 == 3
-meňak logický ne = 4 <> 4
+meňak logický nee = 4 <> 4
 meňak logický ne2 = 4 <> 3
 meňak logický ge = 4 >= 4
 meňak logický ge2 = 4 >= 3
@@ -106,8 +121,8 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
-meňak logický enn = 4.0 == 4.0
-meňak logický enn2 = 4.0 == 3.0
+meňak logický e3 = 4 == 4.0
+meňak logický l4 = 4 < 4.1
 ```
 
 #### Logical operations
@@ -163,15 +178,15 @@ meňak logický soap = so a p
 meňak logický soao = so a o
 meňak logický soaso = so a so
 
-ciskaj pap
-ciskaj pao
-ciskaj paso
-ciskaj oap
-ciskaj oao
-ciskaj oaso
-ciskaj soap
-ciskaj soao
-ciskaj soaso
+ciskaj pap      // pravda
+ciskaj pao      // ošaľ
+ciskaj paso     // skoroošaľ
+ciskaj oap      // ošaľ
+ciskaj oao      // ošaľ
+ciskaj oaso     // ošaľ
+ciskaj soap     // skorošaľ
+ciskaj soao     // ošaľ
+ciskaj soaso    // skoroošaľ
 
 meňak logický pabop = p abo p
 meňak logický paboo = p abo o
@@ -185,24 +200,23 @@ meňak logický soabop = so abo p
 meňak logický soaboo = so abo o
 meňak logický soaboso = so abo so
 
-ciskaj pabop
-ciskaj paboo
-ciskaj paboso
-ciskaj oabop
-ciskaj oaboo
-ciskaj oaboso
-ciskaj soabop
-ciskaj soaboo
-ciskaj soaboso
+ciskaj pabop    // pravda
+ciskaj paboo    // pravda
+ciskaj paboso   // pravda
+ciskaj oabop    // pravda
+ciskaj oaboo    // ošaľ
+ciskaj oaboso   // skoroošaľ
+ciskaj soabop   // pravda
+ciskaj soaboo   // skoroošaľ
+ciskaj soaboso  // skoroošaľ
 
 meňak logický nep = ne p
 meňak logický neo = ne o
 meňak logický neso = ne so
 
-ciskaj nep
-ciskaj neo
-ciskaj neso
-
+ciskaj nep      // ošaľ
+ciskaj neo      // pravda
+ciskaj neso     // skoroošaľ
 ```
 
 ### Procedures

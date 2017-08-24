@@ -35,6 +35,16 @@ meňak slovo servus = "servus"
 ciskaj servus
 ```
 
+### Komentáre
+Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberú celý riadok, alebo za výrazom
+```
+meňak neskutočné numeralio pejc = 5
+// toto je komentár
+ciskaj pejc
+meňak slovo servus = "servus" // pekný pozdrav
+ciskaj servus
+```
+
 ### Dátové typy
 Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 
@@ -67,19 +77,24 @@ Podporované sú matematické operácie medzi celými a reálnymi číslami (typ
 - ščítanie `+`
 - odčítanie `-`
 - zvyšok po delení (modulo) `%` (len pre typ `neskutočné numeralio`)
+- negácia `-` (unárna operácia)
 
 ```
 bar neskutočné numeralio vracimDaco()
     meňak neskutočné numeralio pejc = 5
     vrac pejc
     
-meňak neskutočné numeralio a = 1 + 1
+meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
 meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
-meňak neskutočné numeralio f = 10 : 2
+meňak neskutočné numeralio f = (10 : 2)
 meňak neskutočné numeralio g = 11 % 2
+meňak neskutočné numeralio h = -aa
+meňak skutočné numeralio i = 1.0
+meňak skutočné numeralio j = -i
+meňak skutočné numeralio l = 1 + 1.0
 ```
 
 #### Porovnávanie
@@ -95,7 +110,7 @@ Výsledok bude hodnoty `pravda`, ak je podmienka pravdivá a `ošaľ`, ak je nep
 ```
 meňak logický e = 4 == 4
 meňak logický e2 = 4 == 3
-meňak logický ne = 4 <> 4
+meňak logický nee = 4 <> 4
 meňak logický ne2 = 4 <> 3
 meňak logický ge = 4 >= 4
 meňak logický ge2 = 4 >= 3
@@ -109,8 +124,8 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
-meňak logický enn = 4.0 == 4.0
-meňak logický enn2 = 4.0 == 3.0
+meňak logický e3 = 4 == 4.0
+meňak logický l4 = 4 < 4.1
 ```
 
 #### Logické operácie
@@ -166,15 +181,15 @@ meňak logický soap = so a p
 meňak logický soao = so a o
 meňak logický soaso = so a so
 
-ciskaj pap
-ciskaj pao
-ciskaj paso
-ciskaj oap
-ciskaj oao
-ciskaj oaso
-ciskaj soap
-ciskaj soao
-ciskaj soaso
+ciskaj pap      // pravda
+ciskaj pao      // ošaľ
+ciskaj paso     // skoroošaľ
+ciskaj oap      // ošaľ
+ciskaj oao      // ošaľ
+ciskaj oaso     // ošaľ
+ciskaj soap     // skorošaľ
+ciskaj soao     // ošaľ
+ciskaj soaso    // skoroošaľ
 
 meňak logický pabop = p abo p
 meňak logický paboo = p abo o
@@ -188,24 +203,23 @@ meňak logický soabop = so abo p
 meňak logický soaboo = so abo o
 meňak logický soaboso = so abo so
 
-ciskaj pabop
-ciskaj paboo
-ciskaj paboso
-ciskaj oabop
-ciskaj oaboo
-ciskaj oaboso
-ciskaj soabop
-ciskaj soaboo
-ciskaj soaboso
+ciskaj pabop    // pravda
+ciskaj paboo    // pravda
+ciskaj paboso   // pravda
+ciskaj oabop    // pravda
+ciskaj oaboo    // ošaľ
+ciskaj oaboso   // skoroošaľ
+ciskaj soabop   // pravda
+ciskaj soaboo   // skoroošaľ
+ciskaj soaboso  // skoroošaľ
 
 meňak logický nep = ne p
 meňak logický neo = ne o
 meňak logický neso = ne so
 
-ciskaj nep
-ciskaj neo
-ciskaj neso
-
+ciskaj nep      // ošaľ
+ciskaj neo      // pravda
+ciskaj neso     // skoroošaľ
 ```
 
 ### Procedúry

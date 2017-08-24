@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
+import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.domain.expression.logic.And;
 import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
@@ -38,7 +39,7 @@ public class ExpressionGenerator extends StatementGenerator {
             methodVisitor.visitLdcInsn(value);
         } else if(type == BuiltInType.BOOLEAN) {
             String boolValue = val.getValue();
-            Integer value = BooleanUtils.convertToBooleanValue(boolValue);
+            Integer value = Logic.getFromString(boolValue).getIntValue();
             methodVisitor.visitLdcInsn(value);
         } else if(TypeResolver.isDouble(type)) {
             Double value = Double.valueOf(val.getValue());
@@ -250,5 +251,17 @@ public class ExpressionGenerator extends StatementGenerator {
         methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
 
         methodVisitor.visitLabel(endLabel);
+    }
+
+    public void generate(UnaryMinus unaryMinus) {
+        Expression expression = unaryMinus.getExpression();
+        expression.accept(this);
+        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getNegation());
+    }
+
+    public void generate(CastExpression castExpression) {
+        Expression expression = castExpression.getExpression();
+        expression.accept(this);
+        methodVisitor.visitInsn(castExpression.getSign().getOpcode());
     }
 }

@@ -46,7 +46,7 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
         List<SimpleStatement> block = ctx.block().statements().statement().stream()
                 .filter(stmt -> stmt.simple_statement() != null)
                 .map(stmt -> stmt.simple_statement().accept(simpleStatementVisitor))
-                .filter(stmt -> stmt == null)
+                .filter(stmt -> stmt != null)
                 .collect(Collectors.toList());
         if(block.isEmpty()) {
             throw new EmptyForStatementBlockException(scope);
