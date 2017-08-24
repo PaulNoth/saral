@@ -94,6 +94,7 @@ meňak neskutočné numeralio g = 11 % 2
 meňak neskutočné numeralio h = -aa
 meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
+meňak skutočné numeralio l = 1 + 1.0
 ```
 
 #### Porovnávanie
@@ -109,7 +110,7 @@ Výsledok bude hodnoty `pravda`, ak je podmienka pravdivá a `ošaľ`, ak je nep
 ```
 meňak logický e = 4 == 4
 meňak logický e2 = 4 == 3
-meňak logický ne = 4 <> 4
+meňak logický nee = 4 <> 4
 meňak logický ne2 = 4 <> 3
 meňak logický ge = 4 >= 4
 meňak logický ge2 = 4 >= 3
@@ -123,8 +124,8 @@ meňak logický g3 = 3 > 4
 meňak logický l = 4 < 4
 meňak logický l2 = 4 < 3
 meňak logický l3 = 3 < 4
-meňak logický enn = 4.0 == 4.0
-meňak logický enn2 = 4.0 == 3.0
+meňak logický e3 = 4 == 4.0
+meňak logický l4 = 4 < 4.1
 ```
 
 #### Logické operácie
