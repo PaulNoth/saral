@@ -3,9 +3,12 @@ package com.pidanic.saral.visitor;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.domain.expression.cast.CastExpression;
+import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
+import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -32,11 +35,19 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     @Override
     public SimpleStatement visitVar_definition(SaralParser.Var_definitionContext ctx) {
         TerminalNode varName = ctx.ID();
+        String variableName = varName.getText();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         String varType = ctx.type().typeBasic().getText();
-        Type type = TypeResolver.getFromTypeName(varType);
-        LocalVariable var = new LocalVariable(varName.getText(), type);
+        Type variableType = TypeResolver.getFromTypeName(varType);
+        if(variableType != expression.getType()) {
+            if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
+                expression = new CastExpression(BuiltInType.DOUBLE, expression);
+            } else {
+                throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
+            }
+        }
+        LocalVariable var = new LocalVariable(variableName, variableType);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
     }
