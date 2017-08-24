@@ -1,7 +1,6 @@
 package com.pidanic.saral.domain.expression;
 
 import com.pidanic.saral.domain.expression.cast.CastExpression;
-import com.pidanic.saral.exception.IncompatibleExpressionTypeException;
 import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
 
@@ -36,9 +35,6 @@ public abstract class BinaryExpression extends Expression {
     }
 
     private void convertIfCast(Type type, Expression left, Expression right) {
-        if(type == BuiltInType.LONG && (left.getType() == BuiltInType.DOUBLE || right.getType() == BuiltInType.DOUBLE)) {
-            throw new IncompatibleExpressionTypeException(type, left.getType(), right.getType());
-        }
         if(type == BuiltInType.DOUBLE) {
             if(left.getType() == BuiltInType.LONG) {
                 this.left = new CastExpression(BuiltInType.DOUBLE, left);
