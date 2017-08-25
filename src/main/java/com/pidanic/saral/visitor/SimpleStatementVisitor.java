@@ -90,6 +90,6 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
-        return new VariableDeclaration(varName, expression);
+        return new Assignment(varName, expression);
     }
 }

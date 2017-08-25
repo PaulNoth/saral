@@ -11,7 +11,6 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import javax.swing.text.html.Option;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
@@ -80,16 +79,16 @@ public class SimpleStatementGenerator extends StatementGenerator {
             expression.accept(expressionGenerator);
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
         }
-        //else {
+       // else {
             //throw new VariableNotInitializedException(scope, variableName);
             //LocalVariable var = scope.getLocalVariable(variableName);
             //Type type = var.getType();
-            //if (type == BuiltInType.INT) {
+            //if (type == BuiltInType.LONG) {
             //    methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
             //} else if (type == BuiltInType.STRING) {
             //    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
             //}
-        //}
+       // }
     }
 
      public void generate(ProcedureCall functionCall) {
@@ -138,6 +137,18 @@ public class SimpleStatementGenerator extends StatementGenerator {
             return Optional.of(methodDescriptor);
         } catch (ReflectiveOperationException e) {
             return Optional.empty();
+        }
+    }
+
+    public void generate(Assignment assignment) {
+        final String variableName = assignment.getName();
+        final int variableId = scope.getVariableIndex(variableName);
+        final Optional<Expression> expressionOption = assignment.getExpression();
+        if(expressionOption.isPresent()) {
+            Expression expression = expressionOption.get();
+            expression.accept(expressionGenerator);
+            final Type type = expression.getType();
+            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
         }
     }
 }

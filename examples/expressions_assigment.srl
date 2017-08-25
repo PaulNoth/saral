@@ -37,3 +37,11 @@ ciskaj hodnotaSlovaZatvoriek
 meňak neskutočné numeralio jedna
 jedna = 1
 ciskaj jedna
+
+bar robim2()
+    jedna = 2
+
+ciskaj jedna
+
+jedna = 10
+ciskaj jedna
