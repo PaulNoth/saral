@@ -39,7 +39,8 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
             throw new IncompatibleTypeForStatement(ForStatement.ForStatementPart.TO, scope, to.getType());
         }
 
-        LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG);
+        LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG, true);
+        // TODO here recheck if already in scope
         scope.addVariable(localVar);
         VariableDeclaration var = new VariableDeclaration(varName, from);
 

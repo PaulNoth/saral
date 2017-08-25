@@ -31,6 +31,9 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(PrintVariable instruction) {
         final LocalVariable variable = instruction.getVariable();
+        if(!variable.isInitialized()) {
+            throw new VariableNotInitializedException(scope, variable.getName());
+        }
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
@@ -98,6 +101,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
             Argument param = parameters.get(i);
             CalledArgument callArg = calledParameter.get(i);
             String realLocalVariableName = callArg.getName();
+            LocalVariable argVar = scope.getLocalVariable(realLocalVariableName);
+            if(!argVar.isInitialized()) {
+                throw new VariableNotInitializedException(scope, argVar.getName());
+            }
             param.accept(this, realLocalVariableName);
         }
         //Type owner = functionCall.getFunction().getReturnType().orElse(new ClassType(scope.getClassName()));

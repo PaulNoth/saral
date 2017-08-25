@@ -40,7 +40,7 @@ public final class FunctionHelper {
             String argName = arglistContext.ID(i).getText();
             String argType = arglistContext.type(i).getText();
             Type type = TypeResolver.getFromTypeName(argType);
-            LocalVariable var = new LocalVariable(argName, type);
+            LocalVariable var = new LocalVariable(argName, type, true);
             scope.addVariable(var);
             arguments.add(new Argument(argName, argType));
         }

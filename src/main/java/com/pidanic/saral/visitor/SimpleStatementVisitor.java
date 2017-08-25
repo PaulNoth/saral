@@ -29,7 +29,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
         TerminalNode varName = ctx.var().ID();
         LocalVariable localVariable = scope.getLocalVariable(varName.getText());
-        LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType());
+        LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
         return new PrintVariable(var);
     }
 
@@ -48,7 +48,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
         }
-        LocalVariable var = new LocalVariable(variableName, variableType);
+        LocalVariable var = new LocalVariable(variableName, variableType, true);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
     }
@@ -75,7 +75,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         TerminalNode varName = ctx.ID();
         String varType = ctx.type().typeBasic().getText();
         Type type = TypeResolver.getFromTypeName(varType);
-        LocalVariable var = new LocalVariable(varName.getText(), type);
+        LocalVariable var = new LocalVariable(varName.getText(), type, false);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText());
     }
@@ -87,6 +87,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(var == null) {
             throw new VariableNotFoundException(scope, varName);
         }
+        var.initialize();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
