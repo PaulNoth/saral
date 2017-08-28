@@ -45,3 +45,6 @@ ciskaj jedna
 
 jedna = 10
 ciskaj jedna
+
+jedna = jedna + 1
+ciskaj jedna
