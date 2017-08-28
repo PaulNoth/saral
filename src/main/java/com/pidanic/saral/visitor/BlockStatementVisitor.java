@@ -40,4 +40,11 @@ public class BlockStatementVisitor extends SaralBaseVisitor<BlockStatement> {
         ForStatement forStatement = ctx.accept(forStatementVisitor);
         return forStatement;
     }
+
+    @Override
+    public BlockStatement visitWhile_statement(SaralParser.While_statementContext ctx) {
+        WhileStatementVisitor whileStatementVisitor = new WhileStatementVisitor(scope);
+        WhileStatement whileStatement = ctx.accept(whileStatementVisitor);
+        return whileStatement;
+    }
 }

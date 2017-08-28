@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.block.WhileStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.VariableRef;
 import com.pidanic.saral.domain.expression.math.CompareExpression;
@@ -103,5 +104,9 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitInsn(Opcodes.LCONST_1);
         methodVisitor.visitInsn(Opcodes.LSUB);
         methodVisitor.visitVarInsn(Opcodes.LSTORE, variableIndex);
+    }
+
+    public void generate(WhileStatement whileStatement) {
+        // TODO
     }
 }
