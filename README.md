@@ -306,5 +306,21 @@ zrob s meňakom y od 10 do 1
     ciskaj x
 ```
 
+### Podmienené opakovanie kódu
+Ak netušíme koľko krát, chceme vykonať určitú časť kódu, ale poznáme ohraničujúcu podmienku, použijeme *while-loop*. Cyklus sa vykonáva, kým je podmienka vyhodnotená na `pravda`.
+```
+meňak neskutočné numeralio x = 4
+kým x <= 10 rob
+    ciskaj x
+    x = x + 1
+```
+```
+meňak neskutočné numeralio y = 1
+kým y <= 10 rob
+    meňak neskutočné numeralio z = y * y
+    ciskaj z
+    y = y + 1
+```
+
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).
