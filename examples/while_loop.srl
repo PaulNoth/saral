@@ -8,3 +8,9 @@ kým y <= 10 rob
     meňak neskutočné numeralio z = y * y
     ciskaj z
     y = y + 1
+
+meňak neskutočné numeralio d = 1
+kým d <= 10 rob
+    keď d % 2 == 0 potom
+        ciskaj z
+    d = d + 1

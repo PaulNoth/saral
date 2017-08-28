@@ -106,7 +106,23 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitVarInsn(Opcodes.LSTORE, variableIndex);
     }
 
-    public void generate(WhileStatement whileStatement) {
-        // TODO
+    public void generate(WhileStatement whileLoop) {
+        Scope loopScope = whileLoop.getScope();
+        SimpleStatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(methodVisitor, loopScope);
+        ExpressionGenerator expressionGenerator = new ExpressionGenerator(methodVisitor, loopScope);
+
+        Expression expression = whileLoop.getExpression();
+        List<SimpleStatement> block = whileLoop.getBlock();
+
+        Label expressionSection = new Label();
+        Label endLoopSection = new Label();
+
+        methodVisitor.visitLabel(expressionSection);
+        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        expression.accept(expressionGenerator);
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, expressionSection);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
+
+        methodVisitor.visitLabel(endLoopSection);
     }
 }
