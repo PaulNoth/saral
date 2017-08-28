@@ -5,6 +5,7 @@ import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
+import com.pidanic.saral.exception.VariableNotFoundException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -28,7 +29,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
         TerminalNode varName = ctx.var().ID();
         LocalVariable localVariable = scope.getLocalVariable(varName.getText());
-        LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType());
+        LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
         return new PrintVariable(var);
     }
 
@@ -47,7 +48,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
         }
-        LocalVariable var = new LocalVariable(variableName, variableType);
+        LocalVariable var = new LocalVariable(variableName, variableType, true);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
     }
@@ -67,5 +68,29 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Function proc = scope.getFunction(functionName);
 
         return new ProcedureCall(proc, args);
+    }
+
+    @Override
+    public SimpleStatement visitVar_declaration(SaralParser.Var_declarationContext ctx) {
+        TerminalNode varName = ctx.ID();
+        String varType = ctx.type().typeBasic().getText();
+        Type type = TypeResolver.getFromTypeName(varType);
+        LocalVariable var = new LocalVariable(varName.getText(), type, false);
+        scope.addVariable(var);
+        return new VariableDeclaration(varName.getText());
+    }
+
+    @Override
+    public SimpleStatement visitAssignment(SaralParser.AssignmentContext ctx) {
+        String varName = ctx.var().getText();
+        LocalVariable var = scope.getLocalVariable(varName);
+        if(var == null) {
+            throw new VariableNotFoundException(scope, varName);
+        }
+        var.initialize();
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
+
+        return new Assignment(varName, expression);
     }
 }

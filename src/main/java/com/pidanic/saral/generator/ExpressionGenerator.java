@@ -10,6 +10,7 @@ import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
+import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -73,6 +74,10 @@ public class ExpressionGenerator extends StatementGenerator {
             Argument param = parameters.get(i);
             CalledArgument callArg = calledParameter.get(i);
             String realLocalVariableName = callArg.getName();
+            LocalVariable argVar = scope.getLocalVariable(realLocalVariableName);
+            if(!argVar.isInitialized()) {
+                throw new VariableNotInitializedException(scope, argVar.getName());
+            }
             param.accept(this, realLocalVariableName);
         }
         //Type owner = functionCall.getFunction().getReturnType().orElse(new ClassType(scope.getClassName()));

@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
+import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.objectweb.asm.Label;
@@ -30,6 +31,9 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(PrintVariable instruction) {
         final LocalVariable variable = instruction.getVariable();
+        if(!variable.isInitialized()) {
+            throw new VariableNotInitializedException(scope, variable.getName());
+        }
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
@@ -69,11 +73,25 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(VariableDeclaration variableDeclaration) {
         final String variableName = variableDeclaration.getName();
-        final Expression expression = variableDeclaration.getExpression();
-        final Type type = expression.getType();
         final int variableId = scope.getVariableIndex(variableName);
-        expression.accept(expressionGenerator);
-        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+        final Optional<Expression> expressionOption = variableDeclaration.getExpression();
+        if(expressionOption.isPresent()) {
+            Expression expression = expressionOption.get();
+            expression.accept(expressionGenerator);
+            final Type type = expression.getType();
+            expression.accept(expressionGenerator);
+            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+        }
+       // else {
+            //throw new VariableNotInitializedException(scope, variableName);
+            //LocalVariable var = scope.getLocalVariable(variableName);
+            //Type type = var.getType();
+            //if (type == BuiltInType.LONG) {
+            //    methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+            //} else if (type == BuiltInType.STRING) {
+            //    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+            //}
+       // }
     }
 
      public void generate(ProcedureCall functionCall) {
@@ -83,6 +101,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
             Argument param = parameters.get(i);
             CalledArgument callArg = calledParameter.get(i);
             String realLocalVariableName = callArg.getName();
+            LocalVariable argVar = scope.getLocalVariable(realLocalVariableName);
+            if(!argVar.isInitialized()) {
+                throw new VariableNotInitializedException(scope, argVar.getName());
+            }
             param.accept(this, realLocalVariableName);
         }
         //Type owner = functionCall.getFunction().getReturnType().orElse(new ClassType(scope.getClassName()));
@@ -122,6 +144,18 @@ public class SimpleStatementGenerator extends StatementGenerator {
             return Optional.of(methodDescriptor);
         } catch (ReflectiveOperationException e) {
             return Optional.empty();
+        }
+    }
+
+    public void generate(Assignment assignment) {
+        final String variableName = assignment.getName();
+        final int variableId = scope.getVariableIndex(variableName);
+        final Optional<Expression> expressionOption = assignment.getExpression();
+        if(expressionOption.isPresent()) {
+            Expression expression = expressionOption.get();
+            expression.accept(expressionGenerator);
+            final Type type = expression.getType();
+            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
         }
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Scope {
 
-    private static final LocalVariable EMPTY = new LocalVariable("empty", BuiltInType.BOOLEAN);
+    private static final LocalVariable EMPTY = new LocalVariable("empty", BuiltInType.BOOLEAN, true);
 
     private List<LocalVariable> localVariables;
     private List<Function> functions;

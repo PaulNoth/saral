@@ -102,6 +102,8 @@ statement
 
 simple_statement : write
                  | var_definition
+                 | assignment
+                 | var_declaration
                  | proc_call
                  | func_call
                  ;
@@ -122,6 +124,10 @@ for_statement
 	;
 
 var_definition : VARIABLE type ID '=' expression;
+var_declaration
+	: VARIABLE type ID
+	;
+
 write : PRINT var ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
@@ -146,6 +152,9 @@ expression : LPAR expression RPAR # Paren
            | expression op=OR expression # BoolOr
            | val #Value
            ;
+assignment
+    : var '=' expression
+    ;
 type : typeBasic;
 typeSimple
 	: INT_T | BOOL_T | FLOAT_T | CHAR_T ;

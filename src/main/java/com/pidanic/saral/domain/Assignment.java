@@ -6,17 +6,13 @@ import com.pidanic.saral.generator.StatementGenerator;
 
 import java.util.Optional;
 
-public class VariableDeclaration implements SimpleStatement {
+public class Assignment implements SimpleStatement{
     private String name;
     private Expression expression;
 
-    public VariableDeclaration(String name, Expression expression) {
+    public Assignment(String name, Expression expression) {
         this.name = name;
         this.expression = expression;
-    }
-
-    public VariableDeclaration(String name) {
-        this.name = name;
     }
 
     @Override
