@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
+import com.pidanic.saral.exception.ConstantAssignmentException;
 import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
 import com.pidanic.saral.exception.VariableNotFoundException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
@@ -54,6 +55,26 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     }
 
     @Override
+    public SimpleStatement visitConst_definition(SaralParser.Const_definitionContext ctx) {
+        TerminalNode varName = ctx.ID();
+        String variableName = varName.getText();
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
+        String varType = ctx.type().typeBasic().getText();
+        Type variableType = TypeResolver.getFromTypeName(varType);
+        if(variableType != expression.getType()) {
+            if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
+                expression = new CastExpression(BuiltInType.DOUBLE, expression);
+            } else {
+                throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
+            }
+        }
+        LocalConstant var = new LocalConstant(variableName, variableType);
+        scope.addVariable(var);
+        return new ConstantDeclaration(varName.getText(), expression);
+    }
+
+    @Override
     public SimpleStatement visitProc_call(SaralParser.Proc_callContext ctx) {
         String procedureName = ctx.ID().getText();
         List<SaralParser.VarContext> calledParameters = ctx.paramlist().var();
@@ -86,6 +107,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
             throw new VariableNotFoundException(scope, varName);
+        }
+        if(var.isConstant()) {
+            throw new ConstantAssignmentException(scope, varName);
         }
         var.initialize();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
