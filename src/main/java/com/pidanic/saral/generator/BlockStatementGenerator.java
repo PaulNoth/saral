@@ -4,6 +4,7 @@ import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.block.IfStatement;
 import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.block.WhileStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.VariableRef;
 import com.pidanic.saral.domain.expression.math.CompareExpression;
@@ -103,5 +104,25 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitInsn(Opcodes.LCONST_1);
         methodVisitor.visitInsn(Opcodes.LSUB);
         methodVisitor.visitVarInsn(Opcodes.LSTORE, variableIndex);
+    }
+
+    public void generate(WhileStatement whileLoop) {
+        Scope loopScope = whileLoop.getScope();
+        SimpleStatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(methodVisitor, loopScope);
+        ExpressionGenerator expressionGenerator = new ExpressionGenerator(methodVisitor, loopScope);
+
+        Expression expression = whileLoop.getExpression();
+        List<SimpleStatement> block = whileLoop.getBlock();
+
+        Label expressionSection = new Label();
+        Label endLoopSection = new Label();
+
+        methodVisitor.visitLabel(expressionSection);
+        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        expression.accept(expressionGenerator);
+        methodVisitor.visitJumpInsn(Opcodes.IFNE, expressionSection);
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
+
+        methodVisitor.visitLabel(endLoopSection);
     }
 }

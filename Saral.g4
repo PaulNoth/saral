@@ -110,6 +110,7 @@ simple_statement : write
                  ;
 block_statement : proc_definition
                 | if_statement
+                | while_statement
                 | func_definition
                 | for_statement
                 | block;
@@ -120,6 +121,11 @@ arglist : (type ID (',' type ID)*)? ;
 if_statement
 	: IF expression THEN EOL block (ELSE EOL block)?
 	;
+
+while_statement
+	: WHILE expression DO EOL block
+	;
+
 for_statement
 	: FOR var FROM val TO val EOL block
 	;
@@ -197,6 +203,8 @@ CHAR_T: 'písmeno';
 STRING_T: 'slovo';
 
 VARIABLE : 'meňak' ;
+WHILE : 'kým';
+DO : 'rob';
 CONST : 'furt';
 FOR : 'zrob s meňakom';
 FROM : 'od';
