@@ -286,6 +286,22 @@ zrob s meňakom y od 10 do 1
     meňak neskutočné numeralio x = y * y
     ciskaj x
 ```
+### While loops
+Loops with conditional execution (*while-loops*) are created with following construct. The loop is executed only when the loop condition has `pravda` value.
+```
+meňak neskutočné numeralio x = 4
+kým x <= 10 rob
+    ciskaj x
+    x = x + 1
+```
+```
+meňak neskutočné numeralio y = 1
+kým y <= 10 rob
+    meňak neskutočné numeralio z = y * y
+    ciskaj z
+    y = y + 1
+```
+
 
 ### Conditional statements
 Šaral language support conditional code execution as other problem-oriented programming languages, so called `if-then-else`. In Šaral terminology `keď-potom-inak`
