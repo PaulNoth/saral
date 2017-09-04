@@ -7,6 +7,7 @@ import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.exception.ConstantAssignmentException;
 import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
 import com.pidanic.saral.exception.VariableNotFoundException;
+import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -31,6 +32,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         TerminalNode varName = ctx.var().ID();
         LocalVariable localVariable = scope.getLocalVariable(varName.getText());
         LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+        if(!var.isInitialized()) {
+            throw new VariableNotInitializedException(scope, var.getName());
+        }
         return new PrintVariable(var);
     }
 
@@ -85,7 +89,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private ProcedureCall createProcedureCall(String functionName, List<SaralParser.VarContext> calledParameters) {
         List<CalledArgument> args = calledParameters.stream()
-                .map(param -> param.accept(new CalledArgumentVisitor()))
+                .map(param -> param.accept(new CalledArgumentVisitor(scope)))
                 .collect(Collectors.toList());
 
         Function proc = scope.getFunction(functionName);

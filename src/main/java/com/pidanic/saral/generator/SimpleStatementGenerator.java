@@ -90,10 +90,6 @@ public class SimpleStatementGenerator extends StatementGenerator {
             Argument param = parameters.get(i);
             CalledArgument callArg = calledParameter.get(i);
             String realLocalVariableName = callArg.getName();
-            LocalVariable argVar = scope.getLocalVariable(realLocalVariableName);
-            if(!argVar.isInitialized()) {
-                throw new VariableNotInitializedException(scope, argVar.getName());
-            }
             param.accept(this, realLocalVariableName);
         }
         //Type owner = functionCall.getFunction().getReturnType().orElse(new ClassType(scope.getClassName()));

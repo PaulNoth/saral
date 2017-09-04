@@ -32,7 +32,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
     private FunctionCall createFunctionCall(String functionName, List<SaralParser.VarContext> calledParameters) {
         List<CalledArgument> args = calledParameters.stream()
-                .map(param -> param.accept(new CalledArgumentVisitor()))
+                .map(param -> param.accept(new CalledArgumentVisitor(scope)))
                 .collect(Collectors.toList());
 
         Function proc = scope.getFunction(functionName);
