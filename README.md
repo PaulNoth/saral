@@ -288,7 +288,7 @@ vrac z baru vracimSlovo(dupa)
 
 ```
 
-Dajte si pozor, pretože každý argument volanej funkcie musí byť inicializovaný na nejakú hodnotu. Rovnaké pravidlo platí aj pre volanie [procedúry](#Procedúry)
+Dajte si pozor, pretože každý argument volanej funkcie musí byť inicializovaný na nejakú hodnotu. Rovnaké pravidlo platí aj pre volanie [procedúry](#procedúry)
 ```
 meňak slovo dupa
 vrac z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný

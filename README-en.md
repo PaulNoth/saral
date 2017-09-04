@@ -286,7 +286,7 @@ vrac z baru returnString(hello)
 
 ```
 
-Be aware, that you have to initialize every function argument to a value. The same principle holds for [procedures](#Procedures)
+Be aware, that you have to initialize every function argument to a value. The same principle holds for [procedures](#procedures)
 ```
 meňak slovo word
 vrac z baru vracimSlovo(word) // error, meňak word is not initialized
