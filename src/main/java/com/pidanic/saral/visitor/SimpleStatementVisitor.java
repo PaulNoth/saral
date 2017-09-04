@@ -38,17 +38,12 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     public SimpleStatement visitVar_definition(SaralParser.Var_definitionContext ctx) {
         TerminalNode varName = ctx.ID();
         String variableName = varName.getText();
-        SaralParser.ExpressionContext expressionContext = ctx.expression();
-        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         String varType = ctx.type().typeBasic().getText();
         Type variableType = TypeResolver.getFromTypeName(varType);
-        if(variableType != expression.getType()) {
-            if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
-                expression = new CastExpression(BuiltInType.DOUBLE, expression);
-            } else {
-                throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
-            }
-        }
+
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = parseExpression(expressionContext, variableType, variableName);
+
         LocalVariable var = new LocalVariable(variableName, variableType, true);
         scope.addVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
@@ -58,10 +53,19 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     public SimpleStatement visitConst_definition(SaralParser.Const_definitionContext ctx) {
         TerminalNode varName = ctx.ID();
         String variableName = varName.getText();
-        SaralParser.ExpressionContext expressionContext = ctx.expression();
-        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         String varType = ctx.type().typeBasic().getText();
         Type variableType = TypeResolver.getFromTypeName(varType);
+
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = parseExpression(expressionContext, variableType, variableName);
+
+        LocalConstant var = new LocalConstant(variableName, variableType);
+        scope.addVariable(var);
+        return new ConstantDeclaration(varName.getText(), expression);
+    }
+
+    private Expression parseExpression(SaralParser.ExpressionContext expressionContext, Type variableType, String variableName) {
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         if(variableType != expression.getType()) {
             if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.DOUBLE, expression);
@@ -69,9 +73,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
         }
-        LocalConstant var = new LocalConstant(variableName, variableType);
-        scope.addVariable(var);
-        return new ConstantDeclaration(varName.getText(), expression);
+        return expression;
     }
 
     @Override
