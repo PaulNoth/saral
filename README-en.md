@@ -40,7 +40,7 @@ meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
-### Konštanty
+### Constants
 There is one type of variables (`meňak`), which value might be changed. But there exist a *constant* (`furt`), which values can not be changed.
 ```
 meňak neskutočné numeralio number = 5
