@@ -40,6 +40,25 @@ meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
+### Constants
+There is one type of variables (`meňak`), which value might be changed. But there exist a *constant* (`furt`), which values can not be changed.
+```
+meňak neskutočné numeralio number = 5
+meňak slovo hello          // might be "empty" (not initialized)
+// meňak value might be changed
+number = 6
+hello = "hello"
+```
+```
+furt neskutočné numeralio same_number = 5
+furt slovo only_hello = "servus"
+
+// will not work, furt can not be changed
+
+// same_number = 6
+// only_hello = "hello"
+```
+
 ### Data Types
 There are data types supported - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 
@@ -265,6 +284,12 @@ vrac z baru returnSomething()
 meňak slovo hello = "hello"
 vrac z baru returnString(hello)
 
+```
+
+Be aware, that you have to initialize every function argument to a value. The same principle holds for [procedures](#procedures)
+```
+meňak slovo word
+vrac z baru vracimSlovo(word) // error, meňak word is not initialized
 ```
 
 ### For-loops

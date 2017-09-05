@@ -4,8 +4,10 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
+import com.pidanic.saral.exception.ConstantAssignmentException;
 import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
 import com.pidanic.saral.exception.VariableNotFoundException;
+import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -30,6 +32,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         TerminalNode varName = ctx.var().ID();
         LocalVariable localVariable = scope.getLocalVariable(varName.getText());
         LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+        if(!var.isInitialized()) {
+            throw new VariableNotInitializedException(scope, var.getName());
+        }
         return new PrintVariable(var);
     }
 
@@ -37,10 +42,34 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
     public SimpleStatement visitVar_definition(SaralParser.Var_definitionContext ctx) {
         TerminalNode varName = ctx.ID();
         String variableName = varName.getText();
-        SaralParser.ExpressionContext expressionContext = ctx.expression();
-        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         String varType = ctx.type().typeBasic().getText();
         Type variableType = TypeResolver.getFromTypeName(varType);
+
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = parseExpression(expressionContext, variableType, variableName);
+
+        LocalVariable var = new LocalVariable(variableName, variableType, true);
+        scope.addVariable(var);
+        return new VariableDeclaration(varName.getText(), expression);
+    }
+
+    @Override
+    public SimpleStatement visitConst_definition(SaralParser.Const_definitionContext ctx) {
+        TerminalNode varName = ctx.ID();
+        String variableName = varName.getText();
+        String varType = ctx.type().typeBasic().getText();
+        Type variableType = TypeResolver.getFromTypeName(varType);
+
+        SaralParser.ExpressionContext expressionContext = ctx.expression();
+        Expression expression = parseExpression(expressionContext, variableType, variableName);
+
+        LocalConstant var = new LocalConstant(variableName, variableType);
+        scope.addVariable(var);
+        return new ConstantDeclaration(varName.getText(), expression);
+    }
+
+    private Expression parseExpression(SaralParser.ExpressionContext expressionContext, Type variableType, String variableName) {
+        Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         if(variableType != expression.getType()) {
             if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.DOUBLE, expression);
@@ -48,9 +77,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
         }
-        LocalVariable var = new LocalVariable(variableName, variableType, true);
-        scope.addVariable(var);
-        return new VariableDeclaration(varName.getText(), expression);
+        return expression;
     }
 
     @Override
@@ -62,7 +89,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private ProcedureCall createProcedureCall(String functionName, List<SaralParser.VarContext> calledParameters) {
         List<CalledArgument> args = calledParameters.stream()
-                .map(param -> param.accept(new CalledArgumentVisitor()))
+                .map(param -> param.accept(new CalledArgumentVisitor(scope)))
                 .collect(Collectors.toList());
 
         Function proc = scope.getFunction(functionName);
@@ -86,6 +113,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
             throw new VariableNotFoundException(scope, varName);
+        }
+        if(var.isConstant()) {
+            throw new ConstantAssignmentException(scope, varName);
         }
         var.initialize();
         SaralParser.ExpressionContext expressionContext = ctx.expression();

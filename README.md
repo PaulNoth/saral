@@ -45,6 +45,25 @@ meňak slovo servus = "servus" // pekný pozdrav
 ciskaj servus
 ```
 
+### Konštanty
+Okrem `meňak`ov, ktorých hodnotu vieme zmeniť, poznáme ešte `furt`y, ktorým priradíme na začiatku vždy jedinú hodnotu. Pri jej zmene dostaneme chybu.
+```
+meňak neskutočné numeralio cislo = 5
+meňak slovo servus          // môže byť aj "prázdne" (neinicializované)
+// meňakom je možné zmeniť hodnotu
+cislo = 6
+servus = "hello"
+```
+```
+furt neskutočné numeralio nemenne_cislo = 5
+furt slovo jedine_servus = "servus"
+
+// nebude fungovať, hodnotu furt nevieme zmeniť
+
+// nemenne_cislo = 6
+// jedine_servus = "hello"
+```
+
 ### Dátové typy
 Podporuje momentálne dátové typy - `neskutočné numeralio`, `slovo`, `logický`, `písmeno`, `skutočné numeralio`.
 
@@ -267,6 +286,12 @@ vrac z baru vracimDaco()
 meňak slovo dupa = "dupa"
 vrac z baru vracimSlovo(dupa)
 
+```
+
+Dajte si pozor, pretože každý argument volanej funkcie musí byť inicializovaný na nejakú hodnotu. Rovnaké pravidlo platí aj pre volanie [procedúry](#procedúry)
+```
+meňak slovo dupa
+vrac z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný
 ```
 
 ### Podmienené vykonanie časti kódu

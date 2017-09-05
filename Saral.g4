@@ -104,6 +104,7 @@ simple_statement : write
                  | var_definition
                  | assignment
                  | var_declaration
+                 | const_definition
                  | proc_call
                  | func_call
                  ;
@@ -132,6 +133,9 @@ for_statement
 var_definition : VARIABLE type ID '=' expression;
 var_declaration
 	: VARIABLE type ID
+	;
+const_definition
+	: CONST type ID '=' expression
 	;
 
 write : PRINT var ;
@@ -201,6 +205,7 @@ STRING_T: 'slovo';
 VARIABLE : 'meňak' ;
 WHILE : 'kým';
 DO : 'rob';
+CONST : 'furt';
 FOR : 'zrob s meňakom';
 FROM : 'od';
 TO : 'do';
