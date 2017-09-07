@@ -145,6 +145,13 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ArrayDeclaration array) {
-        // TODO
+        Type arrayType = array.getType();
+        Expression arrayLength = array.getLength();
+        arrayLength.accept(expressionGenerator);
+        if(arrayType == BuiltInType.STRING_ARR) {
+            methodVisitor.visitTypeInsn(arrayType.getTypeSpecificOpcode().getNew(), "Ljava/lang/String;");
+        } else {
+            methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
+        }
     }
 }

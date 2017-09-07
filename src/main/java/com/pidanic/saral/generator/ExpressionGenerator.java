@@ -10,7 +10,6 @@ import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.FunctionCallNotFoundException;
-import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;

@@ -73,6 +73,8 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(variableType != expression.getType()) {
             if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.DOUBLE, expression);
+            } else if(variableType == BuiltInType.INT && expression.getType() == BuiltInType.LONG) {
+                expression = new CastExpression(BuiltInType.INT, expression);
             } else {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
