@@ -123,4 +123,14 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
         return new Assignment(varName, expression);
     }
+
+    @Override
+    public SimpleStatement visitArray_declaration(SaralParser.Array_declarationContext ctx) {
+        String varName = ctx.ID().getText();
+        Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
+        Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
+        LocalVariable var = new LocalVariable(varName, arrayType, true);
+        scope.addVariable(var);
+        return new ArrayDeclaration(arrayType, arrayLength);
+    }
 }

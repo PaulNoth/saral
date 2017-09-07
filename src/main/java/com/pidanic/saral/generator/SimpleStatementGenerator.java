@@ -143,4 +143,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
         }
     }
+
+    public void generate(ArrayDeclaration array) {
+        // TODO
+    }
 }
