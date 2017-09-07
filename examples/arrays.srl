@@ -2,5 +2,6 @@ furt neskutočné numeralio n = 10
 funduš logický l[n]
 funduš skutočné numeralio sn[n * n]
 funduš neskutočné numeralio nn[n]
-funduš písmeno p[n]
-funduš slovo s[n]
+// môže byť použité aj s kľúčovým slovom dimenzion
+dimenzionfunduš písmeno p[n]
+dimenzion funduš slovo s[n]
