@@ -7,13 +7,13 @@ dimenzionfunduš písmeno p[n]
 dimenzion funduš slovo s[n]
 
 l[1] = pravda
-l[2] = skoroošaľ
-l[3] = skoro
+//l[2] = skoroošaľ
+//l[3] = skoro
 
-nn[0] = 1
-nn[1] = 2
-nn[2] = 3
-nn[3] = 4
+//nn[0] = 1
+//nn[1] = 2
+//nn[2] = 3
+//nn[3] = 4
 
 ciskaj l[0]
 ciskaj l[1]

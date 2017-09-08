@@ -264,4 +264,13 @@ public class ExpressionGenerator extends StatementGenerator {
         expression.accept(this);
         methodVisitor.visitInsn(castExpression.getSign().getOpcode());
     }
+
+    public void generate(ArrayRef arrayRef) {
+        Expression expression = arrayRef.getIndex();
+        expression.accept(this);
+
+        int arrayIndex = scope.getVariableIndex(arrayRef.getVarName());
+        LocalVariable array = scope.getLocalVariable(arrayRef.getVarName());
+        methodVisitor.visitInsn(array.getType().getTypeSpecificOpcode().getLoad());
+    }
 }
