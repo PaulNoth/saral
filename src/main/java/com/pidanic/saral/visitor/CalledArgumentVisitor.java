@@ -16,7 +16,7 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
     }
 
     @Override
-    public CalledArgument visitVar(SaralParser.VarContext ctx) {
+    public CalledArgument visitVarID(SaralParser.VarIDContext ctx) {
         String argName = ctx.ID().getText();
         LocalVariable argVar = scope.getLocalVariable(argName);
         if(!argVar.isInitialized()) {
@@ -24,4 +24,14 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
         }
         return new CalledArgument(argName);
     }
+
+    //@Override
+    //public CalledArgument visitVar(SaralParser.VarContext ctx) {
+    //    String argName = ctx.var().getText();
+    //    LocalVariable argVar = scope.getLocalVariable(argName);
+    //    if(!argVar.isInitialized()) {
+    //        throw new VariableNotInitializedException(scope, argVar.getName());
+    //    }
+    //    return new CalledArgument(argName);
+    //}
 }

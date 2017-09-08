@@ -42,7 +42,9 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
     @Override
     public Expression visitValVar(SaralParser.ValVarContext ctx) {
-        return visitVar(ctx.var());
+        String varName = ctx.var().getText();
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        return new VariableRef(varName,localVariable.getType());
     }
 
     @Override
@@ -82,8 +84,8 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitVar(SaralParser.VarContext ctx) {
-        String varName = ctx.getText();
+    public Expression visitVarID(SaralParser.VarIDContext ctx) {
+        String varName = ctx.ID().getText();
         LocalVariable localVariable = scope.getLocalVariable(varName);
         return new VariableRef(varName,localVariable.getType());
     }

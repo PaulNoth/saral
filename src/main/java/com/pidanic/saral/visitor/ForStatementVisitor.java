@@ -29,7 +29,7 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
     public ForStatement visitFor_statement(SaralParser.For_statementContext ctx) {
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
         SimpleStatementVisitor simpleStatementVisitor = new SimpleStatementVisitor(scope);
-        String varName = ctx.var().ID().getText();
+        String varName = ctx.var().getText();
         Expression from = ctx.val(0).accept(expressionVisitor);
         Expression to = ctx.val(1).accept(expressionVisitor);
         if(from.getType() != BuiltInType.LONG) {
