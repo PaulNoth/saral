@@ -91,6 +91,12 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitVarArray(SaralParser.VarArrayContext ctx) {
+        String varName = ctx.ID().getText();
+        return super.visitVarArray(ctx);
+    }
+
+    @Override
     public Expression visitParen(SaralParser.ParenContext ctx) {
         return ctx.expression().accept(this);
     }

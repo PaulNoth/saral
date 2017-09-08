@@ -4,10 +4,7 @@ import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
-import com.pidanic.saral.exception.ConstantAssignmentException;
-import com.pidanic.saral.exception.IncompatibleVariableTypeAssignmentException;
-import com.pidanic.saral.exception.VariableNotFoundException;
-import com.pidanic.saral.exception.VariableNotInitializedException;
+import com.pidanic.saral.exception.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -131,6 +128,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         String varName = ctx.ID().getText();
         Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
         Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
+        if(arrayLength.getType() != BuiltInType.LONG) {
+            throw new IncompatibleTypeArrayLengthException(scope, varName, arrayLength.getType());
+        }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addVariable(var);
         return new ArrayDeclaration(arrayType, arrayLength);
