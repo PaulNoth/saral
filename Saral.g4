@@ -146,7 +146,10 @@ write : PRINT var ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;
-var: ID;
+var
+	: ID # VarID
+	| ID LBRACK expression RBRACK #VarArray
+	;
 
 val : var # ValVar
     | INT # ValInt
