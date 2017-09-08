@@ -105,6 +105,7 @@ simple_statement : write
                  | assignment
                  | var_declaration
                  | const_definition
+                 | array_declaration
                  | proc_call
                  | func_call
                  ;
@@ -137,6 +138,9 @@ var_declaration
 const_definition
 	: CONST type ID '=' expression
 	;
+array_declaration
+    : typeArray ID LBRACK expression RBRACK
+    ;
 
 write : PRINT var ;
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
@@ -165,7 +169,12 @@ expression : LPAR expression RPAR # Paren
 assignment
     : var '=' expression
     ;
-type : typeBasic;
+type: typeArray
+	| typeBasic
+	;
+typeArray
+	: ARRAY typeBasic
+	;
 typeSimple
 	: INT_T | BOOL_T | FLOAT_T | CHAR_T ;
 typeBasic
@@ -178,6 +187,8 @@ FUNC_CALL : 'vrac z baru';
 
 LPAR : '(' {opened++;};
 RPAR : ')' {opened--;};
+LBRACK: '[';
+RBRACK: ']';
 
 AND : 'a';
 OR : 'abo';
@@ -206,6 +217,8 @@ VARIABLE : 'meňak' ;
 WHILE : 'kým';
 DO : 'rob';
 CONST : 'furt';
+ARRAY : 'dimenzion'? WS* 'funduš';
+
 FOR : 'zrob s meňakom';
 FROM : 'od';
 TO : 'do';

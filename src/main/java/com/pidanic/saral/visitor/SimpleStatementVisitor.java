@@ -73,6 +73,8 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(variableType != expression.getType()) {
             if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.DOUBLE, expression);
+            } else if(variableType == BuiltInType.INT && expression.getType() == BuiltInType.LONG) {
+                expression = new CastExpression(BuiltInType.INT, expression);
             } else {
                 throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
             }
@@ -122,5 +124,15 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
         return new Assignment(varName, expression);
+    }
+
+    @Override
+    public SimpleStatement visitArray_declaration(SaralParser.Array_declarationContext ctx) {
+        String varName = ctx.ID().getText();
+        Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
+        Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
+        LocalVariable var = new LocalVariable(varName, arrayType, true);
+        scope.addVariable(var);
+        return new ArrayDeclaration(arrayType, arrayLength);
     }
 }

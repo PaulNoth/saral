@@ -2,7 +2,7 @@ package com.pidanic.saral.util;
 
 public enum BuiltInType implements Type {
     BOOLEAN("logický", boolean.class, "Z", TypeSpecificOpcodes.INT),
-    //INT ("neskutočné numeralio", int.class, "I", TypeSpecificOpcodes.INT),
+    INT ("neskutočné numeralio int", int.class, "I", TypeSpecificOpcodes.INT),
     CHAR ("písmeno", char.class, "C", TypeSpecificOpcodes.INT),
     //BYTE ("neskutočné numeralio", byte.class, "B", TypeSpecificOpcodes.INT),
     //SHORT ("neskutočné numeralio", short.class, "S", TypeSpecificOpcodes.INT),
@@ -10,15 +10,15 @@ public enum BuiltInType implements Type {
     //FLOAT ("skutočné numeralio", float.class, "F", TypeSpecificOpcodes.FLOAT),
     DOUBLE ("skutočné numeralio", double.class, "D", TypeSpecificOpcodes.DOUBLE),
     STRING ("slovo", String.class, "Ljava/lang/String;", TypeSpecificOpcodes.OBJECT),
-    //BOOLEAN_ARR("bool[]", boolean[].class, "[B"),
+    BOOLEAN_ARR("funduš logický", boolean[].class, "[B", TypeSpecificOpcodes.BOOLEAN_ARRAY),
     //INT_ARR ("int[]", int[].class, "[I"),
-    //CHAR_ARR ("char[]", char[].class, "[C"),
+    CHAR_ARR ("funduš písmeno", char[].class, "[C", TypeSpecificOpcodes.CHAR_ARRAY),
     //BYTE_ARR ("byte[]", byte[].class, "[B"),
     //SHORT_ARR ("short[]", short[].class, "[S"),
-    //LONG_ARR ("long[]", long[].class, "[J"),
+    LONG_ARR ("funduš neskutočné numeralio", long[].class, "[J", TypeSpecificOpcodes.LONG_ARRAY),
     //FLOAT_ARR ("float[]", float[].class, "[F"),
-    //DOUBLE_ARR ("double[]", double[].class, "[D"),
-    //STRING_ARR ("string[]", String[].class, "[Ljava/lang/String;"),
+    DOUBLE_ARR ("funduš skutočné numeralio", double[].class, "[D", TypeSpecificOpcodes.DOUBLE_ARRAY),
+    STRING_ARR ("funduš slovo", String[].class, "[Ljava/lang/String;", TypeSpecificOpcodes.OBJECT_ARRAY),
     //NONE("", null,""),
     VOID("void", void.class, "V", TypeSpecificOpcodes.VOID);
 

@@ -1,11 +1,21 @@
 package com.pidanic.saral.util;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.*;
 
 public class TypeResolver {
+
+    private final static Map<String, Type> ARRAY_TYPES;
+    static {
+        Map<String, Type> map = new HashMap<>();
+        map.put("logický", BuiltInType.BOOLEAN_ARR);
+        map.put("písmeno", BuiltInType.CHAR_ARR);
+        map.put("neskutočné numeralio", BuiltInType.LONG_ARR);
+        map.put("skutočné numeralio", BuiltInType.DOUBLE_ARR);
+        map.put("slovo", BuiltInType.STRING_ARR);
+        ARRAY_TYPES = new HashMap<>(map);
+    }
 
     public static Type getFromTypeName(String type) {
         if(type == null) {
@@ -56,5 +66,9 @@ public class TypeResolver {
 
     public static boolean isNumber(Type type) {
         return isInteger(type) || isDouble(type);
+    }
+
+    public static Type getArrayTypeFromTypeName(String basicTypeName) {
+        return ARRAY_TYPES.getOrDefault(basicTypeName, BuiltInType.STRING_ARR);
     }
 }

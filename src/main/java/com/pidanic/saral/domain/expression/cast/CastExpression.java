@@ -19,6 +19,9 @@ public class CastExpression extends UnaryExpression {
         if(castingType == BuiltInType.DOUBLE) {
             return CastingSign.LONG_TO_DOUBLE;
         }
+        if(castingType == BuiltInType.INT) {
+            return CastingSign.LONG_TO_INT;
+        }
         return CastingSign.LONG_TO_DOUBLE;
     }
 }
