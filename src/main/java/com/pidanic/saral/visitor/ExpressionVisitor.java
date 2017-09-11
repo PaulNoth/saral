@@ -99,8 +99,6 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         if(index.getType() != BuiltInType.LONG) {
             throw new IncompatibleTypeArrayIndexException(scope, varName, index.getType());
         }
-        // TODO
-        // new ArrayRef(varName, index.getType());
         return new ArrayRef(varName, index.getType(), index);
     }
 

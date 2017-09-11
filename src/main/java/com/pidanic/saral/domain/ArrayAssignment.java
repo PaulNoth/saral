@@ -11,7 +11,7 @@ public class ArrayAssignment extends Assignment {
 
     public ArrayAssignment(String name, Expression index, Expression expression) {
         super(name, expression);
-        this.index = expression;
+        this.index = index;
     }
 
     @Override

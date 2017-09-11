@@ -187,13 +187,13 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if(assignment instanceof ArrayAssignment) {
             if(expressionOption.isPresent()) {
                 Expression expression = expressionOption.get();
-                final Type type = expression.getType();
                 methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
 
                 ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
                 expression.accept(expressionGenerator);
 
-                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getStore());
+                LocalVariable localArray = scope.getLocalVariable(variableName);
+                methodVisitor.visitInsn(localArray.getType().getTypeSpecificOpcode().getStore());
             }
         } else {
             if(expressionOption.isPresent()) {
