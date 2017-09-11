@@ -2,9 +2,8 @@ package com.pidanic.saral.domain;
 
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
-import org.objectweb.asm.Opcodes;
 
-public class PrintVariable implements SimpleStatement, Opcodes {
+public class PrintVariable implements SimpleStatement {
 
     private LocalVariable variable;
 
