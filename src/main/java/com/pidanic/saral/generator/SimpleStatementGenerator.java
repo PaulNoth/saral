@@ -38,7 +38,6 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        //methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
         String descriptor;
         if(variable instanceof LocalVariableArrayIndex) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
@@ -47,7 +46,33 @@ public class SimpleStatementGenerator extends StatementGenerator {
             index.accept(expressionGenerator);
             methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
             if(type == BuiltInType.BOOLEAN_ARR) {
-                descriptor = "(" + BuiltInType.BOOLEAN.getDescriptor() + ")V";
+                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+
+                Label endLabel = new Label();
+                Label pravdaLabel = new Label();
+                Label osalLabel = new Label();
+                Label skoroosalLabel = new Label();
+
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
+                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+                methodVisitor.visitLabel(osalLabel);
+
+                // comparing value of the left expression if "false"
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                index.accept(expressionGenerator);
+                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
+                methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+                methodVisitor.visitLabel(skoroosalLabel);
+                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+
+                methodVisitor.visitLabel(endLabel);
             } else if(type == BuiltInType.LONG_ARR) {
                 descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
             } else if(type == BuiltInType.DOUBLE_ARR) {
