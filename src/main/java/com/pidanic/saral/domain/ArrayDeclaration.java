@@ -11,10 +11,12 @@ public class ArrayDeclaration implements SimpleStatement {
 
     private Type type;
     private Expression length;
+    private String name;
 
-    public ArrayDeclaration(Type type, Expression arrayLength) {
+    public ArrayDeclaration(String name, Type type, Expression arrayLength) {
         this.type = type;
         this.length = arrayLength;
+        this.name = name;
     }
 
     @Override
@@ -28,5 +30,9 @@ public class ArrayDeclaration implements SimpleStatement {
 
     public Expression getLength() {
         return new CastExpression(BuiltInType.INT, length);
+    }
+
+    public String getName() {
+        return name;
     }
 }

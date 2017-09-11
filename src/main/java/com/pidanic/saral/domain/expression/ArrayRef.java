@@ -5,18 +5,12 @@ import com.pidanic.saral.generator.ExpressionGenerator;
 import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
 
-public class ArrayRef extends Expression {
-    private final String varName;
+public class ArrayRef extends VariableRef {
     private final Expression index;
 
     public ArrayRef(String varName, Type type, Expression index) {
-        super(type);
-        this.varName = varName;
+        super(varName, type);
         this.index = index;
-    }
-
-    public String getVarName() {
-        return varName;
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Function;
+import com.pidanic.saral.domain.expression.ArrayRef;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.domain.expression.VariableRef;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.exception.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
@@ -26,9 +28,16 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     @Override
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
-        String varName = ctx.var().getText();
+        Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
+        String varName = ((VariableRef) varRef).getVarName();
+
         LocalVariable localVariable = scope.getLocalVariable(varName);
-        LocalVariable var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+        LocalVariable var;
+        if(varRef instanceof ArrayRef) {
+            var = new LocalVariableArrayIndex(localVariable.getName(), localVariable.getType(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
+        } else {
+            var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+        }
         if(!var.isInitialized()) {
             throw new VariableNotInitializedException(scope, var.getName());
         }
@@ -108,7 +117,13 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     @Override
     public SimpleStatement visitAssignment(SaralParser.AssignmentContext ctx) {
-        String varName = ctx.var().getText();
+        Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
+        String varName;
+        if(varRef instanceof ArrayRef) {
+            varName = ((ArrayRef) varRef).getVarName();
+        } else {
+            varName = ((VariableRef) varRef).getVarName();
+        }
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
             throw new VariableNotFoundException(scope, varName);
@@ -120,7 +135,13 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
-        return new Assignment(varName, expression);
+        if(varRef instanceof ArrayRef) {
+            Expression index = ((ArrayRef) varRef).getIndex();
+            return new ArrayAssignment(varName, index, expression);
+        } else {
+            return new Assignment(varName, expression);
+        }
+
     }
 
     @Override
@@ -133,6 +154,6 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addVariable(var);
-        return new ArrayDeclaration(arrayType, arrayLength);
+        return new ArrayDeclaration(varName, arrayType, arrayLength);
     }
 }

@@ -7,6 +7,7 @@ import com.pidanic.saral.exception.FunctionCallNotFoundException;
 import com.pidanic.saral.exception.VariableNotInitializedException;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
+import jdk.nashorn.internal.runtime.regexp.joni.constants.OPCode;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -37,38 +38,60 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
+        //methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
         String descriptor;
-        if(type == BuiltInType.BOOLEAN) {
-            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-
-            Label endLabel = new Label();
-            Label pravdaLabel = new Label();
-            Label osalLabel = new Label();
-            Label skoroosalLabel = new Label();
-
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
-            methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-            methodVisitor.visitLabel(osalLabel);
-
-            // comparing value of the left expression if "false"
-            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
-            methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-
-            methodVisitor.visitLabel(skoroosalLabel);
-            methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-
-            methodVisitor.visitLabel(endLabel);
+        if(variable instanceof LocalVariableArrayIndex) {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+            LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
+            Expression index = localArrayIndex.getIndex();
+            index.accept(expressionGenerator);
+            methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+            if(type == BuiltInType.BOOLEAN_ARR) {
+                descriptor = "(" + BuiltInType.BOOLEAN.getDescriptor() + ")V";
+            } else if(type == BuiltInType.LONG_ARR) {
+                descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
+            } else if(type == BuiltInType.DOUBLE_ARR) {
+                descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
+            } else if(type == BuiltInType.CHAR_ARR) {
+                descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
+            } else {
+                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+            }
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                    "Ljava/io/PrintStream;", "println", descriptor, false);
         } else {
-            descriptor = "(" + type.getDescriptor() + ")V";
+            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
+            if (type == BuiltInType.BOOLEAN) {
+                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+
+                Label endLabel = new Label();
+                Label pravdaLabel = new Label();
+                Label osalLabel = new Label();
+                Label skoroosalLabel = new Label();
+
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
+                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+                methodVisitor.visitLabel(osalLabel);
+
+                // comparing value of the left expression if "false"
+                methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
+                methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+                methodVisitor.visitLabel(skoroosalLabel);
+                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+
+                methodVisitor.visitLabel(endLabel);
+            } else {
+                descriptor = "(" + type.getDescriptor() + ")V";
+            }
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                    "Ljava/io/PrintStream;", "println", descriptor, false);
         }
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                "Ljava/io/PrintStream;", "println", descriptor, false);
     }
 
     public void generate(VariableDeclaration variableDeclaration) {
@@ -136,11 +159,24 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final String variableName = assignment.getName();
         final int variableId = scope.getVariableIndex(variableName);
         final Optional<Expression> expressionOption = assignment.getExpression();
-        if(expressionOption.isPresent()) {
-            Expression expression = expressionOption.get();
-            expression.accept(expressionGenerator);
-            final Type type = expression.getType();
-            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+        if(assignment instanceof ArrayAssignment) {
+            if(expressionOption.isPresent()) {
+                Expression expression = expressionOption.get();
+                final Type type = expression.getType();
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+
+                ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                expression.accept(expressionGenerator);
+
+                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getStore());
+            }
+        } else {
+            if(expressionOption.isPresent()) {
+                Expression expression = expressionOption.get();
+                expression.accept(expressionGenerator);
+                final Type type = expression.getType();
+                methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+            }
         }
     }
 
@@ -153,5 +189,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
         } else {
             methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
         }
+        String name = array.getName();
+        int variableIndex = scope.getVariableIndex(name);
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, variableIndex);
     }
 }
