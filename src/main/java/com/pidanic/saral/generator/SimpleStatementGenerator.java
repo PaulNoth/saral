@@ -19,6 +19,10 @@ import java.util.Optional;
 
 public class SimpleStatementGenerator extends StatementGenerator {
 
+    private interface BooleanByteValue {
+        void putOnStack();
+    }
+
     private MethodVisitor methodVisitor;
     private Scope scope;
     private ExpressionGenerator expressionGenerator;
@@ -48,31 +52,11 @@ public class SimpleStatementGenerator extends StatementGenerator {
             if(type == BuiltInType.BOOLEAN_ARR) {
                 descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
 
-                Label endLabel = new Label();
-                Label pravdaLabel = new Label();
-                Label osalLabel = new Label();
-                Label skoroosalLabel = new Label();
-
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
-                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
-                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-                methodVisitor.visitLabel(osalLabel);
-
-                // comparing value of the left expression if "false"
-                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-                index.accept(expressionGenerator);
-                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
-
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
-                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
-                methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
-                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-
-                methodVisitor.visitLabel(skoroosalLabel);
-                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-
-                methodVisitor.visitLabel(endLabel);
+                generateBooleanAsKleene(() -> {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                    index.accept(expressionGenerator);
+                    methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                });
             } else if(type == BuiltInType.LONG_ARR) {
                 descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
             } else if(type == BuiltInType.DOUBLE_ARR) {
@@ -89,34 +73,39 @@ public class SimpleStatementGenerator extends StatementGenerator {
             if (type == BuiltInType.BOOLEAN) {
                 descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
 
-                Label endLabel = new Label();
-                Label pravdaLabel = new Label();
-                Label osalLabel = new Label();
-                Label skoroosalLabel = new Label();
+                generateBooleanAsKleene(() -> methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId));
 
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
-                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
-                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-                methodVisitor.visitLabel(osalLabel);
-
-                // comparing value of the left expression if "false"
-                methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
-                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
-                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
-                methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
-                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-
-                methodVisitor.visitLabel(skoroosalLabel);
-                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-
-                methodVisitor.visitLabel(endLabel);
             } else {
                 descriptor = "(" + type.getDescriptor() + ")V";
             }
             methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                     "Ljava/io/PrintStream;", "println", descriptor, false);
         }
+    }
+
+    private void generateBooleanAsKleene(BooleanByteValue valueOnStack) {
+        Label endLabel = new Label();
+        Label pravdaLabel = new Label();
+        Label osalLabel = new Label();
+        Label skoroosalLabel = new Label();
+
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
+        methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(osalLabel);
+
+        // comparing value of the left expression if "false"
+        valueOnStack.putOnStack();
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
+        methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(skoroosalLabel);
+        methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+
+        methodVisitor.visitLabel(endLabel);
     }
 
     public void generate(VariableDeclaration variableDeclaration) {
