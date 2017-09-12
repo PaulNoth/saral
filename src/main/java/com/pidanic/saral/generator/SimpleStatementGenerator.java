@@ -42,7 +42,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        String descriptor;
+        String descriptor = createPrintlnDescriptor(type);
         if(variable instanceof LocalVariableArrayIndex) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
             LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
@@ -50,37 +50,37 @@ public class SimpleStatementGenerator extends StatementGenerator {
             index.accept(expressionGenerator);
             methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
             if(type == BuiltInType.BOOLEAN_ARR) {
-                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-
                 generateBooleanAsKleene(() -> {
                     methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
                     index.accept(expressionGenerator);
                     methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
                 });
-            } else if(type == BuiltInType.LONG_ARR) {
-                descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
-            } else if(type == BuiltInType.DOUBLE_ARR) {
-                descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
-            } else if(type == BuiltInType.CHAR_ARR) {
-                descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
-            } else {
-                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
             }
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "Ljava/io/PrintStream;", "println", descriptor, false);
         } else {
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
             if (type == BuiltInType.BOOLEAN) {
-                descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-
                 generateBooleanAsKleene(() -> methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId));
 
-            } else {
-                descriptor = "(" + type.getDescriptor() + ")V";
             }
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                    "Ljava/io/PrintStream;", "println", descriptor, false);
         }
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
+                "Ljava/io/PrintStream;", "println", descriptor, false);
+    }
+
+    private String createPrintlnDescriptor(Type type) {
+        String descriptor = "(" + type.getDescriptor() + ")V";
+        if (type == BuiltInType.BOOLEAN) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+        } else if(type == BuiltInType.BOOLEAN_ARR) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+        } else if(type == BuiltInType.LONG_ARR) {
+            descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
+        } else if(type == BuiltInType.DOUBLE_ARR) {
+            descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
+        } else if(type == BuiltInType.CHAR_ARR) {
+            descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
+        }
+        return descriptor;
     }
 
     private void generateBooleanAsKleene(BooleanByteValue valueOnStack) {
