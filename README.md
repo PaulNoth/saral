@@ -90,7 +90,7 @@ meňak neskutočné numeralio veľo = 5000000000
 ```
 
 #### Polia
-Polia vytvoríme kľúčovým slovom `funduš`. Každé pole musí byť vytvorené s určením, koľko prvkov bude obsahovať. Vytváranie funguje pre všetky podporované [dátové-typy](#dátové-typy).
+Polia vytvoríme kľúčovým slovom `funduš`. Každé pole musí byť vytvorené s určením, koľko prvkov bude obsahovať. Vytváranie funguje pre všetky podporované [dátové typy](#dátové-typy).
 ```
 furt neskutočné numeralio n = 10
 funduš logický l[n]
