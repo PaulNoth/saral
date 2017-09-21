@@ -5,3 +5,28 @@ funduš neskutočné numeralio nn[n]
 // môže byť použité aj s kľúčovým slovom dimenzion
 dimenzionfunduš písmeno p[n]
 dimenzion funduš slovo s[n]
+
+l[1] = pravda
+l[2] = skoroošaľ
+l[3] = ošaľ
+
+nn[0] = 1
+nn[1] = 2
+nn[2] = 3
+nn[3] = 4
+
+p[0] = 'A'
+s[0] = "aa"
+
+ciskaj n
+
+ciskaj p[0]
+ciskaj p[1]
+ciskaj sn[0]
+ciskaj nn[0]
+ciskaj s[0]
+
+ciskaj l[0]
+ciskaj l[1]
+ciskaj l[2]
+ciskaj l[3]

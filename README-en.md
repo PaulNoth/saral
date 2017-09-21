@@ -85,6 +85,49 @@ meňak písmeno ch = 'a'
 meňak neskutočné numeralio bigNumber = 5000000000
 ```
 
+#### Arrays
+The array are created using the keyword `funduš`. Each array have to be initialized with its length. Each [data type](#data-types) can be used in array.
+```
+furt neskutočné numeralio n = 10
+funduš logický l[n]
+funduš skutočné numeralio sn[n * n]
+funduš neskutočné numeralio nn[n]
+
+// there is optional 'dimenzion' keyword before 'funduš'
+dimenzionfunduš písmeno p[n]
+dimenzion funduš slovo s[n]
+```
+Saral initialize each element of a array similar way JVM does (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (empty space), `slovo` - (java) `null`)
+
+##### Array elements
+To access individual elements in arrays, we use bracket with element index inside them. Index of an element is referenced from `0` to `array length - 1`.
+```
+l[1] = pravda
+l[2] = skoroošaľ
+l[3] = ošaľ
+
+nn[0] = 1
+nn[1] = 2
+nn[2] = 3
+nn[3] = 4
+
+p[0] = 'A'
+s[0] = "aa"
+
+ciskaj n
+
+ciskaj p[0]
+ciskaj sn[0]
+ciskaj nn[0]
+ciskaj s[0]
+
+ciskaj l[0]
+ciskaj l[1]
+ciskaj l[2]
+ciskaj l[3]
+
+```
+
 ### Operations
 #### Arithmetic operations
 There are supported mathematical operation between integers and floats (type `neskutočné numeralio`, `skutočné numeralio`) with precedence of parentheses and operations.

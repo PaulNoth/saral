@@ -18,6 +18,10 @@ import java.util.Optional;
 
 public class SimpleStatementGenerator extends StatementGenerator {
 
+    private interface BooleanByteValue {
+        void putOnStack();
+    }
+
     private MethodVisitor methodVisitor;
     private Scope scope;
     private ExpressionGenerator expressionGenerator;
@@ -37,38 +41,72 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
-        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
-        String descriptor;
-        if(type == BuiltInType.BOOLEAN) {
-            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-
-            Label endLabel = new Label();
-            Label pravdaLabel = new Label();
-            Label osalLabel = new Label();
-            Label skoroosalLabel = new Label();
-
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
-            methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-            methodVisitor.visitLabel(osalLabel);
-
-            // comparing value of the left expression if "false"
-            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
-            methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
-
-            methodVisitor.visitLabel(skoroosalLabel);
-            methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-
-            methodVisitor.visitLabel(endLabel);
+        String descriptor = createPrintlnDescriptor(type);
+        if(variable instanceof LocalVariableArrayIndex) {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+            LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
+            Expression index = localArrayIndex.getIndex();
+            index.accept(expressionGenerator);
+            methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+            if(type == BuiltInType.BOOLEAN_ARR) {
+                generateBooleanAsKleene(() -> {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                    index.accept(expressionGenerator);
+                    methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                });
+            }
         } else {
-            descriptor = "(" + type.getDescriptor() + ")V";
+            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
+            if (type == BuiltInType.BOOLEAN) {
+                generateBooleanAsKleene(() -> methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId));
+
+            }
         }
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                 "Ljava/io/PrintStream;", "println", descriptor, false);
+    }
+
+    private String createPrintlnDescriptor(Type type) {
+        String descriptor = "(" + type.getDescriptor() + ")V";
+        if (type == BuiltInType.BOOLEAN) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+        } else if(type == BuiltInType.BOOLEAN_ARR) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+        } else if(type == BuiltInType.LONG_ARR) {
+            descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
+        } else if(type == BuiltInType.DOUBLE_ARR) {
+            descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
+        } else if(type == BuiltInType.CHAR_ARR) {
+            descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
+        } else if(type == BuiltInType.STRING_ARR) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
+        }
+        return descriptor;
+    }
+
+    private void generateBooleanAsKleene(BooleanByteValue valueOnStack) {
+        Label endLabel = new Label();
+        Label pravdaLabel = new Label();
+        Label osalLabel = new Label();
+        Label skoroosalLabel = new Label();
+
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, osalLabel);
+        methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+        methodVisitor.visitLabel(osalLabel);
+
+        // comparing value of the left expression if "false"
+        valueOnStack.putOnStack();
+        methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+        methodVisitor.visitJumpInsn(Opcodes.IF_ICMPNE, skoroosalLabel);
+        methodVisitor.visitLdcInsn(Logic.OSAL.getStringValue());
+        methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+        methodVisitor.visitLabel(skoroosalLabel);
+        methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+
+        methodVisitor.visitLabel(endLabel);
     }
 
     public void generate(VariableDeclaration variableDeclaration) {
@@ -136,11 +174,24 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final String variableName = assignment.getName();
         final int variableId = scope.getVariableIndex(variableName);
         final Optional<Expression> expressionOption = assignment.getExpression();
-        if(expressionOption.isPresent()) {
-            Expression expression = expressionOption.get();
-            expression.accept(expressionGenerator);
-            final Type type = expression.getType();
-            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+        if(assignment instanceof ArrayAssignment) {
+            if(expressionOption.isPresent()) {
+                Expression expression = expressionOption.get();
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+
+                ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                expression.accept(expressionGenerator);
+
+                LocalVariable localArray = scope.getLocalVariable(variableName);
+                methodVisitor.visitInsn(localArray.getType().getTypeSpecificOpcode().getStore());
+            }
+        } else {
+            if(expressionOption.isPresent()) {
+                Expression expression = expressionOption.get();
+                expression.accept(expressionGenerator);
+                final Type type = expression.getType();
+                methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+            }
         }
     }
 
@@ -153,5 +204,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
         } else {
             methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
         }
+        String name = array.getName();
+        int variableIndex = scope.getVariableIndex(name);
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, variableIndex);
     }
 }

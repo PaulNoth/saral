@@ -80,7 +80,7 @@ Typ `logický` predstavuje bool/kleene hodnoty - `pravda`, `skoroošaľ`, `oša�
 
 ```
 meňak neskutočné numeralio pejc = 5
-meňak slovo dupa= "dupa"
+meňak slovo dupa = "dupa"
 meňak logický p = pravda
 meňak logický o = ošaľ
 meňak logický so = skoroošaľ
@@ -88,6 +88,50 @@ meňak skutočné numeralio cislo = 1.2
 meňak písmeno pis = 'a'
 meňak neskutočné numeralio veľo = 5000000000
 ```
+
+#### Polia
+Polia vytvoríme kľúčovým slovom `funduš`. Každé pole musí byť vytvorené s určením, koľko prvkov bude obsahovať. Vytváranie funguje pre všetky podporované [dátové-typy](#dátové-typy).
+```
+furt neskutočné numeralio n = 10
+funduš logický l[n]
+funduš skutočné numeralio sn[n * n]
+funduš neskutočné numeralio nn[n]
+
+// môže byť použité aj s kľúčovým slovom 'dimenzion' pred 'funduš'
+dimenzionfunduš písmeno p[n]
+dimenzion funduš slovo s[n]
+```
+Prvky polí sú na začiatku inicializované na hodnoty, ktoré predpisuje aj JVM (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (prázdny znak/medzera), `slovo` - (java) `null`)
+
+##### Prvky poľa
+K prvkom poľa pristupujeme cez hranaté zátvory, v ktorých určíme index prvku. Prvky polí sú číslované od `0` po `dĺžka poľa - 1`
+```
+l[1] = pravda
+l[2] = skoroošaľ
+l[3] = ošaľ
+
+nn[0] = 1
+nn[1] = 2
+nn[2] = 3
+nn[3] = 4
+
+p[0] = 'A'
+s[0] = "aa"
+
+ciskaj n
+
+ciskaj p[0]
+ciskaj sn[0]
+ciskaj nn[0]
+ciskaj s[0]
+
+ciskaj l[0]
+ciskaj l[1]
+ciskaj l[2]
+ciskaj l[3]
+
+```
+
 ### Operácie
 #### Aritmetické operácie
 Podporované sú matematické operácie medzi celými a reálnymi číslami (typ `neskutočné numeralio`, `skutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
