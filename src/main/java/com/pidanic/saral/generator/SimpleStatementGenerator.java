@@ -78,6 +78,8 @@ public class SimpleStatementGenerator extends StatementGenerator {
             descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
         } else if(type == BuiltInType.CHAR_ARR) {
             descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
+        } else if(type == BuiltInType.STRING_ARR) {
+            descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
         }
         return descriptor;
     }

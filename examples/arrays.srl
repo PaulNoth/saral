@@ -21,6 +21,7 @@ s[0] = "aa"
 ciskaj n
 
 ciskaj p[0]
+ciskaj p[1]
 ciskaj sn[0]
 ciskaj nn[0]
 ciskaj s[0]
