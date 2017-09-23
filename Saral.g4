@@ -101,6 +101,7 @@ statement
 	;
 
 simple_statement : write
+                 | write2
                  | var_definition
                  | assignment
                  | var_declaration
