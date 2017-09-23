@@ -307,7 +307,7 @@ paľ do baru iDoSomethingElse(five)
 ```
 
 ### Functions
-Do we repeat same code? Do we want to return a calculated value? We have functions.
+Do we repeat same code? Do we want to return a calculated value? We have functions. Value is returned with `vrac`, which have to be on last line of the function.
 ```
 bar neskutočné numeralio returnSomething()
     meňak neskutočné numeralio five = 5

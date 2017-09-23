@@ -311,7 +311,7 @@ paľ do baru tiezRobim(pejc)
 ```
 
 ### Funkcie
-Opakuje sa nám rovnaký kód a chceme vrátiť nejakú hodnotu výpočtu? Môžme si vytvoriť funkciu.
+Opakuje sa nám rovnaký kód a chceme vrátiť nejakú hodnotu výpočtu? Môžme si vytvoriť funkciu. Hodnotu funkcie vrátime prostredníctvom `vrac`, ktorý musí byť vždy na poslednom riadku funkcie.
 ```
 bar neskutočné numeralio vracimDaco()
     meňak neskutočné numeralio pejc = 5
