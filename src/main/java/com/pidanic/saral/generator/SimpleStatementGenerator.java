@@ -139,9 +139,13 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(Argument parameter, String localVariableName) {
-        Type type = TypeResolver.getFromTypeName(parameter.getType());
+        Type argumentType = parameter.getType();
         int index = scope.getVariableIndex(localVariableName);
-        methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
+        if(TypeResolver.isArray(argumentType)) {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
+        } else {
+            methodVisitor.visitVarInsn(argumentType.getTypeSpecificOpcode().getLoad(), index);
+        }
     }
 
     private String getFunctionDescriptor(ProcedureCall functionCall) {

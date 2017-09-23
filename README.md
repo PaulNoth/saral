@@ -295,7 +295,7 @@ bar robim()
 
 `bar` nám vraví, že máme procedúru, ktorá ma meno `robim` a nemá žiadne parametre. 
 
-Nie je problém pridať parametre podporovaných dátových typov.
+Nie je problém pridať parametre podporovaných dátových typov a polí.
 ```
 bar tiezRobim(neskutočné numeralio x)
     ciskaj x
@@ -317,7 +317,7 @@ bar neskutočné numeralio vracimDaco()
     meňak neskutočné numeralio pejc = 5
     vrac pejc
 ```
-Samozrejme aj s ľubovoľným počtom parametrov.
+Samozrejme aj s ľubovoľným počtom parametrov podporovaných dátových typov a polí.
 ```
 bar slovo vracimSlovo(slovo x)
     vrac x

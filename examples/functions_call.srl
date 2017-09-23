@@ -50,6 +50,16 @@ bar robim4()
     zrob s meňakom x od 1 do tritri
         ciskaj x
 
+bar robimPole(funduš neskutočné numeralio pole)
+    ciskaj pole[0]
+    pole[1] = 2
+    ciskaj pole[1]
+
+bar robimPole2(funduš slovo pole)
+    ciskaj pole[0]
+    pole[1] = "2"
+    ciskaj pole[1]
+
 meňak neskutočné numeralio pejc = 5
 ciskaj pejc
 meňak slovo dupa = "dupa"
@@ -75,3 +85,13 @@ paľ do baru všetkyTypyParametrov(nn, l, sn, s, pi)
 
 paľ do baru robim3()
 paľ do baru robim4()
+
+funduš neskutočné numeralio pole[10]
+funduš slovo pole2[10]
+paľ do baru robimPole(pole)
+paľ do baru robimPole2(pole2)
+ciskaj pole[1]
+pole[1] = 3
+ciskaj pole[1]
+ciskaj pole2[0]
+ciskaj pole2[1]

@@ -71,4 +71,8 @@ public class TypeResolver {
     public static Type getArrayTypeFromTypeName(String basicTypeName) {
         return ARRAY_TYPES.getOrDefault(basicTypeName, BuiltInType.STRING_ARR);
     }
+
+    public static boolean isArray(Type type) {
+        return ARRAY_TYPES.values().stream().anyMatch(arrayType -> arrayType == type);
+    }
 }

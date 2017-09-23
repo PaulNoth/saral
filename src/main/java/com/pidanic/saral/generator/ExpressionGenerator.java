@@ -84,7 +84,7 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(Argument parameter, String localVariableName) {
-        Type type = TypeResolver.getFromTypeName(parameter.getType());
+        Type type = parameter.getType();
         int index = scope.getVariableIndex(localVariableName);
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
