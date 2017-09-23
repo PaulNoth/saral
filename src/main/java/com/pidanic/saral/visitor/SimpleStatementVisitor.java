@@ -28,7 +28,16 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     @Override
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
-        Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
+        return createPrintStatement(ctx.var());
+    }
+
+    @Override
+    public SimpleStatement visitWrite2(SaralParser.Write2Context ctx) {
+        return createPrintStatement(ctx.var());
+    }
+
+    private SimpleStatement createPrintStatement(SaralParser.VarContext varContext) {
+        Expression varRef = varContext.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).getVarName();
 
         LocalVariable localVariable = scope.getLocalVariable(varName);
