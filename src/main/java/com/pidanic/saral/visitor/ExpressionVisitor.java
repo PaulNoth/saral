@@ -5,8 +5,7 @@ import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.logic.*;
 import com.pidanic.saral.domain.expression.math.*;
-import com.pidanic.saral.exception.IncompatibleTypeArrayIndexException;
-import com.pidanic.saral.exception.IncompatibleTypeArrayLengthException;
+import com.pidanic.saral.exception.IncompatibleTypeArrayIndex;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -46,7 +45,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     public Expression visitValVar(SaralParser.ValVarContext ctx) {
         String varName = ctx.var().getText();
         LocalVariable localVariable = scope.getLocalVariable(varName);
-        return new VariableRef(varName,localVariable.getType());
+        return new VariableRef(varName,localVariable.type());
     }
 
     @Override
@@ -89,7 +88,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     public Expression visitVarID(SaralParser.VarIDContext ctx) {
         String varName = ctx.ID().getText();
         LocalVariable localVariable = scope.getLocalVariable(varName);
-        return new VariableRef(varName, localVariable.getType());
+        return new VariableRef(varName, localVariable.type());
     }
 
     @Override
@@ -97,7 +96,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         String varName = ctx.ID().getText();
         Expression index = ctx.expression().accept(this);
         if(index.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeArrayIndexException(scope, varName, index.getType());
+            throw new IncompatibleTypeArrayIndex(scope, varName, index.getType());
         }
         return new ArrayRef(varName, index.getType(), index);
     }

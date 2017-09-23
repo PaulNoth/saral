@@ -2,9 +2,9 @@ package com.pidanic.saral.scope;
 
 import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.exception.FunctionNotFoundException;
-import com.pidanic.saral.exception.VariableExistsException;
-import com.pidanic.saral.exception.VariableNotFoundException;
+import com.pidanic.saral.exception.FunctionNotFound;
+import com.pidanic.saral.exception.VariableNameAlreadyExists;
+import com.pidanic.saral.exception.VariableNotFound;
 import com.pidanic.saral.util.BuiltInType;
 
 import java.util.ArrayList;
@@ -36,24 +36,24 @@ public class Scope {
     }
 
     public void addVariable(LocalVariable localVariable) {
-        if(existsLocalVariable(localVariable.getName())) {
-            throw new VariableExistsException(this, localVariable.getName());
+        if(existsLocalVariable(localVariable.name())) {
+            throw new VariableNameAlreadyExists(this, localVariable.name());
         }
         localVariables.add(localVariable);
-        if(localVariable.getType() == BuiltInType.LONG || localVariable.getType() == BuiltInType.DOUBLE) {
+        if(localVariable.type() == BuiltInType.LONG || localVariable.type() == BuiltInType.DOUBLE) {
             localVariables.add(EMPTY);
         }
     }
 
     private boolean existsLocalVariable(String variableName) {
-        return localVariables.stream().anyMatch(variable -> variable.getName().equals(variableName));
+        return localVariables.stream().anyMatch(variable -> variable.name().equals(variableName));
     }
 
     public LocalVariable getLocalVariable(String varName) {
         return localVariables.stream()
-                .filter(variable -> variable.getName().equals(varName))
+                .filter(variable -> variable.name().equals(varName))
                 .findFirst()
-                .orElseThrow(() -> new VariableNotFoundException(this, varName));
+                .orElseThrow(() -> new VariableNotFound(this, varName));
     }
 
     public int getVariableIndex(String varName) {
@@ -64,7 +64,7 @@ public class Scope {
     public Function getFunction(String functionName) {
         return functions.stream().filter(proc -> proc.getName().equals(functionName))
                 .findFirst()
-                .orElseThrow(() -> new FunctionNotFoundException(this, functionName));
+                .orElseThrow(() -> new FunctionNotFound(this, functionName));
     }
 
     public String getClassName() {

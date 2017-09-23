@@ -9,7 +9,7 @@ import com.pidanic.saral.domain.expression.logic.And;
 import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
-import com.pidanic.saral.exception.FunctionCallNotFoundException;
+import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -62,7 +62,7 @@ public class ExpressionGenerator extends StatementGenerator {
         String varName = varRef.getVarName();
         int index = scope.getVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
-        Type type = localVariable.getType();
+        Type type = localVariable.type();
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
@@ -92,7 +92,7 @@ public class ExpressionGenerator extends StatementGenerator {
     private String getFunctionDescriptor(FunctionCall functionCall) {
         return Optional.of(getDescriptorForFunctionInScope(functionCall))
                 .orElse(getDescriptorForFunctionOnClasspath(functionCall))
-                .orElseThrow(() -> new FunctionCallNotFoundException(functionCall));
+                .orElseThrow(() -> new FunctionCallNotFound(functionCall));
     }
 
     private Optional<String> getDescriptorForFunctionInScope(FunctionCall functionCall) {
@@ -104,7 +104,7 @@ public class ExpressionGenerator extends StatementGenerator {
             String functionName = functionCall.getFunction().getName();
             Collection<CalledArgument> parameters = functionCall.getCalledArguments();
             Type owner = functionCall.getFunction().getReturnType();
-            //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            //String className = owner.isPresent() ? owner.get().name() : scope.getClassName();
             String className = scope.getClassName();
             Class<?> aClass = Class.forName(className);
             Method method = aClass.getMethod(functionName);
@@ -271,6 +271,6 @@ public class ExpressionGenerator extends StatementGenerator {
 
         int arrayIndex = scope.getVariableIndex(arrayRef.getVarName());
         LocalVariable array = scope.getLocalVariable(arrayRef.getVarName());
-        methodVisitor.visitInsn(array.getType().getTypeSpecificOpcode().getLoad());
+        methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
     }
 }

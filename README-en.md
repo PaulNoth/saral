@@ -30,6 +30,14 @@ meňak slovo hello = "hello"
 ciskaj hello
 ```
 
+Second option to print something to the console is to use `povidz`. It is equivalent to `ciskaj`.
+```
+meňak neskutočné numeralio five = 5
+povidz five
+meňak slovo hello = "hello"
+povidz hello
+```
+
 ### Comments
 They start with `//` and can appear at the beginning of a line and they will take whole line or at the end of a statement
 ```

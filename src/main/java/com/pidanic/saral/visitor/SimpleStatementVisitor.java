@@ -28,20 +28,29 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     @Override
     public SimpleStatement visitWrite(SaralParser.WriteContext ctx) {
-        Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
+        return createPrintStatement(ctx.var());
+    }
+
+    @Override
+    public SimpleStatement visitWrite2(SaralParser.Write2Context ctx) {
+        return createPrintStatement(ctx.var());
+    }
+
+    private SimpleStatement createPrintStatement(SaralParser.VarContext varContext) {
+        Expression varRef = varContext.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).getVarName();
 
         LocalVariable localVariable = scope.getLocalVariable(varName);
         LocalVariable var;
         if(varRef instanceof ArrayRef) {
-            var = new LocalVariableArrayIndex(localVariable.getName(), localVariable.getType(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
+            var = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
         } else {
-            var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+            var = new LocalVariable(localVariable.name(), localVariable.type(), localVariable.isInitialized());
         }
         if(!var.isInitialized()) {
-            throw new VariableNotInitializedException(scope, var.getName());
+            throw new VariableNotInitialized(scope, var.name());
         }
-        return new PrintVariable(var);
+        return new PrintStatement(var);
     }
 
     @Override
@@ -82,7 +91,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
             } else if(variableType == BuiltInType.INT && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.INT, expression);
             } else {
-                throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
+                throw new IncompatibleVariableTypeAssignment(scope, variableName, variableType, expression.getType());
             }
         }
         return expression;
@@ -126,10 +135,10 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         }
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
-            throw new VariableNotFoundException(scope, varName);
+            throw new VariableNotFound(scope, varName);
         }
         if(var.isConstant()) {
-            throw new ConstantAssignmentException(scope, varName);
+            throw new ConstantAssignmentNotAllowed(scope, varName);
         }
         var.initialize();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
@@ -150,7 +159,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
         Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
         if(arrayLength.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeArrayLengthException(scope, varName, arrayLength.getType());
+            throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.getType());
         }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addVariable(var);

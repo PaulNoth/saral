@@ -35,6 +35,14 @@ meňak slovo servus = "servus"
 ciskaj servus
 ```
 
+Druhou možnosťou výpisu do konzoly je prostredníctvom `povidz`, ktorý je ekvivalentný s `ciskaj`.
+```
+meňak neskutočné numeralio pejc = 5
+povidz pejc
+meňak slovo servus = "servus"
+povidz servus
+```
+
 ### Komentáre
 Začínajú vždy `//` a môžu sa objaviť na začiatku riadku a zaberú celý riadok, alebo za výrazom
 ```

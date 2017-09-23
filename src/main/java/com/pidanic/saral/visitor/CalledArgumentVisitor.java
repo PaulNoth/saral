@@ -2,7 +2,7 @@ package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.LocalVariable;
-import com.pidanic.saral.exception.VariableNotInitializedException;
+import com.pidanic.saral.exception.VariableNotInitialized;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -20,7 +20,7 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
         String argName = ctx.ID().getText();
         LocalVariable argVar = scope.getLocalVariable(argName);
         if(!argVar.isInitialized()) {
-            throw new VariableNotInitializedException(scope, argVar.getName());
+            throw new VariableNotInitialized(scope, argVar.name());
         }
         return new CalledArgument(argName);
     }
@@ -30,7 +30,7 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
     //    String argName = ctx.var().getText();
     //    LocalVariable argVar = scope.getLocalVariable(argName);
     //    if(!argVar.isInitialized()) {
-    //        throw new VariableNotInitializedException(scope, argVar.getName());
+    //        throw new VariableNotInitialized(scope, argVar.name());
     //    }
     //    return new CalledArgument(argName);
     //}
