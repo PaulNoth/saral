@@ -22,7 +22,7 @@ public class DescriptorFactory {
 
     private static String getMethodDescriptor(Collection<Argument> args, Type retType) {
         String argumentDescriptor = args.stream()
-                .map(arg -> TypeResolver.getFromTypeName(arg.getType()).getDescriptor())
+                .map(arg -> arg.getType().getDescriptor())
                 .collect(Collectors.joining("", "(", ")"));
         String returnTypeDescriptor = retType.getDescriptor();
         return argumentDescriptor + returnTypeDescriptor;

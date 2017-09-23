@@ -38,9 +38,15 @@ public final class FunctionHelper {
         List<Argument> arguments = new ArrayList<>();
         for(int i = 0; i < arglistContext.ID().size(); i++) {
             String argName = arglistContext.ID(i).getText();
-            String argType = arglistContext.type(i).getText();
-            Type type = TypeResolver.getFromTypeName(argType);
-            LocalVariable var = new LocalVariable(argName, type, true);
+            SaralParser.TypeContext typeContext = arglistContext.type(i);
+            Type argType;
+            if(typeContext.typeBasic() != null) {
+                String argTypeName = typeContext.typeBasic().getText();
+                argType = TypeResolver.getFromTypeName(argTypeName);
+            } else {
+                argType = TypeResolver.getArrayTypeFromTypeName(typeContext.typeArray().typeBasic().getText());
+            }
+            LocalVariable var = new LocalVariable(argName, argType, true);
             scope.addVariable(var);
             arguments.add(new Argument(argName, argType));
         }

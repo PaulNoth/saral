@@ -2,12 +2,13 @@ package com.pidanic.saral.domain.block;
 
 import com.pidanic.saral.generator.ExpressionGenerator;
 import com.pidanic.saral.generator.SimpleStatementGenerator;
+import com.pidanic.saral.util.Type;
 
 public class Argument {
-    private final String type;
+    private final Type type;
     private final String name;
 
-    public Argument(String name, String type) {
+    public Argument(String name, Type type) {
         this.name = name;
         this.type = type;
     }
@@ -16,7 +17,7 @@ public class Argument {
         return name;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
