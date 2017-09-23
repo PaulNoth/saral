@@ -9,7 +9,7 @@ import com.pidanic.saral.domain.expression.logic.And;
 import com.pidanic.saral.domain.expression.logic.Negation;
 import com.pidanic.saral.domain.expression.logic.Or;
 import com.pidanic.saral.domain.expression.math.*;
-import com.pidanic.saral.exception.FunctionCallNotFoundException;
+import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.apache.commons.lang3.StringUtils;
@@ -92,7 +92,7 @@ public class ExpressionGenerator extends StatementGenerator {
     private String getFunctionDescriptor(FunctionCall functionCall) {
         return Optional.of(getDescriptorForFunctionInScope(functionCall))
                 .orElse(getDescriptorForFunctionOnClasspath(functionCall))
-                .orElseThrow(() -> new FunctionCallNotFoundException(functionCall));
+                .orElseThrow(() -> new FunctionCallNotFound(functionCall));
     }
 
     private Optional<String> getDescriptorForFunctionInScope(FunctionCall functionCall) {

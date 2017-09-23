@@ -3,8 +3,8 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.exception.FunctionCallNotFoundException;
-import com.pidanic.saral.exception.VariableNotInitializedException;
+import com.pidanic.saral.exception.FunctionCallNotFound;
+import com.pidanic.saral.exception.VariableNotInitialized;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.objectweb.asm.Label;
@@ -36,7 +36,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
     public void generate(PrintVariable instruction) {
         final LocalVariable variable = instruction.getVariable();
         if(!variable.isInitialized()) {
-            throw new VariableNotInitializedException(scope, variable.getName());
+            throw new VariableNotInitialized(scope, variable.getName());
         }
         final Type type = variable.getType();
         final int variableId = scope.getVariableIndex(variable.getName());
@@ -151,7 +151,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
     private String getFunctionDescriptor(ProcedureCall functionCall) {
         return Optional.of(getDescriptorForFunctionInScope(functionCall))
                 .orElse(getDescriptorForFunctionOnClasspath(functionCall))
-                .orElseThrow(() -> new FunctionCallNotFoundException(functionCall));
+                .orElseThrow(() -> new FunctionCallNotFound(functionCall));
     }
 
     private Optional<String> getDescriptorForFunctionInScope(ProcedureCall functionCall) {

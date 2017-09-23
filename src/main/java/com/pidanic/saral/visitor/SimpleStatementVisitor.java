@@ -39,7 +39,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
             var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
         }
         if(!var.isInitialized()) {
-            throw new VariableNotInitializedException(scope, var.getName());
+            throw new VariableNotInitialized(scope, var.getName());
         }
         return new PrintVariable(var);
     }
@@ -82,7 +82,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
             } else if(variableType == BuiltInType.INT && expression.getType() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.INT, expression);
             } else {
-                throw new IncompatibleVariableTypeAssignmentException(scope, variableName, variableType, expression.getType());
+                throw new IncompatibleVariableTypeAssignment(scope, variableName, variableType, expression.getType());
             }
         }
         return expression;
@@ -126,10 +126,10 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         }
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
-            throw new VariableNotFoundException(scope, varName);
+            throw new VariableNotFound(scope, varName);
         }
         if(var.isConstant()) {
-            throw new ConstantAssignmentException(scope, varName);
+            throw new ConstantAssignmentNotAllowed(scope, varName);
         }
         var.initialize();
         SaralParser.ExpressionContext expressionContext = ctx.expression();
@@ -150,7 +150,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
         Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
         if(arrayLength.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeArrayLengthException(scope, varName, arrayLength.getType());
+            throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.getType());
         }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addVariable(var);

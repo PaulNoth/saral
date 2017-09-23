@@ -3,8 +3,7 @@ package com.pidanic.saral.visitor;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.block.WhileStatement;
 import com.pidanic.saral.domain.expression.Expression;
-import com.pidanic.saral.exception.EmptyForStatementBlockException;
-import com.pidanic.saral.exception.EmptyWhileStatementBlockException;
+import com.pidanic.saral.exception.EmptyWhileStatementBlock;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
@@ -30,7 +29,7 @@ public class WhileStatementVisitor extends SaralBaseVisitor<WhileStatement> {
                 .filter(stmt -> stmt != null)
                 .collect(Collectors.toList());
         if(block.isEmpty()) {
-            throw new EmptyWhileStatementBlockException(scope);
+            throw new EmptyWhileStatementBlock(scope);
         }
         return new WhileStatement(scope, expression, block);
     }
