@@ -142,7 +142,11 @@ array_declaration
     : typeArray ID LBRACK expression RBRACK
     ;
 
-write : PRINT var ;
+write : 'ciskaj' var ;
+write2
+	: 'povidz' var
+	;
+
 proc_call: PROC_CALL ID LPAR paramlist RPAR;
 func_call: FUNC_CALL ID LPAR paramlist RPAR;
 paramlist: (var (',' var)*)? ;
@@ -225,7 +229,6 @@ ARRAY : 'dimenzion'? WS* 'funduš';
 FOR : 'zrob s meňakom';
 FROM : 'od';
 TO : 'do';
-PRINT : 'ciskaj' ;
 RET : 'vrac';
 IF : 'keď';
 THEN : 'potom';
