@@ -291,7 +291,7 @@ bar iDoSomething()
 
 With `bar`, we declare procedure with name `iDoSomething`. It is without parameters. 
 
-We can add parameters. They need to be in supported data types.
+We can add parameters. They need to be in supported data types and arrays.
 ```
 bar iDoSomethingElse(neskutočné numeralio x)
     ciskaj x
@@ -314,7 +314,7 @@ bar neskutočné numeralio returnSomething()
     vrac five
 ```
 
-Function arguments are supported.
+Function arguments are supported in supported data types and arrays.
 ```
 bar slovo returnString(slovo x)
     vrac x
