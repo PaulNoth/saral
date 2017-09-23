@@ -20,7 +20,7 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
         String argName = ctx.ID().getText();
         LocalVariable argVar = scope.getLocalVariable(argName);
         if(!argVar.isInitialized()) {
-            throw new VariableNotInitialized(scope, argVar.getName());
+            throw new VariableNotInitialized(scope, argVar.name());
         }
         return new CalledArgument(argName);
     }
@@ -30,7 +30,7 @@ public class CalledArgumentVisitor extends SaralBaseVisitor<CalledArgument> {
     //    String argName = ctx.var().getText();
     //    LocalVariable argVar = scope.getLocalVariable(argName);
     //    if(!argVar.isInitialized()) {
-    //        throw new VariableNotInitialized(scope, argVar.getName());
+    //        throw new VariableNotInitialized(scope, argVar.name());
     //    }
     //    return new CalledArgument(argName);
     //}

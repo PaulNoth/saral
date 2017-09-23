@@ -43,14 +43,14 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         LocalVariable localVariable = scope.getLocalVariable(varName);
         LocalVariable var;
         if(varRef instanceof ArrayRef) {
-            var = new LocalVariableArrayIndex(localVariable.getName(), localVariable.getType(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
+            var = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
         } else {
-            var = new LocalVariable(localVariable.getName(), localVariable.getType(), localVariable.isInitialized());
+            var = new LocalVariable(localVariable.name(), localVariable.type(), localVariable.isInitialized());
         }
         if(!var.isInitialized()) {
-            throw new VariableNotInitialized(scope, var.getName());
+            throw new VariableNotInitialized(scope, var.name());
         }
-        return new PrintVariable(var);
+        return new PrintStatement(var);
     }
 
     @Override

@@ -33,13 +33,13 @@ public class SimpleStatementGenerator extends StatementGenerator {
         this.expressionGenerator = new ExpressionGenerator(methodVisitor, scope);
     }
 
-    public void generate(PrintVariable instruction) {
+    public void generate(PrintStatement instruction) {
         final LocalVariable variable = instruction.getVariable();
         if(!variable.isInitialized()) {
-            throw new VariableNotInitialized(scope, variable.getName());
+            throw new VariableNotInitialized(scope, variable.name());
         }
-        final Type type = variable.getType();
-        final int variableId = scope.getVariableIndex(variable.getName());
+        final Type type = variable.type();
+        final int variableId = scope.getVariableIndex(variable.name());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         String descriptor = createPrintlnDescriptor(type);
         if(variable instanceof LocalVariableArrayIndex) {
@@ -163,7 +163,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             String functionName = functionCall.getFunction().getName();
             Collection<CalledArgument> parameters = functionCall.getCalledArguments();
             Type owner = functionCall.getFunction().getReturnType();
-            //String className = owner.isPresent() ? owner.get().getName() : scope.getClassName();
+            //String className = owner.isPresent() ? owner.get().name() : scope.getClassName();
             String className = scope.getClassName();
             Class<?> aClass = Class.forName(className);
             Method method = aClass.getMethod(functionName);
@@ -187,7 +187,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 expression.accept(expressionGenerator);
 
                 LocalVariable localArray = scope.getLocalVariable(variableName);
-                methodVisitor.visitInsn(localArray.getType().getTypeSpecificOpcode().getStore());
+                methodVisitor.visitInsn(localArray.type().getTypeSpecificOpcode().getStore());
             }
         } else {
             if(expressionOption.isPresent()) {

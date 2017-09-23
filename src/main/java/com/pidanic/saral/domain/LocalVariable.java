@@ -20,11 +20,11 @@ public class LocalVariable {
         this.constant = constant;
     }
 
-    public Type getType() {
+    public Type type() {
         return type;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
