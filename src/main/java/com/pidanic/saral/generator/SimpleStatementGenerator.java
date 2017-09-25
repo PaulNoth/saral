@@ -3,6 +3,7 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.exception.ConstantAssignmentNotAllowed;
 import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.exception.VariableNotInitialized;
 import com.pidanic.saral.scope.Scope;
@@ -67,6 +68,32 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ReadStatement readStatement) {
+        final LocalVariable variable = readStatement.variable();
+        if(!variable.isInitialized()) {
+            throw new VariableNotInitialized(scope, variable.name());
+        }
+        if(variable.isConstant()) {
+            throw new ConstantAssignmentNotAllowed(scope, variable.name());
+        }
+        final Type type = variable.type();
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/Scanner");
+        LocalVariable scanner = new LocalVariable("scanner" + scope.getLocalVariables().size(), BuiltInType.STRING, true);
+        scope.addVariable(scanner);
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, scope.getLocalVariables().size() - 1);
+        //methodVisitor.visitInsn(Opcodes.DUP);
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
+        methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
+        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner", "readLong", "()V", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Scanner", "<init>", "(Ljava/io/InputStream;)V", false);
+
+        //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
+        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "next", "()V", false);
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "close", "()V", false);
+        //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
+        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner", "nextLong", "()V", false);
         // TODO
     }
 

@@ -16,7 +16,7 @@ public class ReadStatement implements SimpleStatement {
         ((SimpleStatementGenerator) mv).generate(this);
     }
 
-    public LocalVariable getVariable() {
+    public LocalVariable variable() {
         return variable;
     }
 }
