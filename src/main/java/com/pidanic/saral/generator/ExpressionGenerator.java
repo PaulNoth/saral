@@ -59,7 +59,7 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(VariableRef varRef) {
-        String varName = varRef.getVarName();
+        String varName = varRef.name();
         int index = scope.getVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
         Type type = localVariable.type();
@@ -269,8 +269,8 @@ public class ExpressionGenerator extends StatementGenerator {
         Expression expression = arrayRef.getIndex();
         expression.accept(this);
 
-        int arrayIndex = scope.getVariableIndex(arrayRef.getVarName());
-        LocalVariable array = scope.getLocalVariable(arrayRef.getVarName());
+        int arrayIndex = scope.getVariableIndex(arrayRef.name());
+        LocalVariable array = scope.getLocalVariable(arrayRef.name());
         methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
     }
 }

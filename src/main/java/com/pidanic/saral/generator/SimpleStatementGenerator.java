@@ -66,6 +66,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 "Ljava/io/PrintStream;", "println", descriptor, false);
     }
 
+    public void generate(ReadStatement readStatement) {
+        // TODO
+    }
+
     private String createPrintlnDescriptor(Type type) {
         String descriptor = "(" + type.getDescriptor() + ")V";
         if (type == BuiltInType.BOOLEAN) {

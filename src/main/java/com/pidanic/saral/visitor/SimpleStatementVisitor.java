@@ -38,7 +38,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private SimpleStatement createPrintStatement(SaralParser.VarContext varContext) {
         Expression varRef = varContext.accept(new ExpressionVisitor(scope));
-        String varName = ((VariableRef) varRef).getVarName();
+        String varName = ((VariableRef) varRef).name();
 
         LocalVariable localVariable = scope.getLocalVariable(varName);
         LocalVariable var;
@@ -129,9 +129,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
         String varName;
         if(varRef instanceof ArrayRef) {
-            varName = ((ArrayRef) varRef).getVarName();
+            varName = ((ArrayRef) varRef).name();
         } else {
-            varName = ((VariableRef) varRef).getVarName();
+            varName = ((VariableRef) varRef).name();
         }
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
@@ -164,5 +164,27 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addVariable(var);
         return new ArrayDeclaration(varName, arrayType, arrayLength);
+    }
+
+    @Override
+    public SimpleStatement visitRead(SaralParser.ReadContext ctx) {
+        return createReadStatement(ctx.var());
+    }
+
+    @Override
+    public SimpleStatement visitRead2(SaralParser.Read2Context ctx) {
+        return createReadStatement(ctx.var());
+    }
+
+    private SimpleStatement createReadStatement(SaralParser.VarContext ctx) {
+        Expression varRef = ctx.accept(new ExpressionVisitor(scope));
+        String varName = ((VariableRef) varRef).name();
+
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        if(localVariable == null) {
+            throw new VariableNotFound(scope, varName);
+        }
+        localVariable.initialize();
+        return new ReadStatement(localVariable);
     }
 }
