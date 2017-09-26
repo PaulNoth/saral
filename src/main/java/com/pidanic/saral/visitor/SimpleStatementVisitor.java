@@ -48,7 +48,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(varRef instanceof ArrayRef) {
             var = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
         } else {
-            var = new LocalVariable(localVariable.name(), localVariable.type(), localVariable.isInitialized());
+            var = new LocalVariable(localVariable.name(), localVariable.type(), true);
         }
         if(!var.isInitialized()) {
             throw new VariableNotInitialized(scope, var.name());
@@ -183,7 +183,17 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).name();
 
-        LocalVariable initializedLocalVar = scope.initializeLocalVariableAtIndex(scope.getLocalVariableIndex(varName));
-        return new ReadStatement(initializedLocalVar);
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        LocalVariable initializedLocalVariable;
+        if(varRef instanceof ArrayRef) {
+            initializedLocalVariable = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
+        } else {
+            initializedLocalVariable = new LocalVariable(localVariable.name(), localVariable.type(), true);
+        }
+        if(!initializedLocalVariable.isInitialized()) {
+            throw new VariableNotInitialized(scope, initializedLocalVariable.name());
+        }
+
+        return new ReadStatement(initializedLocalVariable);
     }
 }

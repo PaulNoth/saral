@@ -85,43 +85,92 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type variableType = variable.type();
         final int variableId = scope.getLocalVariableIndex(variable.name());
 
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
-                getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+        if(variable instanceof LocalVariableArrayIndex) {
 
-        if(TypeResolver.isBoolean(variableType)) {
-            Label endLabel = new Label();
-            Label pravdaLabel = new Label();
-            Label osalLabel = new Label();
-            Label skoroosalLabel = new Label();
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+            LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
 
-            methodVisitor.visitInsn(Opcodes.DUP);
+            Expression index = localArrayIndex.getIndex();
+            index.accept(expressionGenerator);
 
-            methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
-            methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                    getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
 
-            methodVisitor.visitLabel(skoroosalLabel);
-            methodVisitor.visitInsn(Opcodes.DUP);
-            methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+            if (variableType == BuiltInType.BOOLEAN_ARR) {
+                Label endLabel = new Label();
+                Label pravdaLabel = new Label();
+                Label osalLabel = new Label();
+                Label skoroosalLabel = new Label();
 
-            methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
-            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+                methodVisitor.visitInsn(Opcodes.DUP);
 
-            methodVisitor.visitLabel(osalLabel);
-            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
 
-            methodVisitor.visitLabel(endLabel);
+                methodVisitor.visitLabel(skoroosalLabel);
+                methodVisitor.visitInsn(Opcodes.DUP);
+                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+
+                methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+                methodVisitor.visitLabel(osalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+
+                methodVisitor.visitLabel(endLabel);
+
+            }
+            if (variableType == BuiltInType.CHAR_ARR) {
+                methodVisitor.visitInsn(Opcodes.ICONST_0);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            }
+
+            methodVisitor.visitInsn(variableType.getTypeSpecificOpcode().getStore());
+        } else {
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                    getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+
+            if (TypeResolver.isBoolean(variableType)) {
+                Label endLabel = new Label();
+                Label pravdaLabel = new Label();
+                Label osalLabel = new Label();
+                Label skoroosalLabel = new Label();
+
+                methodVisitor.visitInsn(Opcodes.DUP);
+
+                methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+                methodVisitor.visitLabel(skoroosalLabel);
+                methodVisitor.visitInsn(Opcodes.DUP);
+                methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+
+                methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+                methodVisitor.visitLabel(osalLabel);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+
+                methodVisitor.visitLabel(endLabel);
+            }
+            if (TypeResolver.isChar(variableType)) {
+                methodVisitor.visitInsn(Opcodes.ICONST_0);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            }
+            methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
         }
-        if(TypeResolver.isChar(variableType)) {
-            methodVisitor.visitInsn(Opcodes.ICONST_0);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
-        }
-        methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
     }
 
     private void initializeSystemIn() {
@@ -140,20 +189,20 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     private String getScannerMethod(Type variableType) {
-        if(variableType == BuiltInType.LONG) {
+        if(variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
             return "nextLong";
         }
-        if(variableType == BuiltInType.DOUBLE) {
+        if(variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
             return "nextDouble";
         }
         return "next";
     }
 
     private String getScannerMethodReturnDescriptor(Type variableType) {
-        if(variableType == BuiltInType.LONG) {
+        if(variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
             return "()" + BuiltInType.LONG.getDescriptor();
         }
-        if(variableType == BuiltInType.DOUBLE) {
+        if(variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
             return "()" + BuiltInType.DOUBLE.getDescriptor();
         }
         return "()" + BuiltInType.STRING.getDescriptor();
