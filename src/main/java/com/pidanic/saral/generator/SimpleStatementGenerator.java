@@ -83,25 +83,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Type variableType = variable.type();
         final int variableId = scope.getVariableIndex(variable.name());
 
-        //methodVisitor.visitVarInsn(Opcodes.ILOAD, variableId);
-        //methodVisitor.visitIntInsn(Opcodes.BIPUSH, 1);
-        //methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
-
-
-
         methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "nextBoolean", "()Z", false);
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+        
         methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
-
-
-
-
-
-        //methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
-        //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
-        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "nextBoolean", "()V", false);
-        //methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
 
         // TODO
     }
@@ -128,17 +113,17 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if(variableType == BuiltInType.DOUBLE) {
             return "nextDouble";
         }
-        return "nextLine";
+        return "next";
     }
 
     private String getScannerMethodReturnDescriptor(Type variableType) {
         if(variableType == BuiltInType.LONG) {
-            return "()J";
+            return "()" + BuiltInType.LONG.getDescriptor();
         }
         if(variableType == BuiltInType.DOUBLE) {
-            return "()D";
+            return "()" + BuiltInType.DOUBLE.getDescriptor();
         }
-        return "()Ljava/lang/String;";
+        return "()" + BuiltInType.STRING.getDescriptor();
     }
 
     private String createPrintlnDescriptor(Type type) {
