@@ -102,6 +102,8 @@ statement
 
 simple_statement : write
                  | write2
+                 | read
+                 | read2
                  | var_definition
                  | assignment
                  | var_declaration
@@ -146,6 +148,12 @@ array_declaration
 write : 'ciskaj' var ;
 write2
 	: 'povidz' var
+	;
+read
+	: 'vežmi' var
+	;
+read2
+	: 'sluchaj' var
 	;
 
 proc_call: PROC_CALL ID LPAR paramlist RPAR;

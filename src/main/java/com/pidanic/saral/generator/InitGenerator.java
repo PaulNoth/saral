@@ -5,6 +5,7 @@ import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.block.BlockStatement;
 import com.pidanic.saral.domain.block.CallableStatement;
 import com.pidanic.saral.domain.block.Function;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -23,7 +24,7 @@ public class InitGenerator {
 
     public ClassWriter generate(Init statements) {
         Scope scope = statements.getScope();
-        MethodVisitor mw = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
+        MethodVisitor mv = classWriter.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "main", "([Ljava/lang/String;)V", null, null);
 
 
         List<Statement> instructionQueue = statements.getStatements();
@@ -35,8 +36,8 @@ public class InitGenerator {
                 .collect(Collectors.toList());
         functions.forEach(procedure -> procedure.accept(callableStatementGenerator));
 
-        StatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(mw, scope);
-        StatementGenerator blockStatementGenerator = new BlockStatementGenerator(mw, scope);
+        StatementGenerator simpleStatementGenerator = new SimpleStatementGenerator(mv, scope);
+        StatementGenerator blockStatementGenerator = new BlockStatementGenerator(mv, scope);
         List<Statement> notCallableStatements = instructionQueue.stream()
                 .filter(stmt -> !(stmt instanceof CallableStatement))
                 .collect(Collectors.toList());
@@ -48,11 +49,20 @@ public class InitGenerator {
             }
         }
 
-        mw.visitInsn(Opcodes.RETURN);
-        mw.visitMaxs(-1, -1);
-        mw.visitEnd();
+        closeSystemInIfCreated(scope, mv);
+        mv.visitInsn(Opcodes.RETURN);
+        mv.visitMaxs(-1, -1);
+        mv.visitEnd();
 
         classWriter.visitEnd();
         return classWriter;
+    }
+
+    private void closeSystemInIfCreated(Scope scope, MethodVisitor mv) {
+        if(scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
+            int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
+            mv.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "close", "()V", false);
+        }
     }
 }

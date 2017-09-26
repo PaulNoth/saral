@@ -3,8 +3,11 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.exception.ConstantAssignmentNotAllowed;
 import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.exception.VariableNotInitialized;
+import com.pidanic.saral.scope.LocalVariable;
+import com.pidanic.saral.scope.LocalVariableArrayIndex;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.objectweb.asm.Label;
@@ -39,7 +42,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             throw new VariableNotInitialized(scope, variable.name());
         }
         final Type type = variable.type();
-        final int variableId = scope.getVariableIndex(variable.name());
+        final int variableId = scope.getLocalVariableIndex(variable.name());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         String descriptor = createPrintlnDescriptor(type);
         if(variable instanceof LocalVariableArrayIndex) {
@@ -64,6 +67,96 @@ public class SimpleStatementGenerator extends StatementGenerator {
         }
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
                 "Ljava/io/PrintStream;", "println", descriptor, false);
+    }
+
+    public void generate(ReadStatement readStatement) {
+        if(!scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
+            initializeSystemIn();
+        }
+        int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
+
+        final LocalVariable variable = readStatement.variable();
+        if(!variable.isInitialized()) {
+            throw new VariableNotInitialized(scope, variable.name());
+        }
+        if(variable.isConstant()) {
+            throw new ConstantAssignmentNotAllowed(scope, variable.name());
+        }
+        final Type variableType = variable.type();
+        final int variableId = scope.getLocalVariableIndex(variable.name());
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+
+        if(TypeResolver.isBoolean(variableType)) {
+            Label endLabel = new Label();
+            Label pravdaLabel = new Label();
+            Label osalLabel = new Label();
+            Label skoroosalLabel = new Label();
+
+            methodVisitor.visitInsn(Opcodes.DUP);
+
+            methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+            methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+            methodVisitor.visitLabel(skoroosalLabel);
+            methodVisitor.visitInsn(Opcodes.DUP);
+            methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+
+            methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+            methodVisitor.visitLabel(osalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+
+            methodVisitor.visitLabel(endLabel);
+        }
+        if(TypeResolver.isChar(variableType)) {
+            methodVisitor.visitInsn(Opcodes.ICONST_0);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+        }
+        methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
+    }
+
+    private void initializeSystemIn() {
+        LocalVariable scanner = new LocalVariable(LocalVariable.SYSTEM_IN, BuiltInType.STRING, true);
+        scope.addLocalVariable(scanner);
+
+        int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
+        //methodVisitor.visitInsn(Opcodes.DUP);
+
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, systemInIndex);
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+        methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Scanner;", "<init>", "(Ljava/io/InputStream;)V", false);
+    }
+
+    private String getScannerMethod(Type variableType) {
+        if(variableType == BuiltInType.LONG) {
+            return "nextLong";
+        }
+        if(variableType == BuiltInType.DOUBLE) {
+            return "nextDouble";
+        }
+        return "next";
+    }
+
+    private String getScannerMethodReturnDescriptor(Type variableType) {
+        if(variableType == BuiltInType.LONG) {
+            return "()" + BuiltInType.LONG.getDescriptor();
+        }
+        if(variableType == BuiltInType.DOUBLE) {
+            return "()" + BuiltInType.DOUBLE.getDescriptor();
+        }
+        return "()" + BuiltInType.STRING.getDescriptor();
     }
 
     private String createPrintlnDescriptor(Type type) {
@@ -111,7 +204,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(VariableDeclaration variableDeclaration) {
         final String variableName = variableDeclaration.getName();
-        final int variableId = scope.getVariableIndex(variableName);
+        final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = variableDeclaration.getExpression();
         if(expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
@@ -140,7 +233,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(Argument parameter, String localVariableName) {
         Type argumentType = parameter.getType();
-        int index = scope.getVariableIndex(localVariableName);
+        int index = scope.getLocalVariableIndex(localVariableName);
         if(TypeResolver.isArray(argumentType)) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
         } else {
@@ -176,7 +269,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(Assignment assignment) {
         final String variableName = assignment.getName();
-        final int variableId = scope.getVariableIndex(variableName);
+        final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = assignment.getExpression();
         if(assignment instanceof ArrayAssignment) {
             if(expressionOption.isPresent()) {
@@ -209,7 +302,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
         }
         String name = array.getName();
-        int variableIndex = scope.getVariableIndex(name);
+        int variableIndex = scope.getLocalVariableIndex(name);
         methodVisitor.visitVarInsn(Opcodes.ASTORE, variableIndex);
     }
 }

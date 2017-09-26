@@ -11,7 +11,7 @@ public class VariableRef extends Expression {
         this.varName = varName;
     }
 
-    public String getVarName() {
+    public String name() {
         return varName;
     }
 

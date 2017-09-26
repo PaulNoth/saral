@@ -4,11 +4,11 @@ import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
 import com.pidanic.saral.scope.LocalVariable;
 
-public class PrintStatement implements SimpleStatement {
+public class ReadStatement implements SimpleStatement {
 
     private LocalVariable variable;
 
-    public PrintStatement(LocalVariable variable) {
+    public ReadStatement(LocalVariable variable) {
         this.variable = variable;
     }
 
@@ -17,7 +17,7 @@ public class PrintStatement implements SimpleStatement {
         ((SimpleStatementGenerator) mv).generate(this);
     }
 
-    public LocalVariable getVariable() {
+    public LocalVariable variable() {
         return variable;
     }
 }

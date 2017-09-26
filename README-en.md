@@ -396,5 +396,19 @@ keď 2 > 0 potom
     ciskaj two
 ``` 
 
+### Reading from standard input (console)
+In case we want to communicate with computer, we can use 2 commands `sluchaj` or `vežmi` to read input written in the console.
+```
+meňak neskutočné numeralio nn
+vežmi nn
+// sluchaj nn
+```
+They behave based on the variable type, we want to read to:
+- `neskutočné numeralio`, input is not allowed to contain charakter or to exceed maximum integer value [-2<sup>63</sup>; 2<sup>63</sup>-1].
+- `skutočné numeralio`, needs to be in decimal format. If the input is in `neskutočné numeralio` format, it is autoamtically converted.
+- `logický`, the value `pravda` or `skoroošaľ` is read only if there is `"pravda"` or `"skoroošaľ"` as an input, otherwise `ošaľ` value is set.
+- `písmeno`, always reads 1st character regardless input length.
+- `slovo`, read without change.
+
 ### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).

@@ -1,4 +1,4 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.scope;
 
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.util.Type;

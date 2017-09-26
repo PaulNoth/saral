@@ -2,7 +2,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
-import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.domain.expression.logic.And;
@@ -59,8 +59,8 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(VariableRef varRef) {
-        String varName = varRef.getVarName();
-        int index = scope.getVariableIndex(varName);
+        String varName = varRef.name();
+        int index = scope.getLocalVariableIndex(varName);
         LocalVariable localVariable = scope.getLocalVariable(varName);
         Type type = localVariable.type();
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
@@ -85,7 +85,7 @@ public class ExpressionGenerator extends StatementGenerator {
 
     public void generate(Argument parameter, String localVariableName) {
         Type type = parameter.getType();
-        int index = scope.getVariableIndex(localVariableName);
+        int index = scope.getLocalVariableIndex(localVariableName);
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
@@ -269,8 +269,8 @@ public class ExpressionGenerator extends StatementGenerator {
         Expression expression = arrayRef.getIndex();
         expression.accept(this);
 
-        int arrayIndex = scope.getVariableIndex(arrayRef.getVarName());
-        LocalVariable array = scope.getLocalVariable(arrayRef.getVarName());
+        int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+        LocalVariable array = scope.getLocalVariable(arrayRef.name());
         methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
     }
 }

@@ -1,8 +1,10 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.scope;
 
 import com.pidanic.saral.util.Type;
 
 public class LocalVariable {
+
+    public static final String SYSTEM_IN = "SYSTEM_IN";
 
     private final String name;
     private final Type type;
@@ -32,8 +34,8 @@ public class LocalVariable {
         return initialized;
     }
 
-    public void initialize() {
-        this.initialized = true;
+    LocalVariable initialize() {
+        return new LocalVariable(name(), type(), true, isConstant());
     }
 
     public boolean isConstant() {

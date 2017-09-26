@@ -9,6 +9,9 @@ import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.exception.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
+import com.pidanic.saral.scope.LocalConstant;
+import com.pidanic.saral.scope.LocalVariable;
+import com.pidanic.saral.scope.LocalVariableArrayIndex;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
@@ -38,7 +41,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private SimpleStatement createPrintStatement(SaralParser.VarContext varContext) {
         Expression varRef = varContext.accept(new ExpressionVisitor(scope));
-        String varName = ((VariableRef) varRef).getVarName();
+        String varName = ((VariableRef) varRef).name();
 
         LocalVariable localVariable = scope.getLocalVariable(varName);
         LocalVariable var;
@@ -64,7 +67,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression expression = parseExpression(expressionContext, variableType, variableName);
 
         LocalVariable var = new LocalVariable(variableName, variableType, true);
-        scope.addVariable(var);
+        scope.addLocalVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
     }
 
@@ -79,7 +82,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression expression = parseExpression(expressionContext, variableType, variableName);
 
         LocalConstant var = new LocalConstant(variableName, variableType);
-        scope.addVariable(var);
+        scope.addLocalVariable(var);
         return new ConstantDeclaration(varName.getText(), expression);
     }
 
@@ -120,7 +123,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         String varType = ctx.type().typeBasic().getText();
         Type type = TypeResolver.getFromTypeName(varType);
         LocalVariable var = new LocalVariable(varName.getText(), type, false);
-        scope.addVariable(var);
+        scope.addLocalVariable(var);
         return new VariableDeclaration(varName.getText());
     }
 
@@ -129,9 +132,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.var().accept(new ExpressionVisitor(scope));
         String varName;
         if(varRef instanceof ArrayRef) {
-            varName = ((ArrayRef) varRef).getVarName();
+            varName = ((ArrayRef) varRef).name();
         } else {
-            varName = ((VariableRef) varRef).getVarName();
+            varName = ((VariableRef) varRef).name();
         }
         LocalVariable var = scope.getLocalVariable(varName);
         if(var == null) {
@@ -140,7 +143,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(var.isConstant()) {
             throw new ConstantAssignmentNotAllowed(scope, varName);
         }
-        var.initialize();
+        scope.initializeLocalVariableAtIndex(scope.getLocalVariableIndex(varName));
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
@@ -162,7 +165,25 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
             throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.getType());
         }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
-        scope.addVariable(var);
+        scope.addLocalVariable(var);
         return new ArrayDeclaration(varName, arrayType, arrayLength);
+    }
+
+    @Override
+    public SimpleStatement visitRead(SaralParser.ReadContext ctx) {
+        return createReadStatement(ctx.var());
+    }
+
+    @Override
+    public SimpleStatement visitRead2(SaralParser.Read2Context ctx) {
+        return createReadStatement(ctx.var());
+    }
+
+    private SimpleStatement createReadStatement(SaralParser.VarContext ctx) {
+        Expression varRef = ctx.accept(new ExpressionVisitor(scope));
+        String varName = ((VariableRef) varRef).name();
+
+        LocalVariable initializedLocalVar = scope.initializeLocalVariableAtIndex(scope.getLocalVariableIndex(varName));
+        return new ReadStatement(initializedLocalVar);
     }
 }

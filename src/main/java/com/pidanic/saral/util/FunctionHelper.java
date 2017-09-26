@@ -1,6 +1,6 @@
 package com.pidanic.saral.util;
 
-import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.domain.SimpleStatement;
 import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.block.Argument;
@@ -47,7 +47,7 @@ public final class FunctionHelper {
                 argType = TypeResolver.getArrayTypeFromTypeName(typeContext.typeArray().typeBasic().getText());
             }
             LocalVariable var = new LocalVariable(argName, argType, true);
-            scope.addVariable(var);
+            scope.addLocalVariable(var);
             arguments.add(new Argument(argName, argType));
         }
         return arguments;
