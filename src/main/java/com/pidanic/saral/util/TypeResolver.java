@@ -64,6 +64,10 @@ public class TypeResolver {
         return type == BuiltInType.BOOLEAN;
     }
 
+    public static boolean isChar(Type type) {
+        return type == BuiltInType.CHAR;
+    }
+
     public static boolean isNumber(Type type) {
         return isInteger(type) || isDouble(type);
     }

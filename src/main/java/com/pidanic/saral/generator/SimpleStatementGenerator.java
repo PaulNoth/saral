@@ -89,6 +89,37 @@ public class SimpleStatementGenerator extends StatementGenerator {
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
                 getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
 
+        if(TypeResolver.isBoolean(variableType)) {
+            Label endLabel = new Label();
+            Label pravdaLabel = new Label();
+            Label osalLabel = new Label();
+            Label skoroosalLabel = new Label();
+
+            methodVisitor.visitInsn(Opcodes.DUP);
+
+            methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+            methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+            methodVisitor.visitLabel(skoroosalLabel);
+            methodVisitor.visitInsn(Opcodes.DUP);
+            methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+
+            methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+
+            methodVisitor.visitLabel(osalLabel);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.OSAL.getIntValue());
+
+            methodVisitor.visitLabel(endLabel);
+        }
+        if(TypeResolver.isChar(variableType)) {
+           // methodVisitor.visitInsn(Opcodes.DUP);
+        }
         methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
 
         // TODO
