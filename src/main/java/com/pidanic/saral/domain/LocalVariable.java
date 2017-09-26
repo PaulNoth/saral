@@ -4,7 +4,7 @@ import com.pidanic.saral.util.Type;
 
 public class LocalVariable {
 
-    public static final String IN = "IN";
+    public static final String SYSTEM_IN = "SYSTEM_IN";
 
     private final String name;
     private final Type type;

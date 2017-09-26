@@ -68,21 +68,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ReadStatement readStatement) {
-        if(!scope.existsLocalVariable(LocalVariable.IN)) {
-            LocalVariable scanner = new LocalVariable(LocalVariable.IN, BuiltInType.STRING, true);
-            scope.addVariable(scanner);
-
-            int scannerIndex = scope.getVariableIndex(LocalVariable.IN);
-            methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
-            //methodVisitor.visitInsn(Opcodes.DUP);
-
-            methodVisitor.visitVarInsn(Opcodes.ASTORE, scannerIndex);
-
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
-            methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
-            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Scanner;", "<init>", "(Ljava/io/InputStream;)V", false);
+        if(!scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
+            initializeSystemIn();
         }
-        int scannerIndex = scope.getVariableIndex(LocalVariable.IN);
+        int systemInIndex = scope.getVariableIndex(LocalVariable.SYSTEM_IN);
 
         final LocalVariable variable = readStatement.variable();
         if(!variable.isInitialized()) {
@@ -100,15 +89,14 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
 
 
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
         //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "nextBoolean", "()Z", false);
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
         methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
 
 
 
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "close", "()V", false);
+
 
         //methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
         //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
@@ -116,6 +104,21 @@ public class SimpleStatementGenerator extends StatementGenerator {
         //methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
 
         // TODO
+    }
+
+    private void initializeSystemIn() {
+        LocalVariable scanner = new LocalVariable(LocalVariable.SYSTEM_IN, BuiltInType.STRING, true);
+        scope.addVariable(scanner);
+
+        int systemInIndex = scope.getVariableIndex(LocalVariable.SYSTEM_IN);
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
+        //methodVisitor.visitInsn(Opcodes.DUP);
+
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, systemInIndex);
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+        methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Scanner;", "<init>", "(Ljava/io/InputStream;)V", false);
     }
 
     private String getScannerMethod(Type variableType) {
