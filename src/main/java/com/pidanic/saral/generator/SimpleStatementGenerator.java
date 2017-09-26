@@ -118,11 +118,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
             methodVisitor.visitLabel(endLabel);
         }
         if(TypeResolver.isChar(variableType)) {
-           // methodVisitor.visitInsn(Opcodes.DUP);
+            methodVisitor.visitInsn(Opcodes.ICONST_0);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
         }
         methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
-
-        // TODO
     }
 
     private void initializeSystemIn() {
