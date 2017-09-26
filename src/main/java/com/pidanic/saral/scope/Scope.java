@@ -45,7 +45,7 @@ public class Scope {
         }
     }
 
-    private boolean existsLocalVariable(String variableName) {
+    public boolean existsLocalVariable(String variableName) {
         return localVariables.stream().anyMatch(variable -> variable.name().equals(variableName));
     }
 

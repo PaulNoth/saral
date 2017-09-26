@@ -4,6 +4,8 @@ import com.pidanic.saral.util.Type;
 
 public class LocalVariable {
 
+    public static final String IN = "IN";
+
     private final String name;
     private final Type type;
     private boolean initialized;

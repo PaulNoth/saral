@@ -68,6 +68,22 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ReadStatement readStatement) {
+        if(!scope.existsLocalVariable(LocalVariable.IN)) {
+            LocalVariable scanner = new LocalVariable(LocalVariable.IN, BuiltInType.STRING, true);
+            scope.addVariable(scanner);
+
+            int scannerIndex = scope.getVariableIndex(LocalVariable.IN);
+            methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
+            //methodVisitor.visitInsn(Opcodes.DUP);
+
+            methodVisitor.visitVarInsn(Opcodes.ASTORE, scannerIndex);
+
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
+            methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Scanner;", "<init>", "(Ljava/io/InputStream;)V", false);
+        }
+        int scannerIndex = scope.getVariableIndex(LocalVariable.IN);
+
         final LocalVariable variable = readStatement.variable();
         if(!variable.isInitialized()) {
             throw new VariableNotInitialized(scope, variable.name());
@@ -75,26 +91,51 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if(variable.isConstant()) {
             throw new ConstantAssignmentNotAllowed(scope, variable.name());
         }
-        final Type type = variable.type();
-        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/Scanner");
-        LocalVariable scanner = new LocalVariable("scanner" + scope.getLocalVariables().size(), BuiltInType.STRING, true);
-        scope.addVariable(scanner);
-        methodVisitor.visitVarInsn(Opcodes.ASTORE, scope.getLocalVariables().size() - 1);
-        //methodVisitor.visitInsn(Opcodes.DUP);
+        final Type variableType = variable.type();
+        final int variableId = scope.getVariableIndex(variable.name());
 
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
-        methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
-        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner", "readLong", "()V", false);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Scanner", "<init>", "(Ljava/io/InputStream;)V", false);
+        //methodVisitor.visitVarInsn(Opcodes.ILOAD, variableId);
+        //methodVisitor.visitIntInsn(Opcodes.BIPUSH, 1);
+        //methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
 
-        //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
-        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "next", "()V", false);
 
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
+        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "nextBoolean", "()Z", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+        methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
+
+
+
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, scannerIndex);
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "close", "()V", false);
+
+        //methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
         //methodVisitor.visitVarInsn(Opcodes.ALOAD, scope.getLocalVariables().size() - 1);
-        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner", "nextLong", "()V", false);
+        //methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "nextBoolean", "()V", false);
+        //methodVisitor.visitVarInsn(Opcodes.ISTORE, variableId);
+
         // TODO
+    }
+
+    private String getScannerMethod(Type variableType) {
+        if(variableType == BuiltInType.LONG) {
+            return "nextLong";
+        }
+        if(variableType == BuiltInType.DOUBLE) {
+            return "nextDouble";
+        }
+        return "nextLine";
+    }
+
+    private String getScannerMethodReturnDescriptor(Type variableType) {
+        if(variableType == BuiltInType.LONG) {
+            return "()J";
+        }
+        if(variableType == BuiltInType.DOUBLE) {
+            return "()D";
+        }
+        return "()Ljava/lang/String;";
     }
 
     private String createPrintlnDescriptor(Type type) {
