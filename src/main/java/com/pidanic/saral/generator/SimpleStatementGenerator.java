@@ -42,7 +42,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             throw new VariableNotInitialized(scope, variable.name());
         }
         final Type type = variable.type();
-        final int variableId = scope.getVariableIndex(variable.name());
+        final int variableId = scope.getLocalVariableIndex(variable.name());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         String descriptor = createPrintlnDescriptor(type);
         if(variable instanceof LocalVariableArrayIndex) {
@@ -73,7 +73,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if(!scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
             initializeSystemIn();
         }
-        int systemInIndex = scope.getVariableIndex(LocalVariable.SYSTEM_IN);
+        int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
 
         final LocalVariable variable = readStatement.variable();
         if(!variable.isInitialized()) {
@@ -83,7 +83,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             throw new ConstantAssignmentNotAllowed(scope, variable.name());
         }
         final Type variableType = variable.type();
-        final int variableId = scope.getVariableIndex(variable.name());
+        final int variableId = scope.getLocalVariableIndex(variable.name());
 
         methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
@@ -96,9 +96,9 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     private void initializeSystemIn() {
         LocalVariable scanner = new LocalVariable(LocalVariable.SYSTEM_IN, BuiltInType.STRING, true);
-        scope.addVariable(scanner);
+        scope.addLocalVariable(scanner);
 
-        int systemInIndex = scope.getVariableIndex(LocalVariable.SYSTEM_IN);
+        int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
         methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
         //methodVisitor.visitInsn(Opcodes.DUP);
 
@@ -174,7 +174,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(VariableDeclaration variableDeclaration) {
         final String variableName = variableDeclaration.getName();
-        final int variableId = scope.getVariableIndex(variableName);
+        final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = variableDeclaration.getExpression();
         if(expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
@@ -203,7 +203,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(Argument parameter, String localVariableName) {
         Type argumentType = parameter.getType();
-        int index = scope.getVariableIndex(localVariableName);
+        int index = scope.getLocalVariableIndex(localVariableName);
         if(TypeResolver.isArray(argumentType)) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
         } else {
@@ -239,7 +239,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(Assignment assignment) {
         final String variableName = assignment.getName();
-        final int variableId = scope.getVariableIndex(variableName);
+        final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = assignment.getExpression();
         if(assignment instanceof ArrayAssignment) {
             if(expressionOption.isPresent()) {
@@ -272,7 +272,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
         }
         String name = array.getName();
-        int variableIndex = scope.getVariableIndex(name);
+        int variableIndex = scope.getLocalVariableIndex(name);
         methodVisitor.visitVarInsn(Opcodes.ASTORE, variableIndex);
     }
 }

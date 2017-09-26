@@ -34,7 +34,7 @@ public class Scope {
         return Collections.unmodifiableList(localVariables);
     }
 
-    public void addVariable(LocalVariable localVariable) {
+    public void addLocalVariable(LocalVariable localVariable) {
         if(existsLocalVariable(localVariable.name())) {
             throw new VariableNameAlreadyExists(this, localVariable.name());
         }
@@ -55,7 +55,7 @@ public class Scope {
                 .orElseThrow(() -> new VariableNotFound(this, varName));
     }
 
-    public int getVariableIndex(String varName) {
+    public int getLocalVariableIndex(String varName) {
         LocalVariable localVariable = getLocalVariable(varName);
         return localVariables.indexOf(localVariable);
     }
@@ -76,6 +76,14 @@ public class Scope {
 
     public LocalVariable initializeLocalVariableAtIndex(int index) {
         LocalVariable localVariable = this.localVariables.get(index);
+        LocalVariable initializedLocalVar = localVariable.initialize();
+        this.localVariables.set(index, initializedLocalVar);
+        return initializedLocalVar;
+    }
+
+    public LocalVariable initializeLocalVariable(String name) {
+        LocalVariable localVariable = getLocalVariable(name);
+        int index = getLocalVariableIndex(name);
         LocalVariable initializedLocalVar = localVariable.initialize();
         this.localVariables.set(index, initializedLocalVar);
         return initializedLocalVar;

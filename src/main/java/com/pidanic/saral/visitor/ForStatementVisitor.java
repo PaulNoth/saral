@@ -42,7 +42,7 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
 
         LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG, true);
         // TODO here recheck if already in scope
-        scope.addVariable(localVar);
+        scope.addLocalVariable(localVar);
         VariableDeclaration var = new VariableDeclaration(varName, from);
 
         List<SimpleStatement> block = ctx.block().statements().statement().stream()
