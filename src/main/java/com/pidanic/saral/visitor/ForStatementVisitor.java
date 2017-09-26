@@ -7,6 +7,7 @@ import com.pidanic.saral.exception.EmptyForStatementBlock;
 import com.pidanic.saral.exception.IncompatibleTypeForStatement;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.BuiltInType;
 

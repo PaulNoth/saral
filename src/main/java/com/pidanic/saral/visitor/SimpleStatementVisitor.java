@@ -9,6 +9,9 @@ import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.exception.*;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
+import com.pidanic.saral.scope.LocalConstant;
+import com.pidanic.saral.scope.LocalVariable;
+import com.pidanic.saral.scope.LocalVariableArrayIndex;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.BuiltInType;
 import com.pidanic.saral.util.Type;
@@ -140,7 +143,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(var.isConstant()) {
             throw new ConstantAssignmentNotAllowed(scope, varName);
         }
-        var.initialize();
+        scope.initializeLocalVariableAtIndex(scope.getVariableIndex(varName));
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
 
@@ -180,11 +183,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).name();
 
-        LocalVariable localVariable = scope.getLocalVariable(varName);
-        if(localVariable == null) {
-            throw new VariableNotFound(scope, varName);
-        }
-        localVariable.initialize();
-        return new ReadStatement(localVariable);
+        LocalVariable initializedLocalVar = scope.initializeLocalVariableAtIndex(scope.getVariableIndex(varName));
+        return new ReadStatement(initializedLocalVar);
     }
 }

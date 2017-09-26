@@ -8,6 +8,7 @@ import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.exception.IncompatibleTypeArrayIndex;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.util.BuiltInType;

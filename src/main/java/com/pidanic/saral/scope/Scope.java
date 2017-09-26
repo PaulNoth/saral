@@ -1,7 +1,6 @@
 package com.pidanic.saral.scope;
 
 import com.pidanic.saral.domain.block.Function;
-import com.pidanic.saral.domain.LocalVariable;
 import com.pidanic.saral.exception.FunctionNotFound;
 import com.pidanic.saral.exception.VariableNameAlreadyExists;
 import com.pidanic.saral.exception.VariableNotFound;
@@ -73,5 +72,12 @@ public class Scope {
 
     public void addFunction(Function function) {
         this.functions.add(function);
+    }
+
+    public LocalVariable initializeLocalVariableAtIndex(int index) {
+        LocalVariable localVariable = this.localVariables.get(index);
+        LocalVariable initializedLocalVar = localVariable.initialize();
+        this.localVariables.set(index, initializedLocalVar);
+        return initializedLocalVar;
     }
 }

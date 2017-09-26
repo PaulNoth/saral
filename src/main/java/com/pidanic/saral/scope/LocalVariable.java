@@ -1,4 +1,4 @@
-package com.pidanic.saral.domain;
+package com.pidanic.saral.scope;
 
 import com.pidanic.saral.util.Type;
 
@@ -34,8 +34,8 @@ public class LocalVariable {
         return initialized;
     }
 
-    public void initialize() {
-        this.initialized = true;
+    LocalVariable initialize() {
+        return new LocalVariable(name(), type(), true, isConstant());
     }
 
     public boolean isConstant() {

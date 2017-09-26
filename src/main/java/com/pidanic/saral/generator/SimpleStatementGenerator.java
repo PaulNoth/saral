@@ -6,6 +6,8 @@ import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.ConstantAssignmentNotAllowed;
 import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.exception.VariableNotInitialized;
+import com.pidanic.saral.scope.LocalVariable;
+import com.pidanic.saral.scope.LocalVariableArrayIndex;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.*;
 import org.objectweb.asm.Label;
@@ -84,8 +86,9 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final int variableId = scope.getVariableIndex(variable.name());
 
         methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
-        
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+
         methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
 
         // TODO

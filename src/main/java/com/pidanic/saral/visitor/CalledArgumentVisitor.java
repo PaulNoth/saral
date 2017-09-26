@@ -1,7 +1,7 @@
 package com.pidanic.saral.visitor;
 
 import com.pidanic.saral.domain.CalledArgument;
-import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.exception.VariableNotInitialized;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;

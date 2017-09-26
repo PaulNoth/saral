@@ -2,6 +2,7 @@ package com.pidanic.saral.domain;
 
 import com.pidanic.saral.generator.SimpleStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
+import com.pidanic.saral.scope.LocalVariable;
 
 public class PrintStatement implements SimpleStatement {
 

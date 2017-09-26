@@ -2,7 +2,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
-import com.pidanic.saral.domain.LocalVariable;
+import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
 import com.pidanic.saral.domain.expression.logic.And;
