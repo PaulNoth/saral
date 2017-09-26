@@ -399,5 +399,19 @@ kým y <= 10 rob
     y = y + 1
 ```
 
+### Čítanie zo štardarného vstupu (konzoly)
+V prípade, že potrebujeme komunikovať s počítačom a načítať z vstupy napísané v konzole, využijeme ekvivalentné príkazy `vežmi` alebo `sluchaj`.
+```
+meňak neskutočné numeralio nn
+vežmi nn
+// sluchaj nn
+```
+Tieto príkazy reagujú na typ premennej, do ktorej chceme čítať zo vstupu:
+- `neskutočné numeralio`, vstup nesmie obsahovať žiaden iný znak okrem čísel a tiež nesmie prekročiť hodnotu maximálneho povoleného čísla [-2<sup>63</sup>; 2<sup>63</sup>-1].
+- `skutočné numeralio`, číslo musí zodpovedať desatinnému formátu. Ak je vstup vo forme `neskutočné numeralio`, je automatický konvertovaný na `skutočné numeralio`.
+- `logický`, hodnota `pravda` alebo `skoroošaľ` je načítaná iba vtedy, ak je na vstupe `"pravda"` alebo `"skoroošaľ"`, inak je vždy načítaná hodnota `ošaľ`.
+- `písmeno`, načítaná je hodnota 1. znaku, bezohľadu na dĺžku vstupu.
+- `slovo`, načítané bezo zmeny.
+
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).
