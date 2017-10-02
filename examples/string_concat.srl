@@ -1,0 +1,4 @@
+furt slovo s1 = "hello"
+furt slovo s2 = " world"
+furt slovo s3 = s1 + s2
+ciskaj slovo s3
