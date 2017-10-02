@@ -88,13 +88,13 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private Expression parseExpression(SaralParser.ExpressionContext expressionContext, Type variableType, String variableName) {
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
-        if(variableType != expression.getType()) {
-            if(variableType == BuiltInType.DOUBLE && expression.getType() == BuiltInType.LONG) {
+        if(variableType != expression.type()) {
+            if(variableType == BuiltInType.DOUBLE && expression.type() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.DOUBLE, expression);
-            } else if(variableType == BuiltInType.INT && expression.getType() == BuiltInType.LONG) {
+            } else if(variableType == BuiltInType.INT && expression.type() == BuiltInType.LONG) {
                 expression = new CastExpression(BuiltInType.INT, expression);
             } else {
-                throw new IncompatibleVariableTypeAssignment(scope, variableName, variableType, expression.getType());
+                throw new IncompatibleVariableTypeAssignment(scope, variableName, variableType, expression.type());
             }
         }
         return expression;
@@ -161,8 +161,8 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         String varName = ctx.ID().getText();
         Type arrayType = TypeResolver.getArrayTypeFromTypeName(ctx.typeArray().typeBasic().getText());
         Expression arrayLength = ctx.expression().accept(new ExpressionVisitor(scope));
-        if(arrayLength.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.getType());
+        if(arrayLength.type() != BuiltInType.LONG) {
+            throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.type());
         }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addLocalVariable(var);

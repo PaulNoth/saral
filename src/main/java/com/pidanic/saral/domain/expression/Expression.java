@@ -10,7 +10,7 @@ public abstract class Expression {
         this.type = type;
     }
 
-    public Type getType() {
+    public Type type() {
         return type;
     }
 

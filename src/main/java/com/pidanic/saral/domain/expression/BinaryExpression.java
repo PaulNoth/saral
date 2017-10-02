@@ -11,10 +11,10 @@ public abstract class BinaryExpression extends Expression {
 
     public BinaryExpression(Type type, Sign sign, Expression left, Expression right) {
         super(type);
-        Type leftType = left.getType();
-        if(leftType == BuiltInType.STRING || leftType == BuiltInType.VOID) {
-            throw new UnsupportedOperationException("Only numerical expression supported. Actual expression type. Left: "
-                    + left.getType() + ", right: " + right.getType());
+        Type leftType = left.type();
+        if(leftType == BuiltInType.VOID) {
+            throw new UnsupportedOperationException("Only numerical, string and boolean expressions supported. Actual expression type. Left: "
+                    + left.type() + ", right: " + right.type());
         }
         this.sign = sign;
         this.left = left;
@@ -36,17 +36,17 @@ public abstract class BinaryExpression extends Expression {
 
     private void convertIfCast(Type type, Expression left, Expression right) {
         if(type == BuiltInType.DOUBLE) {
-            if(left.getType() == BuiltInType.LONG) {
+            if(left.type() == BuiltInType.LONG) {
                 this.left = new CastExpression(BuiltInType.DOUBLE, left);
             }
-            if(right.getType() == BuiltInType.LONG) {
+            if(right.type() == BuiltInType.LONG) {
                 this.left = new CastExpression(BuiltInType.DOUBLE, right);
             }
         }
-        if(left.getType() == BuiltInType.LONG && right.getType() == BuiltInType.DOUBLE) {
+        if(left.type() == BuiltInType.LONG && right.type() == BuiltInType.DOUBLE) {
             this.left = new CastExpression(BuiltInType.DOUBLE, left);
         }
-        if(right.getType() == BuiltInType.LONG && left.getType() == BuiltInType.DOUBLE) {
+        if(right.type() == BuiltInType.LONG && left.type() == BuiltInType.DOUBLE) {
             this.left = new CastExpression(BuiltInType.DOUBLE, right);
         }
 

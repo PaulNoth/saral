@@ -18,7 +18,7 @@ public class ReturnStatementGenerator extends StatementGenerator {
 
     public void generate(ReturnStatement retStatement) {
         Expression returnVariable = retStatement.getExpression();
-        Type retType = returnVariable.getType();
+        Type retType = returnVariable.type();
         returnVariable.accept(new ExpressionGenerator(methodVisitor, scope));
         methodVisitor.visitInsn(retType.getTypeSpecificOpcode().getReturn());
     }
