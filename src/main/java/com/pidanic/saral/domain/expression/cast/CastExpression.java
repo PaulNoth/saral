@@ -8,7 +8,7 @@ import com.pidanic.saral.util.Type;
 
 public class CastExpression extends UnaryExpression {
     public CastExpression(Type castingType, Expression expression) {
-        super(castingType, getSign(castingType, expression.getType()), expression);
+        super(castingType, getSign(castingType, expression.type()), expression);
     }
     @Override
     public void accept(ExpressionGenerator generator) {

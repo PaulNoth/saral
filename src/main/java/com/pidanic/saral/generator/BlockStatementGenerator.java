@@ -56,7 +56,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         Expression from = forLoop.getFromExpression();
         Expression to = forLoop.getToExpression();
         List<SimpleStatement> block = forLoop.getBlock();
-        Expression iteratorVarRef = new VariableRef(iteratorVariable.getName(), from.getType());
+        Expression iteratorVarRef = new VariableRef(iteratorVariable.getName(), from.type());
 
         Label incrementationSection = new Label();
         Label decrementationSection = new Label();

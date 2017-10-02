@@ -1,7 +1,6 @@
 package com.pidanic.saral.domain.block;
 
 import com.pidanic.saral.domain.SimpleStatement;
-import com.pidanic.saral.domain.block.BlockStatementImpl;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.IncompatibleTypeIfElse;
 import com.pidanic.saral.generator.BlockStatementGenerator;
@@ -23,8 +22,8 @@ public class IfStatement extends BlockStatementImpl {
 
     public IfStatement(Scope scope, Expression booleanExpression, List<SimpleStatement> trueBlock, List<SimpleStatement> falseBlock) {
         super(scope);
-        if(booleanExpression.getType() != BuiltInType.BOOLEAN) {
-            throw new IncompatibleTypeIfElse(scope, booleanExpression.getType().getName());
+        if(booleanExpression.type() != BuiltInType.BOOLEAN) {
+            throw new IncompatibleTypeIfElse(scope, booleanExpression.type().getName());
         }
         this.booleanExpression = booleanExpression;
         this.trueBlock = trueBlock;

@@ -2,6 +2,7 @@ package com.pidanic.saral.generator;
 
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
+import com.pidanic.saral.domain.expression.string.Concatenation;
 import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
@@ -33,7 +34,7 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(Value val) {
-        final Type type = val.getType();
+        final Type type = val.type();
         if(TypeResolver.isInteger(type)) {
             Long value = Long.valueOf(val.getValue());
             methodVisitor.visitLdcInsn(value);
@@ -117,27 +118,27 @@ public class ExpressionGenerator extends StatementGenerator {
 
     public void generate(Addition expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getAdd());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getAdd());
     }
 
     public void generate(Substraction expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getSubstract());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getSubstract());
     }
 
     public void generate(Multiplication expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getMultiply());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getMultiply());
     }
 
     public void generate(Division expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getDivide());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getDivide());
     }
 
     public void generate(Modulo expression) {
         generateBinaryExpressionComponents(expression);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getModulo());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getModulo());
     }
 
     public void generate(CompareExpression expression) {
@@ -145,9 +146,9 @@ public class ExpressionGenerator extends StatementGenerator {
         Sign compareSign = expression.getSign();
         Label endLabel = new Label();
         Label falseLabel = new Label();
-        if (expression.getLeft().getType() == BuiltInType.LONG) {
+        if (expression.getLeft().type() == BuiltInType.LONG) {
             methodVisitor.visitInsn(Opcodes.LCMP);
-        } else if (expression.getLeft().getType() == BuiltInType.DOUBLE) {
+        } else if (expression.getLeft().type() == BuiltInType.DOUBLE) {
             methodVisitor.visitInsn(Opcodes.DCMPG);
         }
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
@@ -256,7 +257,7 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(UnaryMinus unaryMinus) {
         Expression expression = unaryMinus.getExpression();
         expression.accept(this);
-        methodVisitor.visitInsn(expression.getType().getTypeSpecificOpcode().getNegation());
+        methodVisitor.visitInsn(expression.type().getTypeSpecificOpcode().getNegation());
     }
 
     public void generate(CastExpression castExpression) {
@@ -272,5 +273,22 @@ public class ExpressionGenerator extends StatementGenerator {
         int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
         LocalVariable array = scope.getLocalVariable(arrayRef.name());
         methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+    }
+
+    public void generate(Concatenation concatenation) {
+        Expression left = concatenation.getLeft();
+        Expression right = concatenation.getRight();
+        left.accept(this);
+        if(left.type() != BuiltInType.STRING) {
+            methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String",
+                    "valueOf", "(" + left.type().getDescriptor() + ")Ljava/lang/String;", false);
+        }
+        right.accept(this);
+        if(right.type() != BuiltInType.STRING) {
+            methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String",
+                    "valueOf", "(" + right.type().getDescriptor() + ")Ljava/lang/String;", false);
+        }
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String",
+                "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
     }
 }

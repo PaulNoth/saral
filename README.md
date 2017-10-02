@@ -168,6 +168,21 @@ meňak skutočné numeralio j = -i
 meňak skutočné numeralio l = 1 + 1.0
 ```
 
+#### Spájanie reťazcov
+Operácia `+` má v jazyku Šaral aj druhý význam - spájanie reťazcov (typ `slovo`).
+```
+furt slovo s1 = "hello"
+furt slovo s2 = " world"
+furt slovo s3 = s1 + s2
+ciskaj s3       // "hello world"
+```
+Stačí, ak je aspoň jedna strana výrazu typu `slovo`.
+```
+furt neskutočné numeralio num = 1
+furt slovo s4 = s1 + num
+ciskaj s4       // "hello 1"
+```
+
 #### Porovnávanie
 Funguje porovnávanie výrazov, kde obidve strany výrazu sú rovnakého typu (typ `neskutočné numeralio`, alebo `skutočné numeralio`): 
 - rovnosť `==`

@@ -10,9 +10,9 @@ public abstract class LogicExpression extends BinaryExpression {
 
     public LogicExpression(Sign sign, Expression left, Expression right) {
         super(BuiltInType.BOOLEAN, sign, left, right);
-        if(!TypeResolver.isBoolean(left.getType()) || !TypeResolver.isBoolean(right.getType())) {
+        if(!TypeResolver.isBoolean(left.type()) || !TypeResolver.isBoolean(right.type())) {
             throw new UnsupportedOperationException("Currently there are only logical comparisons allowed: "
-                    + left.getType() + " vs. " + right.getType());
+                    + left.type() + " vs. " + right.type());
         }
     }
 }
