@@ -9,9 +9,9 @@ public class Negation extends UnaryExpression {
 
     public Negation(Expression expression) {
         super(BuiltInType.BOOLEAN, LogicSign.NOT, expression);
-        if(expression.getType() != BuiltInType.BOOLEAN) {
+        if(expression.type() != BuiltInType.BOOLEAN) {
             throw new UnsupportedOperationException("Only Logical expression supported. Actual expression type. Expression: "
-                    + expression.getType());
+                    + expression.type());
         }
     }
 

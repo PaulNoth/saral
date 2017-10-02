@@ -33,11 +33,11 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
         String varName = ctx.var().getText();
         Expression from = ctx.val(0).accept(expressionVisitor);
         Expression to = ctx.val(1).accept(expressionVisitor);
-        if(from.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeForStatement(ForStatement.ForStatementPart.FROM, scope, from.getType());
+        if(from.type() != BuiltInType.LONG) {
+            throw new IncompatibleTypeForStatement(ForStatement.ForStatementPart.FROM, scope, from.type());
         }
-        if(to.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeForStatement(ForStatement.ForStatementPart.TO, scope, to.getType());
+        if(to.type() != BuiltInType.LONG) {
+            throw new IncompatibleTypeForStatement(ForStatement.ForStatementPart.TO, scope, to.type());
         }
 
         LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG, true);

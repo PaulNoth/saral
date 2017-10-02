@@ -209,7 +209,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if(expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
             expression.accept(expressionGenerator);
-            final Type type = expression.getType();
+            final Type type = expression.type();
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
         }
     }
@@ -286,7 +286,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             if(expressionOption.isPresent()) {
                 Expression expression = expressionOption.get();
                 expression.accept(expressionGenerator);
-                final Type type = expression.getType();
+                final Type type = expression.type();
                 methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
             }
         }

@@ -9,7 +9,7 @@ import com.pidanic.saral.util.Type;
 abstract class ArithmeticExpression extends BinaryExpression {
 
     ArithmeticExpression(Sign sign, Expression left, Expression right) {
-        super(calculateExpressionType(left.getType(), right.getType()), sign, left, right);
+        super(calculateExpressionType(left.type(), right.type()), sign, left, right);
     }
 
     private static Type calculateExpressionType(Type leftType, Type rightType) {

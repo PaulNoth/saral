@@ -5,6 +5,7 @@ import com.pidanic.saral.domain.block.Function;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.logic.*;
 import com.pidanic.saral.domain.expression.math.*;
+import com.pidanic.saral.domain.expression.string.Concatenation;
 import com.pidanic.saral.exception.IncompatibleTypeArrayIndex;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
@@ -96,10 +97,10 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     public Expression visitVarArray(SaralParser.VarArrayContext ctx) {
         String varName = ctx.ID().getText();
         Expression index = ctx.expression().accept(this);
-        if(index.getType() != BuiltInType.LONG) {
-            throw new IncompatibleTypeArrayIndex(scope, varName, index.getType());
+        if(index.type() != BuiltInType.LONG) {
+            throw new IncompatibleTypeArrayIndex(scope, varName, index.type());
         }
-        return new ArrayRef(varName, index.getType(), index);
+        return new ArrayRef(varName, index.type(), index);
     }
 
     @Override
@@ -117,6 +118,9 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         String operationSymbol = ctx.op.getText();
         Sign sign = ArithmeticSign.fromString(operationSymbol);
         if(sign == ArithmeticSign.ADD) {
+            if(left.type() == BuiltInType.STRING || right.type() == BuiltInType.STRING) {
+                return new Concatenation(left, right);
+            }
             return new Addition(left, right);
         } else {
             return new Substraction(left, right);
