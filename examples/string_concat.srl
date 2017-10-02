@@ -1,4 +1,14 @@
 furt slovo s1 = "hello"
 furt slovo s2 = " world"
 furt slovo s3 = s1 + s2
-ciskaj slovo s3
+ciskaj s3
+
+furt neskutočné numeralio num = 1
+furt slovo s4 = s1 + num
+ciskaj s4
+
+furt slovo s5 = num + s2
+ciskaj s5
+
+furt neskutočné numeralio num2 = num + num
+ciskaj num2
