@@ -1,6 +1,6 @@
 package com.pidanic.saral.domain.block;
 
-import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.BlockStatementGenerator;
 import com.pidanic.saral.generator.StatementGenerator;
@@ -11,11 +11,10 @@ import java.util.List;
 
 public class WhileStatement extends BlockStatementImpl {
 
-
-    private List<SimpleStatement> block;
+    private List<Statement> block;
     private Expression expression;
 
-    public WhileStatement(Scope scope, Expression expression, List<SimpleStatement> block) {
+    public WhileStatement(Scope scope, Expression expression, List<Statement> block) {
         super(scope);
         this.expression = expression;
         if(block != null) {
@@ -34,7 +33,7 @@ public class WhileStatement extends BlockStatementImpl {
         return expression;
     }
 
-    public List<SimpleStatement> getBlock() {
+    public List<Statement> getBlock() {
         return block;
     }
 }
