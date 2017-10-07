@@ -8,3 +8,19 @@ kým y <= 10 rob
     meňak neskutočné numeralio z = y * y
     ciskaj z
     y = y + 1
+
+y = 0
+kým y <= 10 rob
+    keď y % 2 == 0 potom
+        furt slovo p = "párne"
+        ciskaj p
+    inak
+        furt slovo n = "nepárne"
+        ciskaj n
+    y = y + 1
+
+y = 0
+kým y <= 10 rob
+    zrob s meňakom i od 0 do y
+        ciskaj i
+    y = y + 1

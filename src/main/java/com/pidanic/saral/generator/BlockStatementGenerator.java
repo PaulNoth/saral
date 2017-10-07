@@ -1,5 +1,6 @@
 package com.pidanic.saral.generator;
 
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.block.IfStatement;
@@ -112,13 +113,19 @@ public class BlockStatementGenerator extends StatementGenerator {
         ExpressionGenerator expressionGenerator = new ExpressionGenerator(methodVisitor, loopScope);
 
         Expression expression = whileLoop.getExpression();
-        List<SimpleStatement> block = whileLoop.getBlock();
+        List<Statement> block = whileLoop.getBlock();
 
         Label expressionSection = new Label();
         Label endLoopSection = new Label();
 
         methodVisitor.visitLabel(expressionSection);
-        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        block.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(this);
+            }
+        });
         expression.accept(expressionGenerator);
         methodVisitor.visitJumpInsn(Opcodes.IFNE, expressionSection);
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLoopSection);
