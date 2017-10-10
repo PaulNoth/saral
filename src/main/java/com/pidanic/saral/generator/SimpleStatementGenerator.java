@@ -87,17 +87,16 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
         if(variable instanceof LocalVariableArrayIndex) {
 
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-            LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
-
-            Expression index = localArrayIndex.getIndex();
-            index.accept(expressionGenerator);
-
-            methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
-                    getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
-
             if (variableType == BuiltInType.BOOLEAN_ARR) {
+                String tempVarName = "booleanTemp" + scope.localVariablesCount();
+                scope.addLocalVariable(new LocalVariable(tempVarName, BuiltInType.BOOLEAN, true));
+
+                int booleanTempIndex = scope.getLocalVariableIndex(tempVarName);
+
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                        getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+
                 Label endLabel = new Label();
                 Label pravdaLabel = new Label();
                 Label osalLabel = new Label();
@@ -125,10 +124,30 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
                 methodVisitor.visitLabel(endLabel);
 
-            }
-            if (variableType == BuiltInType.CHAR_ARR) {
-                methodVisitor.visitInsn(Opcodes.ICONST_0);
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                methodVisitor.visitVarInsn(Opcodes.ISTORE, booleanTempIndex);
+
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
+
+                Expression index = localArrayIndex.getIndex();
+                index.accept(expressionGenerator);
+
+                methodVisitor.visitVarInsn(Opcodes.ILOAD, booleanTempIndex);
+            } else {
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
+
+                Expression index = localArrayIndex.getIndex();
+                index.accept(expressionGenerator);
+
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                        getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
+
+                if (variableType == BuiltInType.CHAR_ARR) {
+                    methodVisitor.visitInsn(Opcodes.ICONST_0);
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                }
             }
 
             methodVisitor.visitInsn(variableType.getTypeSpecificOpcode().getStore());
