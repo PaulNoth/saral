@@ -145,7 +145,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitLabel(expressionSection);
         block.forEach(statement -> {
             if(statement instanceof SimpleStatement) {
-                statement.accept(new SimpleStatementGenerator(methodVisitor, loopScope));
+                statement.accept(simpleStatementGenerator);
             } else {
                 statement.accept(this);
             }
