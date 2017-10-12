@@ -423,7 +423,17 @@ They behave based on the variable type, we want to read to:
 - `skutočné numeralio`, needs to be in decimal format. If the input is in `neskutočné numeralio` format, it is autoamtically converted.
 - `logický`, the value `pravda` or `skoroošaľ` is read only if there is `"pravda"` or `"skoroošaľ"` as an input, otherwise `ošaľ` value is set.
 - `písmeno`, always reads 1st character regardless input length.
-- `slovo`, read without change.
+- `slovo`, read without change, as is typed.
+
+Similar way we can read a value and assign it to an element of an array of corresponding type.
+```
+funduš neskutočné numeralio array[2]
+vežmi array[0]
+```
+```
+funduš slovo array2[2]
+vežmi array2[0]
+```
 
 ### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).

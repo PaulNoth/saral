@@ -13,3 +13,29 @@ ciskaj s
 meňak logický l
 vežmi l
 ciskaj l
+
+funduš logický pole3[2]
+vežmi pole3[0]
+ciskaj pole3[0]
+ciskaj pole3[1]
+
+funduš písmeno pole4[2]
+vežmi pole4[0]
+ciskaj pole4[0]
+ciskaj pole4[1]
+
+funduš skutočné numeralio pole5[2]
+vežmi pole5[0]
+ciskaj pole5[0]
+ciskaj pole5[1]
+
+funduš neskutočné numeralio pole[2]
+vežmi pole[0]
+ciskaj pole[0]
+ciskaj pole[1]
+
+funduš slovo pole2[2]
+vežmi pole2[0]
+ciskaj pole2[0]
+ciskaj pole2[1]
+

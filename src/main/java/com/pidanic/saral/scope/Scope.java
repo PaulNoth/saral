@@ -88,4 +88,8 @@ public class Scope {
         this.localVariables.set(index, initializedLocalVar);
         return initializedLocalVar;
     }
+
+    public int localVariablesCount() {
+        return localVariables.size();
+    }
 }
