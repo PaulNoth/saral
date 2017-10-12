@@ -35,16 +35,28 @@ public class BlockStatementGenerator extends StatementGenerator {
 
         Expression booleanExpression = ifStatement.getBooleanExpression();
         booleanExpression.accept(expressionGenerator);
-        List<SimpleStatement> falseBlock = ifStatement.getFalseBlock();
-        List<SimpleStatement> trueBlock = ifStatement.getTrueBlock();
+        List<Statement> falseBlock = ifStatement.getFalseBlock();
+        List<Statement> trueBlock = ifStatement.getTrueBlock();
 
         Label trueLabel = new Label();
         Label endLabel = new Label();
         methodVisitor.visitJumpInsn(Opcodes.IFNE, trueLabel);
-        falseBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
+        falseBlock.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(this);
+            }
+        });
         methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
         methodVisitor.visitLabel(trueLabel);
-        trueBlock.forEach(statement -> statement.accept(simpleStatementGenerator));
+        trueBlock.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(this);
+            }
+        });
         methodVisitor.visitLabel(endLabel);
     }
 
@@ -56,7 +68,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         VariableDeclaration iteratorVariable = forLoop.getVariable();
         Expression from = forLoop.getFromExpression();
         Expression to = forLoop.getToExpression();
-        List<SimpleStatement> block = forLoop.getBlock();
+        List<Statement> block = forLoop.getBlock();
         Expression iteratorVarRef = new VariableRef(iteratorVariable.getName(), from.type());
 
         Label incrementationSection = new Label();
@@ -76,7 +88,13 @@ public class BlockStatementGenerator extends StatementGenerator {
 
         //Decrementation section
         methodVisitor.visitLabel(decrementationSection);
-        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        block.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(this);
+            }
+        });
         decrementIteratorVariable(localVariableIndex);
         iteratorLessThanEndConditional.accept(expressionGenerator);
         methodVisitor.visitJumpInsn(Opcodes.IFEQ, decrementationSection);
@@ -84,7 +102,13 @@ public class BlockStatementGenerator extends StatementGenerator {
 
         //Incrementation section
         methodVisitor.visitLabel(incrementationSection);
-        block.forEach(simpleStatement -> simpleStatement.accept(simpleStatementGenerator));
+        block.forEach(statement -> {
+            if(statement instanceof SimpleStatement) {
+                statement.accept(simpleStatementGenerator);
+            } else {
+                statement.accept(this);
+            }
+        });
         incrementIteratorVariable(localVariableIndex);
         iteratorGreaterThanEndConditional.accept(expressionGenerator); //is iterator greater than range end?
         methodVisitor.visitJumpInsn(Opcodes.IFEQ, incrementationSection); //if it is not go back loop again
@@ -121,7 +145,7 @@ public class BlockStatementGenerator extends StatementGenerator {
         methodVisitor.visitLabel(expressionSection);
         block.forEach(statement -> {
             if(statement instanceof SimpleStatement) {
-                statement.accept(simpleStatementGenerator);
+                statement.accept(new SimpleStatementGenerator(methodVisitor, loopScope));
             } else {
                 statement.accept(this);
             }
