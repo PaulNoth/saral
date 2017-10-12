@@ -428,5 +428,14 @@ Tieto príkazy reagujú na typ premennej, do ktorej chceme čítať zo vstupu:
 - `písmeno`, načítaná je hodnota 1. znaku, bezohľadu na dĺžku vstupu.
 - `slovo`, načítané bezo zmeny.
 
+Podobne môžme získať hodnotu a priradiť ju do prvku definovaného poľa zodpovedajúceho typu
+```
+funduš neskutočné numeralio pole[2]
+vežmi pole[0]
+```
+```
+funduš slovo pole2[2]
+vežmi pole2[0]
+```
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).
