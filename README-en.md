@@ -411,7 +411,7 @@ keď 2 > 0 potom
     ciskaj two
 ``` 
 
-We can combine block of code (loops and condition) within themselfs.
+We can combine blocks of code (loops and condition) within themselfs.
 ```
 zrob s meňakom i od 1 do 10
     keď i % 2 == 0 potom
