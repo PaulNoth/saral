@@ -1,6 +1,6 @@
 package com.pidanic.saral.domain.block;
 
-import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.VariableDeclaration;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.generator.BlockStatementGenerator;
@@ -15,12 +15,12 @@ public class ForStatement extends BlockStatementImpl {
         FROM, TO
     }
 
-    private List<SimpleStatement> block;
+    private List<Statement> block;
     private Expression from;
     private Expression to;
     private VariableDeclaration var;
 
-    public ForStatement(Scope scope, VariableDeclaration var, Expression from, Expression to, List<SimpleStatement> block) {
+    public ForStatement(Scope scope, VariableDeclaration var, Expression from, Expression to, List<Statement> block) {
         super(scope);
         this.var = var;
         this.from = from;
@@ -49,7 +49,7 @@ public class ForStatement extends BlockStatementImpl {
         return var;
     }
 
-    public List<SimpleStatement> getBlock() {
+    public List<Statement> getBlock() {
         return block;
     }
 }

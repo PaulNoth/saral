@@ -1,6 +1,6 @@
 package com.pidanic.saral.domain.block;
 
-import com.pidanic.saral.domain.SimpleStatement;
+import com.pidanic.saral.domain.Statement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.IncompatibleTypeIfElse;
 import com.pidanic.saral.generator.BlockStatementGenerator;
@@ -13,14 +13,14 @@ import java.util.List;
 
 public class IfStatement extends BlockStatementImpl {
     private Expression booleanExpression;
-    private List<SimpleStatement> trueBlock;
-    private List<SimpleStatement> falseBlock;
+    private List<Statement> trueBlock;
+    private List<Statement> falseBlock;
 
-    public IfStatement(Scope scope, Expression booleanExpression, List<SimpleStatement> trueBlock) {
+    public IfStatement(Scope scope, Expression booleanExpression, List<Statement> trueBlock) {
         this(scope, booleanExpression, trueBlock, Collections.emptyList());
     }
 
-    public IfStatement(Scope scope, Expression booleanExpression, List<SimpleStatement> trueBlock, List<SimpleStatement> falseBlock) {
+    public IfStatement(Scope scope, Expression booleanExpression, List<Statement> trueBlock, List<Statement> falseBlock) {
         super(scope);
         if(booleanExpression.type() != BuiltInType.BOOLEAN) {
             throw new IncompatibleTypeIfElse(scope, booleanExpression.type().getName());
@@ -42,11 +42,11 @@ public class IfStatement extends BlockStatementImpl {
         return booleanExpression;
     }
 
-    public List<SimpleStatement> getTrueBlock() {
+    public List<Statement> getTrueBlock() {
         return Collections.unmodifiableList(trueBlock);
     }
 
-    public List<SimpleStatement> getFalseBlock() {
+    public List<Statement> getFalseBlock() {
         return Collections.unmodifiableList(falseBlock);
     }
 }

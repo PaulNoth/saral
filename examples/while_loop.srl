@@ -24,3 +24,13 @@ kým y <= 10 rob
     zrob s meňakom i od 0 do y
         ciskaj i
     y = y + 1
+
+y = 0
+x = 0
+kým y <= 10 rob
+    x = 0
+    kým x <= 10 rob
+        furt neskutočné numeralio z = y * x
+        ciskaj z
+        x = x + 1
+    y = y + 1
