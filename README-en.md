@@ -411,6 +411,25 @@ keď 2 > 0 potom
     ciskaj two
 ``` 
 
+We can combine block of code (loops and condition) within themselfs.
+```
+zrob s meňakom i od 1 do 10
+    keď i % 2 == 0 potom
+        meňak neskutočné numeralio x = i
+        kým x <= 10 rob
+            ciskaj x
+            x = x + 1
+    inak
+        zrob s meňakom j od i do 10
+            ciskaj j
+```
+```
+zrob s meňakom y od 1 do 10
+    zrob s meňakom x od 1 do 10
+        meňak neskutočné numeralio z = y * x
+        ciskaj z
+```
+
 ### Reading from standard input (console)
 In case we want to communicate with computer, we can use 2 commands `sluchaj` or `vežmi` to read input written in the console.
 ```
