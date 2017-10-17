@@ -153,7 +153,7 @@ bar neskutočné numeralio returnSomething()
     
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac mi z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)
@@ -343,19 +343,19 @@ bar slovo returnString(slovo x)
     vrac x
 ```
 
-We call the function with `vrac z baru`
+We call the function with `vrac mi z baru`
 ```
-vrac z baru returnSomething()
+vrac mi z baru returnSomething()
 
 meňak slovo hello = "hello"
-vrac z baru returnString(hello)
+vrac mi z baru returnString(hello)
 
 ```
 
 Be aware, that you have to initialize every function argument to a value. The same principle holds for [procedures](#procedures)
 ```
 meňak slovo word
-vrac z baru vracimSlovo(word) // error, meňak word is not initialized
+vrac mi z baru vracimSlovo(word) // error, meňak word is not initialized
 ```
 
 ### For-loops

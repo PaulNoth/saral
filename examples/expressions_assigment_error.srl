@@ -10,7 +10,7 @@ bar neskutočné numeralio vracimDaco()
     vrac pejc
 
 bar neskutočné numeralio vracimDaco2()
-    vrac vrac z baru vracimDaco()
+    vrac vrac mi z baru vracimDaco()
 
 bar slovo vracimSlovo(slovo x)
     vrac x
@@ -22,16 +22,16 @@ ciskaj dupa
 
 paľ do baru robim()
 paľ do baru tiezRobim(pejc)
-vrac z baru vracimDaco()
-vrac z baru vracimSlovo(dupa)
+vrac mi z baru vracimDaco()
+vrac mi z baru vracimSlovo(dupa)
 
-meňak neskutočné numeralio hodnota = vrac z baru vracimDaco()
+meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
 ciskaj hodnota
 
-meňak neskutočné numeralio hodnota2 = vrac z baru vracimDaco2()
+meňak neskutočné numeralio hodnota2 = vrac mi z baru vracimDaco2()
 ciskaj hodnota2
 
-meňak slovo hodnotaSlovaZatvoriek = vrac z baru vracimSlovo(dupa)
+meňak slovo hodnotaSlovaZatvoriek = vrac mi z baru vracimSlovo(dupa)
 ciskaj hodnotaSlovaZatvoriek
 
 meňak neskutočné numeralio jedna

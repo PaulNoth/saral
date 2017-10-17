@@ -157,7 +157,7 @@ bar neskutočné numeralio vracimDaco()
     
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac mi z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)
@@ -346,19 +346,19 @@ bar slovo vracimSlovo(slovo x)
     vrac x
 ```
 
-Vytvorenú funkcie zavoláme prostredníctvom `vrac z baru`
+Vytvorenú funkcie zavoláme prostredníctvom `vrac mi z baru`
 ```
-vrac z baru vracimDaco()
+vrac mi z baru vracimDaco()
 
 meňak slovo dupa = "dupa"
-vrac z baru vracimSlovo(dupa)
+vrac mi z baru vracimSlovo(dupa)
 
 ```
 
 Dajte si pozor, pretože každý argument volanej funkcie musí byť inicializovaný na nejakú hodnotu. Rovnaké pravidlo platí aj pre volanie [procedúry](#procedúry)
 ```
 meňak slovo dupa
-vrac z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný
+vrac mi z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný
 ```
 
 ### Podmienené vykonanie časti kódu
