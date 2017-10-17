@@ -33,11 +33,11 @@ keď 2 > 3 potom
     meňak neskutočné numeralio dva = 2
     ciskaj dva
 inak
-    meňak neskutočné numeralio hodnota = vrac z baru vracimDaco()
+    meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
     ciskaj hodnota
 
-vrac z baru vracimSlovo(dupa)
-vrac z baru vracimPravdu()
+vrac mi z baru vracimSlovo(dupa)
+vrac mi z baru vracimPravdu()
 
 zrob s meňakom i od 1 do 10
     keď i % 2 == 0 potom

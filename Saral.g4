@@ -199,7 +199,7 @@ typeBasic
 
 FUNCTION: 'bar';
 PROC_CALL : 'paľ do baru';
-FUNC_CALL : 'vrac z baru';
+FUNC_CALL : 'vrac mi z baru';
 
 LPAR : '(' {opened++;};
 RPAR : ')' {opened--;};
