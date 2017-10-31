@@ -1,0 +1,5 @@
+zrob s meňakom y od 1 do 10
+    zrob s meňakom x od 1 do 10
+        meňak neskutočné numeralio z = y * x
+        ciskaj z
+

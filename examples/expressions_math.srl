@@ -19,18 +19,18 @@ ciskaj dupa
 
 paľ do baru robim()
 paľ do baru tiezRobim(pejc)
-vrac z baru vracimDaco()
-vrac z baru vracimSlovo(dupa)
+vrac mi z baru vracimDaco()
+vrac mi z baru vracimSlovo(dupa)
 
-meňak neskutočné numeralio hodnota = vrac z baru vracimDaco()
+meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
 ciskaj hodnota
 
-meňak slovo hodnotaSlovaZatvoriek = vrac z baru vracimSlovo(dupa)
+meňak slovo hodnotaSlovaZatvoriek = vrac mi z baru vracimSlovo(dupa)
 ciskaj hodnotaSlovaZatvoriek
 
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac mi z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)

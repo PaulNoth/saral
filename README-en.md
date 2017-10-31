@@ -153,7 +153,7 @@ bar neskutočné numeralio returnSomething()
     
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac mi z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)
@@ -343,19 +343,19 @@ bar slovo returnString(slovo x)
     vrac x
 ```
 
-We call the function with `vrac z baru`
+We call the function with `vrac mi z baru`
 ```
-vrac z baru returnSomething()
+vrac mi z baru returnSomething()
 
 meňak slovo hello = "hello"
-vrac z baru returnString(hello)
+vrac mi z baru returnString(hello)
 
 ```
 
 Be aware, that you have to initialize every function argument to a value. The same principle holds for [procedures](#procedures)
 ```
 meňak slovo word
-vrac z baru vracimSlovo(word) // error, meňak word is not initialized
+vrac mi z baru vracimSlovo(word) // error, meňak word is not initialized
 ```
 
 ### For-loops
@@ -411,6 +411,25 @@ keď 2 > 0 potom
     ciskaj two
 ``` 
 
+We can combine blocks of code (loops and condition) within themselfs.
+```
+zrob s meňakom i od 1 do 10
+    keď i % 2 == 0 potom
+        meňak neskutočné numeralio x = i
+        kým x <= 10 rob
+            ciskaj x
+            x = x + 1
+    inak
+        zrob s meňakom j od i do 10
+            ciskaj j
+```
+```
+zrob s meňakom y od 1 do 10
+    zrob s meňakom x od 1 do 10
+        meňak neskutočné numeralio z = y * x
+        ciskaj z
+```
+
 ### Reading from standard input (console)
 In case we want to communicate with computer, we can use 2 commands `sluchaj` or `vežmi` to read input written in the console.
 ```
@@ -423,7 +442,17 @@ They behave based on the variable type, we want to read to:
 - `skutočné numeralio`, needs to be in decimal format. If the input is in `neskutočné numeralio` format, it is autoamtically converted.
 - `logický`, the value `pravda` or `skoroošaľ` is read only if there is `"pravda"` or `"skoroošaľ"` as an input, otherwise `ošaľ` value is set.
 - `písmeno`, always reads 1st character regardless input length.
-- `slovo`, read without change.
+- `slovo`, read without change, as is typed.
+
+Similar way we can read a value and assign it to an element of an array of corresponding type.
+```
+funduš neskutočné numeralio array[2]
+vežmi array[0]
+```
+```
+funduš slovo array2[2]
+vežmi array2[0]
+```
 
 ### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).

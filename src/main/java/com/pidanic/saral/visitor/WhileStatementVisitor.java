@@ -7,7 +7,7 @@ import com.pidanic.saral.exception.EmptyWhileStatementBlock;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
-import com.pidanic.saral.util.FunctionHelper;
+import com.pidanic.saral.util.StatementsHelper;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class WhileStatementVisitor extends SaralBaseVisitor<WhileStatement> {
     public WhileStatement visitWhile_statement(SaralParser.While_statementContext ctx) {
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
         Expression expression = ctx.expression().accept(expressionVisitor);
-        List<Statement> block = FunctionHelper.parseFunctionStatements(ctx.block().statements(), scope);
+        List<Statement> block = StatementsHelper.parseStatements(ctx.block().statements(), scope);
         if(block.isEmpty()) {
             throw new EmptyWhileStatementBlock(scope);
         }

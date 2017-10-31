@@ -157,7 +157,7 @@ bar neskutočné numeralio vracimDaco()
     
 meňak neskutočné numeralio aa = 1 + 1
 meňak neskutočné numeralio b = 2 * 10
-meňak neskutočné numeralio c = 10 - (vrac z baru vracimDaco())
+meňak neskutočné numeralio c = 10 - (vrac mi z baru vracimDaco())
 meňak neskutočné numeralio d = (1 + 1) * 3
 meňak neskutočné numeralio e = (10 / 2)
 meňak neskutočné numeralio f = (10 : 2)
@@ -346,19 +346,19 @@ bar slovo vracimSlovo(slovo x)
     vrac x
 ```
 
-Vytvorenú funkcie zavoláme prostredníctvom `vrac z baru`
+Vytvorenú funkcie zavoláme prostredníctvom `vrac mi z baru`
 ```
-vrac z baru vracimDaco()
+vrac mi z baru vracimDaco()
 
 meňak slovo dupa = "dupa"
-vrac z baru vracimSlovo(dupa)
+vrac mi z baru vracimSlovo(dupa)
 
 ```
 
 Dajte si pozor, pretože každý argument volanej funkcie musí byť inicializovaný na nejakú hodnotu. Rovnaké pravidlo platí aj pre volanie [procedúry](#procedúry)
 ```
 meňak slovo dupa
-vrac z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný
+vrac mi z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicializovaný
 ```
 
 ### Podmienené vykonanie časti kódu
@@ -414,6 +414,25 @@ kým y <= 10 rob
     y = y + 1
 ```
 
+Zložitejšie bloky kódu (cykly a podmienky) môžme ľubovoľne vnárať a kombinovať.
+```
+zrob s meňakom i od 1 do 10
+    keď i % 2 == 0 potom
+        meňak neskutočné numeralio x = i
+        kým x <= 10 rob
+            ciskaj x
+            x = x + 1
+    inak
+        zrob s meňakom j od i do 10
+            ciskaj j
+```
+```
+zrob s meňakom y od 1 do 10
+    zrob s meňakom x od 1 do 10
+        meňak neskutočné numeralio z = y * x
+        ciskaj z
+```
+
 ### Čítanie zo štardarného vstupu (konzoly)
 V prípade, že potrebujeme komunikovať s počítačom a načítať z vstupy napísané v konzole, využijeme ekvivalentné príkazy `vežmi` alebo `sluchaj`.
 ```
@@ -428,5 +447,14 @@ Tieto príkazy reagujú na typ premennej, do ktorej chceme čítať zo vstupu:
 - `písmeno`, načítaná je hodnota 1. znaku, bezohľadu na dĺžku vstupu.
 - `slovo`, načítané bezo zmeny.
 
+Podobne môžme získať hodnotu a priradiť ju do prvku definovaného poľa zodpovedajúceho typu
+```
+funduš neskutočné numeralio pole[2]
+vežmi pole[0]
+```
+```
+funduš slovo pole2[2]
+vežmi pole2[0]
+```
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).

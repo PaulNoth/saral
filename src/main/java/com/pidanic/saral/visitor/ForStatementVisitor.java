@@ -10,9 +10,9 @@ import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.BuiltInType;
+import com.pidanic.saral.util.StatementsHelper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
 
@@ -29,7 +29,6 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
     @Override
     public ForStatement visitFor_statement(SaralParser.For_statementContext ctx) {
         ExpressionVisitor expressionVisitor = new ExpressionVisitor(scope);
-        SimpleStatementVisitor simpleStatementVisitor = new SimpleStatementVisitor(scope);
         String varName = ctx.var().getText();
         Expression from = ctx.val(0).accept(expressionVisitor);
         Expression to = ctx.val(1).accept(expressionVisitor);
@@ -45,11 +44,7 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
         scope.addLocalVariable(localVar);
         VariableDeclaration var = new VariableDeclaration(varName, from);
 
-        List<SimpleStatement> block = ctx.block().statements().statement().stream()
-                .filter(stmt -> stmt.simple_statement() != null)
-                .map(stmt -> stmt.simple_statement().accept(simpleStatementVisitor))
-                .filter(stmt -> stmt != null)
-                .collect(Collectors.toList());
+        List<Statement> block = StatementsHelper.parseStatements(ctx.block().statements(),scope);
         if(block.isEmpty()) {
             throw new EmptyForStatementBlock(scope);
         }

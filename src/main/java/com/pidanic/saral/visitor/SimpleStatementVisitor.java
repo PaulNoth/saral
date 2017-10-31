@@ -183,7 +183,18 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).name();
 
-        LocalVariable initializedLocalVar = scope.initializeLocalVariableAtIndex(scope.getLocalVariableIndex(varName));
-        return new ReadStatement(initializedLocalVar);
+        LocalVariable localVariable = scope.getLocalVariable(varName);
+        LocalVariable initializedLocalVariable;
+        if(varRef instanceof ArrayRef) {
+            initializedLocalVariable = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
+        } else {
+            initializedLocalVariable = new LocalVariable(localVariable.name(), localVariable.type(), true);
+            scope.initializeLocalVariable(varName);
+        }
+        if(!initializedLocalVariable.isInitialized()) {
+            throw new VariableNotInitialized(scope, initializedLocalVariable.name());
+        }
+
+        return new ReadStatement(initializedLocalVariable);
     }
 }

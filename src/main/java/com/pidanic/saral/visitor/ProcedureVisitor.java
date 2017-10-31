@@ -6,6 +6,7 @@ import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.FunctionHelper;
+import com.pidanic.saral.util.StatementsHelper;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
         String procedureName = ctx.ID().getText();
 
         List<Argument> arguments = FunctionHelper.parseFunctionArguments(ctx.arglist(), scope);
-        List<Statement> allStatements = FunctionHelper.parseFunctionStatements(ctx.block().statements(), scope);
+        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.block().statements(), scope);
         Procedure procedure = new Procedure(scope, procedureName, arguments, allStatements);
 
         return procedure;

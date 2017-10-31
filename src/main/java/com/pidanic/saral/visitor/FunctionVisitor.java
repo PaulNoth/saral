@@ -8,6 +8,7 @@ import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.FunctionHelper;
+import com.pidanic.saral.util.StatementsHelper;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
@@ -25,7 +26,7 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         String functionName = ctx.ID().getText();
 
         List<Argument> arguments = FunctionHelper.parseFunctionArguments(ctx.arglist(), scope);
-        List<Statement> allStatements = FunctionHelper.parseFunctionStatements(ctx.func_block().statements(), scope);
+        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.func_block().statements(), scope);
 
         String typeName = ctx.typeBasic().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
