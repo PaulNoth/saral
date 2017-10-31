@@ -1,12 +1,7 @@
 package com.pidanic.saral;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Collections;
-import java.util.List;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,13 +9,9 @@ public class Preprocessor {
     private static final String INDENT = "__INDENT";
     private static final String DEDENT = "__DEDENT";
 
-    public static void main(String[] args) {
-        new Preprocessor().preprocess(new File("examples/while_loop.srl"));
-    }
-
     private Stack<Integer> indents = new Stack<>();
 
-    public void preprocess(File file) {
+    public File preprocess(File file) throws IOException {
         List<String> lines = readLines(file);
         Stream<String> preprocessedLines = lines.stream().map(line -> {
             String spaces = getAllSpacesFromLineBeginning(line);
@@ -39,7 +30,20 @@ public class Preprocessor {
             }
             return newLine;
         });
-        System.out.println(preprocessedLines.collect(Collectors.joining("\n")));
+        Calendar now = Calendar.getInstance();
+        File temp = File.createTempFile(String.valueOf(now.getTimeInMillis()), ".srl");
+        BufferedWriter bos = new BufferedWriter(new FileWriter(temp));
+        preprocessedLines.forEach(line -> {
+            try {
+                bos.write(line);
+                bos.newLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        bos.flush();
+        bos.close();
+        return temp;
     }
 
     private List<String> readLines(File file) {

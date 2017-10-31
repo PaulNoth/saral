@@ -14,10 +14,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class SaralCompilationUnitParser {
-    public Init getCompilationUnit(File file) throws IOException{
-        String fileName = file.getName();
-        String fileAbsPath = file.getAbsolutePath();
-        String className = fileName.substring(0, fileName.lastIndexOf('.'));
+    public Init getCompilationUnit(File preprocessedTempFile, String className) throws IOException{
+        String fileAbsPath = preprocessedTempFile.getAbsolutePath();
 
         CharStream charStream = new ANTLRFileStream(fileAbsPath);
         SaralLexer saralLexer = new SaralLexer(charStream);
