@@ -1,0 +1,16 @@
+//komment
+meňak neskutočné numeralio x = 4
+kým x <= 10 rob
+__INDENTciskaj x
+    x = x + 1
+__DEDENT
+meňak neskutočné numeralio y = 1
+kým y <= 10 rob
+__INDENTmeňak neskutočné numeralio z = y * y
+    ciskaj z
+    y = y + 1
+__DEDENT
+y = 0
+ciskaj y
+y = 10
+ciskaj y

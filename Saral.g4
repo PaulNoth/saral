@@ -1,92 +1,7 @@
 grammar Saral;
 
-tokens { INDENT, DEDENT }
-
-@lexer::members {
-    private java.util.LinkedList<Token> tokens = new java.util.LinkedList<>();
-
-    private java.util.Stack<Integer> indents = new java.util.Stack<>();
-
-    private int opened = 0;
-
-    private Token last = null;
-
-    @Override
-    public void emit(Token t) {
-        super.setToken(t);
-        tokens.offer(t);
-    }
-
-    @Override
-    public Token nextToken() {
-        // Check if the end-of-file is ahead and there are still some DEDENTS expected.
-        if(_input.LA(1) == EOF && !this.indents.isEmpty()) {
-            // Remove any trailing EOF tokens from our buffer.
-            for(int i = tokens.size() - 1; i >= 0; i--) {
-                if(tokens.get(i).getType() == EOF) {
-                    tokens.remove(i);
-                }
-            }
-
-            // First emit an extra line break that serves as the end of the statement.
-            this.emit(commonToken(SaralParser.EOL, "\n"));
-
-            // Now emit as much DEDENT tokens as needed.
-            while(!this.indents.isEmpty()) {
-                this.emit(createDedent());
-                indents.pop();
-            }
-
-            // Put the EOF back on the token stream.
-            this.emit(commonToken(SaralParser.EOF, "<EOF>"));
-        }
-
-        Token next = super.nextToken();
-        if(next.getChannel() == Token.DEFAULT_CHANNEL) {
-            // keep track of the latest token on the default channel
-            this.last = next;
-        }
-
-        return tokens.isEmpty() ? next : tokens.poll();
-    }
-
-    private Token createDedent() {
-        CommonToken dedent = commonToken(SaralParser.DEDENT, "");
-        dedent.setLine(this.last.getLine());
-        return dedent;
-    }
-
-    private CommonToken commonToken(int type, String text) {
-        int stop = this.getCharIndex() - 1;
-        int start = text.isEmpty() ? stop : stop - text.length() + 1;
-        return new CommonToken(this._tokenFactorySourcePair, type, DEFAULT_TOKEN_CHANNEL, start, stop);
-    }
-
-    // Calculates the indentation of the provided spaces, taking the
-    // following rules into account:
-    //
-    // "Tabs are replaced (from left to right) by one to eight spaces
-    //  such that the total number of characters up to and including
-    //  the replacement is a multiple of eight [...]"
-    static int getIndentationCount(String spaces) {
-        int count = 0;
-
-        for(char ch : spaces.toCharArray()) {
-            switch(ch) {
-                case '\t':
-                    count += 8 - (count % 8);
-                    break;
-                default:
-                    count++;
-            }
-        }
-        return count;
-    }
-
-    boolean atStartOfInput() {
-        return super.getCharPositionInLine() == 0 && super.getLine() == 1;
-    }
-}
+INDENT : '__INDENT';
+DEDENT : '__DEDENT';
 
 init : statements ;
 
@@ -201,8 +116,8 @@ FUNCTION: 'bar';
 PROC_CALL : 'paľ do baru';
 FUNC_CALL : 'vrac z baru';
 
-LPAR : '(' {opened++;};
-RPAR : ')' {opened--;};
+LPAR : '(';
+RPAR : ')';
 LBRACK: '[';
 RBRACK: ']';
 
@@ -254,41 +169,8 @@ DIGIT : [0-9];
 
 ID : '_'?(LETTER)(LETTER | DIGIT | '_')* ;
 LETTER : [a-zA-ZľščťžýáíéäúôóďĺĽŠČŤŽÝÁÍÉÄÚÔÓĎĹ];
-EOL :
-    ({atStartOfInput()}? WS
-    |
-    ( '\r'? '\n' | '\r' ) WS?
-    )
-    {
-        String newLine = getText().replaceAll("[^\r\n]+", "");
-        String spaces = getText().replaceAll("[\r\n]+", "");
-        int next = _input.LA(1);
-
-        if(opened > 0 || next == '\r' || next == '\n' || next == '/') {
-            skip();
-        } else {
-            emit(commonToken(EOL, newLine));
-
-            int indent = getIndentationCount(spaces);
-            int previous = indents.isEmpty() ? 0 : indents.peek();
-
-            if(indent == previous) {
-                // skip indents of the same size as the present indent-size
-                skip();
-            } else if(indent > previous) {
-                indents.push(indent);
-                emit(commonToken(SaralParser.INDENT, spaces));
-            } else {
-                // Possibly emit more than 1 DEDENT token.
-                while(!indents.isEmpty() && indents.peek() > indent) {
-                    this.emit(createDedent());
-                    indents.pop();
-                }
-            }
-        }
-    }
-    ;
-
-EMPTY_LINE : {getCharPositionInLine()==0}? ((' '|'\t')* EOL) -> skip ;
+EMPTY_LINE : {getCharPositionInLine()==0}? ((' '|'\t')* COMMENT? EOL) -> skip ;
 COMMENT: '//' ~[\r\n]* -> skip;
-WS: [ \t]+ -> skip ;
+
+EOL : '\r'? '\n' | '\r';
+WS : (' ' | '\t')+ -> skip;

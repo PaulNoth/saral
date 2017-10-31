@@ -10,11 +10,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Preprocessor {
-    private static final String INDENT = "__INDENT\n";
-    private static final String DEDENT = "__DEDENT\n";
+    private static final String INDENT = "__INDENT";
+    private static final String DEDENT = "__DEDENT";
 
     public static void main(String[] args) {
-        new Preprocessor().preprocess(new File("examples/while_loop.srl"));
+        new Preprocessor().preprocess(new File("examples/while_loop2.srl"));
     }
 
     private int previous = 0;
@@ -31,7 +31,7 @@ public class Preprocessor {
             if(indent > previous) {
                 newLine = newLine.replaceAll("^\\s+", INDENT);
             } else if (indent < previous) {
-                newLine = newLine.replaceAll("^\\s+", DEDENT);
+                newLine = newLine.concat(DEDENT);
             }
             previous = indent;
             return newLine;
