@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,26 +15,28 @@ public class Preprocessor {
     private static final String DEDENT = "__DEDENT";
 
     public static void main(String[] args) {
-        new Preprocessor().preprocess(new File("examples/while_loop2.srl"));
+        new Preprocessor().preprocess(new File("examples/while_loop.srl"));
     }
 
-    private int previous = 0;
+    private Stack<Integer> indents = new Stack<>();
 
     public void preprocess(File file) {
         List<String> lines = readLines(file);
         Stream<String> preprocessedLines = lines.stream().map(line -> {
-            //String newLine = line.replaceAll("[^\r\n]+", "");
-            //String spaces = line.replaceAll("[\r\n]+", "");
-            String spaces = takeWhile(line);
+            String spaces = getAllSpacesFromLineBeginning(line);
 
-            int indent = getIndentationCount(spaces);
+            int lineIndent = getIndentationCount(spaces);
+            int previousIndent = indents.isEmpty() ? 0 : indents.peek();
             String newLine = line;
-            if(indent > previous) {
+            if(lineIndent > previousIndent) {
                 newLine = newLine.replaceAll("^\\s+", INDENT);
-            } else if (indent < previous) {
-                newLine = newLine.concat(DEDENT);
+                indents.push(lineIndent);
+            } else if (lineIndent < previousIndent) {
+                while(!indents.isEmpty() && indents.peek() > lineIndent) {
+                    newLine = newLine.replaceAll("^\\s*", DEDENT);
+                    indents.pop();
+                }
             }
-            previous = indent;
             return newLine;
         });
         System.out.println(preprocessedLines.collect(Collectors.joining("\n")));
@@ -42,19 +45,23 @@ public class Preprocessor {
     private List<String> readLines(File file) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            return bufferedReader.lines().collect(Collectors.toList());
+            List<String> allLines = bufferedReader.lines().collect(Collectors.toList());
+            allLines.add("");
+            return allLines;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return Collections.emptyList();
     }
 
-    // Calculates the indentation of the provided spaces, taking the
-    // following rules into account:
-    //
-    // "Tabs are replaced (from left to right) by one to eight spaces
-    //  such that the total number of characters up to and including
-    //  the replacement is a multiple of eight [...]"
+    /**
+     * Calculates the indentation of the provided spaces, taking the
+     * following rules into account:
+     *
+     * "Tabs are replaced (from left to right) by one to eight spaces
+     *  such that the total number of characters up to and including
+     *  the replacement is a multiple of eight [...]"
+     */
     private static int getIndentationCount(String spaces) {
         int count = 0;
 
@@ -70,7 +77,7 @@ public class Preprocessor {
         return count;
     }
 
-    private String takeWhile(String line) {
+    private String getAllSpacesFromLineBeginning(String line) {
         int index = 0;
         while(index < line.length()) {
             if(line.charAt(index) != ' ' && line.charAt(index) != '\t') {
