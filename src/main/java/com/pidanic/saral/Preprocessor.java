@@ -8,28 +8,14 @@ import java.util.stream.Stream;
 public class Preprocessor {
     private static final String INDENT = "__INDENT";
     private static final String DEDENT = "__DEDENT";
+    private static final String INCLUDE = "falda";
 
     private Stack<Integer> indents = new Stack<>();
 
     public File preprocess(File file) throws IOException {
-        List<String> lines = readLines(file);
-        Stream<String> preprocessedLines = lines.stream().map(line -> {
-            String spaces = getAllSpacesFromLineBeginning(line);
+        Stream<String> lines = readLines(file);
+        Stream<String> preprocessedLines = createIndentDedent(lines);
 
-            int lineIndent = getIndentationCount(spaces);
-            int previousIndent = indents.isEmpty() ? 0 : indents.peek();
-            String newLine = line;
-            if(lineIndent > previousIndent) {
-                newLine = newLine.replaceAll("^\\s+", INDENT);
-                indents.push(lineIndent);
-            } else if (lineIndent < previousIndent) {
-                while(!indents.isEmpty() && indents.peek() > lineIndent) {
-                    newLine = newLine.replaceAll("^\\s*", DEDENT);
-                    indents.pop();
-                }
-            }
-            return newLine;
-        });
         Calendar now = Calendar.getInstance();
         File temp = File.createTempFile(String.valueOf(now.getTimeInMillis()), ".srl");
         BufferedWriter bos = new BufferedWriter(new FileWriter(temp));
@@ -46,16 +32,16 @@ public class Preprocessor {
         return temp;
     }
 
-    private List<String> readLines(File file) {
+    private Stream<String> readLines(File file) {
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             List<String> allLines = bufferedReader.lines().collect(Collectors.toList());
             allLines.add("");
-            return allLines;
+            return expandIncludes(allLines.stream());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return Collections.emptyList();
+        return Stream.empty();
     }
 
     /**
@@ -81,6 +67,27 @@ public class Preprocessor {
         return count;
     }
 
+    private Stream<String> createIndentDedent(Stream<String> lines) {
+        Stream<String> linesWithIndentation = lines.map(line -> {
+            String spaces = getAllSpacesFromLineBeginning(line);
+
+            int lineIndent = getIndentationCount(spaces);
+            int previousIndent = indents.isEmpty() ? 0 : indents.peek();
+            String newLine = line;
+            if(lineIndent > previousIndent) {
+                newLine = newLine.replaceAll("^\\s+", INDENT);
+                indents.push(lineIndent);
+            } else if (lineIndent < previousIndent) {
+                while(!indents.isEmpty() && indents.peek() > lineIndent) {
+                    newLine = newLine.replaceAll("^\\s*", DEDENT);
+                    indents.pop();
+                }
+            }
+            return newLine;
+        });
+        return linesWithIndentation;
+    }
+
     private String getAllSpacesFromLineBeginning(String line) {
         int index = 0;
         while(index < line.length()) {
@@ -90,5 +97,19 @@ public class Preprocessor {
             index++;
         }
         return line.substring(0, index);
+    }
+
+    private Stream<String> expandIncludes(Stream<String> lines) {
+        return lines.flatMap(line -> {
+            if(line.contains(INCLUDE)) {
+                int indexOfFalda = line.indexOf(INCLUDE);
+                String fileName = line.trim().substring(indexOfFalda + INCLUDE.length()).trim();
+                fileName = "include" + File.separator + fileName + ".srl";
+                return readLines(new File(fileName));
+            }
+            else {
+                return Stream.of(line);
+            }
+        });
     }
 }
