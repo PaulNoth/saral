@@ -50,13 +50,18 @@ public class SimpleStatementGenerator extends StatementGenerator {
             LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
             Expression index = localArrayIndex.getIndex();
             index.accept(expressionGenerator);
-            methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
-            if(type == BuiltInType.BOOLEAN_ARR) {
-                generateBooleanAsKleene(() -> {
-                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-                    index.accept(expressionGenerator);
-                    methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
-                });
+            if(type == BuiltInType.STRING) {
+                descriptor = "(C)V";
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            } else {
+                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                if(type == BuiltInType.BOOLEAN_ARR) {
+                    generateBooleanAsKleene(() -> {
+                        methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                        index.accept(expressionGenerator);
+                        methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                    });
+                }
             }
         } else {
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
