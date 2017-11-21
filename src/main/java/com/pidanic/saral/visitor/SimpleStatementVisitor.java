@@ -140,7 +140,7 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(var == null) {
             throw new VariableNotFound(scope, varName);
         }
-        if(var.isConstant()) {
+        if(var.isConstant() && !(varRef instanceof ArrayRef) && var.type() != BuiltInType.STRING) {
             throw new ConstantAssignmentNotAllowed(scope, varName);
         }
         scope.initializeLocalVariableAtIndex(scope.getLocalVariableIndex(varName));
