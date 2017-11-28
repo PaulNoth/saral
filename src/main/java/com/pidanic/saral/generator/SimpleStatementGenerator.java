@@ -3,6 +3,7 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.*;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
+import com.pidanic.saral.domain.expression.string.Concatenation;
 import com.pidanic.saral.exception.ConstantAssignmentNotAllowed;
 import com.pidanic.saral.exception.FunctionCallNotFound;
 import com.pidanic.saral.exception.VariableNotInitialized;
@@ -346,14 +347,52 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final Optional<Expression> expressionOption = assignment.getExpression();
         if(assignment instanceof ArrayAssignment) {
             if(expressionOption.isPresent()) {
-                Expression expression = expressionOption.get();
-                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-
-                ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
-                expression.accept(expressionGenerator);
-
                 LocalVariable localArray = scope.getLocalVariable(variableName);
-                methodVisitor.visitInsn(localArray.type().getTypeSpecificOpcode().getStore());
+                if(localArray.type() == BuiltInType.STRING) {
+                    // create new string based on string.substring(0, index) + char + string.substring(index + 1, string.length)
+
+                    // add substring parameters 0, index value
+                    methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+
+                    methodVisitor.visitInsn(Opcodes.ICONST_0);
+                    ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+
+                    // add char and convert it to string
+                    Expression expression = expressionOption.get();
+                    expression.accept(expressionGenerator);
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "(C)Ljava/lang/String;", false);
+
+                    // concat char with first substring
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+
+                    // add substring parameters index + 1, string.length value
+                    methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+
+                    ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                    methodVisitor.visitInsn(Opcodes.ICONST_1);
+                    methodVisitor.visitInsn(Opcodes.IADD);
+                    methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+
+
+                    //concat concated string with above substring
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+                    // store it into var
+                    methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
+                } else {
+                    Expression expression = expressionOption.get();
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+
+                    ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                    expression.accept(expressionGenerator);
+
+                    methodVisitor.visitInsn(localArray.type().getTypeSpecificOpcode().getStore());
+                }
             }
         } else {
             if(expressionOption.isPresent()) {
