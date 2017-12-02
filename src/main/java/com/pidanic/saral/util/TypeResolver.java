@@ -79,4 +79,8 @@ public class TypeResolver {
     public static boolean isArray(Type type) {
         return ARRAY_TYPES.values().stream().anyMatch(arrayType -> arrayType == type);
     }
+
+    public static boolean isString(Type type) {
+        return type == BuiltInType.STRING;
+    }
 }
