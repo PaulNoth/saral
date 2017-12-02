@@ -141,7 +141,7 @@ ciskaj l[3]
 ```
 
 ##### Pole znakov v type `slovo`
-Typ `slovo` má v jazyku Šaral špeciálne postavenie. Môžme ho tiež používať ako pole znakov (typ `funduš písmeno`). Tzn. že vieme pristúpiť k znaku na určitom indexe v reťazci a taktiež môžeme zazmeniť ľubovoľný znak v premennej typu `slovo`. 
+Typ `slovo` má v jazyku Šaral špeciálne postavenie. Môžme ho tiež používať ako pole znakov (typ `funduš písmeno`). Tzn. že vieme pristúpiť k znaku na určitom indexe v reťazci a taktiež môžeme zameniť ľubovoľný znak v premennej typu `slovo`. 
 (Pristupovať a meniť jednotlivé prvky dokážeme meniť aj v konštante - `furt slovo`. Princíp je rovnaký ako pri poliach. Meníme len znak nie celú hodnotu).
 
 ```
