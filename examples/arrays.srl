@@ -30,3 +30,9 @@ ciskaj l[0]
 ciskaj l[1]
 ciskaj l[2]
 ciskaj l[3]
+
+furt slovo test = "test"
+ciskaj test[1]
+
+test[1] = 'a'
+ciskaj test

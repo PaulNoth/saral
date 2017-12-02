@@ -38,25 +38,30 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
     public void generate(PrintStatement instruction) {
         final LocalVariable variable = instruction.getVariable();
-        if(!variable.isInitialized()) {
+        if (!variable.isInitialized()) {
             throw new VariableNotInitialized(scope, variable.name());
         }
         final Type type = variable.type();
         final int variableId = scope.getLocalVariableIndex(variable.name());
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "out", "Ljava/io/PrintStream;");
         String descriptor = createPrintlnDescriptor(type);
-        if(variable instanceof LocalVariableArrayIndex) {
+        if (variable instanceof LocalVariableArrayIndex) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
             LocalVariableArrayIndex localArrayIndex = (LocalVariableArrayIndex) variable;
             Expression index = localArrayIndex.getIndex();
             index.accept(expressionGenerator);
-            methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
-            if(type == BuiltInType.BOOLEAN_ARR) {
-                generateBooleanAsKleene(() -> {
-                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-                    index.accept(expressionGenerator);
-                    methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
-                });
+            if (type == BuiltInType.STRING) {
+                descriptor = "(C)V";
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            } else {
+                methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                if (type == BuiltInType.BOOLEAN_ARR) {
+                    generateBooleanAsKleene(() -> {
+                        methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                        index.accept(expressionGenerator);
+                        methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
+                    });
+                }
             }
         } else {
             methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), variableId);
@@ -70,22 +75,22 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     public void generate(ReadStatement readStatement) {
-        if(!scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
+        if (!scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
             initializeSystemIn();
         }
         int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
 
         final LocalVariable variable = readStatement.variable();
-        if(!variable.isInitialized()) {
+        if (!variable.isInitialized()) {
             throw new VariableNotInitialized(scope, variable.name());
         }
-        if(variable.isConstant()) {
+        if (variable.isConstant()) {
             throw new ConstantAssignmentNotAllowed(scope, variable.name());
         }
         final Type variableType = variable.type();
         final int variableId = scope.getLocalVariableIndex(variable.name());
 
-        if(variable instanceof LocalVariableArrayIndex) {
+        if (variable instanceof LocalVariableArrayIndex) {
 
             if (variableType == BuiltInType.BOOLEAN_ARR) {
                 String tempVarName = "booleanTemp" + scope.localVariablesCount();
@@ -198,7 +203,6 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
         int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
         methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
-        //methodVisitor.visitInsn(Opcodes.DUP);
 
         methodVisitor.visitVarInsn(Opcodes.ASTORE, systemInIndex);
 
@@ -208,20 +212,20 @@ public class SimpleStatementGenerator extends StatementGenerator {
     }
 
     private String getScannerMethod(Type variableType) {
-        if(variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
+        if (variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
             return "nextLong";
         }
-        if(variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
+        if (variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
             return "nextDouble";
         }
         return "next";
     }
 
     private String getScannerMethodReturnDescriptor(Type variableType) {
-        if(variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
+        if (variableType == BuiltInType.LONG || variableType == BuiltInType.LONG_ARR) {
             return "()" + BuiltInType.LONG.getDescriptor();
         }
-        if(variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
+        if (variableType == BuiltInType.DOUBLE || variableType == BuiltInType.DOUBLE_ARR) {
             return "()" + BuiltInType.DOUBLE.getDescriptor();
         }
         return "()" + BuiltInType.STRING.getDescriptor();
@@ -231,15 +235,15 @@ public class SimpleStatementGenerator extends StatementGenerator {
         String descriptor = "(" + type.getDescriptor() + ")V";
         if (type == BuiltInType.BOOLEAN) {
             descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-        } else if(type == BuiltInType.BOOLEAN_ARR) {
+        } else if (type == BuiltInType.BOOLEAN_ARR) {
             descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
-        } else if(type == BuiltInType.LONG_ARR) {
+        } else if (type == BuiltInType.LONG_ARR) {
             descriptor = "(" + BuiltInType.LONG.getDescriptor() + ")V";
-        } else if(type == BuiltInType.DOUBLE_ARR) {
+        } else if (type == BuiltInType.DOUBLE_ARR) {
             descriptor = "(" + BuiltInType.DOUBLE.getDescriptor() + ")V";
-        } else if(type == BuiltInType.CHAR_ARR) {
+        } else if (type == BuiltInType.CHAR_ARR) {
             descriptor = "(" + BuiltInType.CHAR.getDescriptor() + ")V";
-        } else if(type == BuiltInType.STRING_ARR) {
+        } else if (type == BuiltInType.STRING_ARR) {
             descriptor = "(" + BuiltInType.STRING.getDescriptor() + ")V";
         }
         return descriptor;
@@ -274,7 +278,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final String variableName = variableDeclaration.getName();
         final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = variableDeclaration.getExpression();
-        if(expressionOption.isPresent()) {
+        if (expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
             expression.accept(expressionGenerator);
             final Type type = expression.type();
@@ -282,10 +286,10 @@ public class SimpleStatementGenerator extends StatementGenerator {
         }
     }
 
-     public void generate(ProcedureCall functionCall) {
+    public void generate(ProcedureCall functionCall) {
         List<Argument> parameters = functionCall.getFunction().getArguments();
         List<CalledArgument> calledParameter = functionCall.getCalledArguments();
-        for(int i = 0; i < parameters.size(); i++) {
+        for (int i = 0; i < parameters.size(); i++) {
             Argument param = parameters.get(i);
             CalledArgument callArg = calledParameter.get(i);
             String realLocalVariableName = callArg.getName();
@@ -302,7 +306,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
     public void generate(Argument parameter, String localVariableName) {
         Type argumentType = parameter.getType();
         int index = scope.getLocalVariableIndex(localVariableName);
-        if(TypeResolver.isArray(argumentType)) {
+        if (TypeResolver.isArray(argumentType)) {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, index);
         } else {
             methodVisitor.visitVarInsn(argumentType.getTypeSpecificOpcode().getLoad(), index);
@@ -339,25 +343,62 @@ public class SimpleStatementGenerator extends StatementGenerator {
         final String variableName = assignment.getName();
         final int variableId = scope.getLocalVariableIndex(variableName);
         final Optional<Expression> expressionOption = assignment.getExpression();
-        if(assignment instanceof ArrayAssignment) {
-            if(expressionOption.isPresent()) {
-                Expression expression = expressionOption.get();
-                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-
-                ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
-                expression.accept(expressionGenerator);
-
+        if (expressionOption.isPresent()) {
+            Expression expression = expressionOption.get();
+            if (assignment instanceof ArrayAssignment) {
                 LocalVariable localArray = scope.getLocalVariable(variableName);
-                methodVisitor.visitInsn(localArray.type().getTypeSpecificOpcode().getStore());
-            }
-        } else {
-            if(expressionOption.isPresent()) {
-                Expression expression = expressionOption.get();
+                if (TypeResolver.isString(localArray.type())) {
+                    this.generateStringFromConcatenatedSubstrings(assignment, expression, variableId);
+                } else {
+                    methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+
+                    ((ArrayAssignment) assignment).getIndex().accept(expressionGenerator);
+                    expression.accept(expressionGenerator);
+
+                    methodVisitor.visitInsn(localArray.type().getTypeSpecificOpcode().getStore());
+                }
+            } else {
                 expression.accept(expressionGenerator);
                 final Type type = expression.type();
                 methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
             }
         }
+    }
+
+    /**
+     * create new string based on string.substring(0, index) + char + string.substring(index + 1, string.length)
+     */
+    private void generateStringFromConcatenatedSubstrings(Assignment arrayAssignment, Expression expression, int variableId) {
+        // add substring parameters 0, index value
+        methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+
+        methodVisitor.visitInsn(Opcodes.ICONST_0);
+        ((ArrayAssignment) arrayAssignment).getIndex().accept(expressionGenerator);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+
+        // add char and convert it to string
+        expression.accept(expressionGenerator);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "(C)Ljava/lang/String;", false);
+
+        // concat char with first substring
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+        // add substring parameters index + 1, string.length value
+        methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+
+        ((ArrayAssignment) arrayAssignment).getIndex().accept(expressionGenerator);
+        methodVisitor.visitInsn(Opcodes.ICONST_1);
+        methodVisitor.visitInsn(Opcodes.IADD);
+        methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+
+        //concat concated string with above substring
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+
+        // store it into var
+        methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
     }
 
     public void generate(ArrayDeclaration array) {

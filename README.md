@@ -140,6 +140,18 @@ ciskaj l[3]
 
 ```
 
+##### Pole znakov v type `slovo`
+Typ `slovo` má v jazyku Šaral špeciálne postavenie. Môžme ho tiež používať ako pole znakov (typ `funduš písmeno`). Tzn. že vieme pristúpiť k znaku na určitom indexe v reťazci a taktiež môžeme zazmeniť ľubovoľný znak v premennej typu `slovo`. 
+(Pristupovať a meniť jednotlivé prvky dokážeme meniť aj v konštante - `furt slovo`. Princíp je rovnaký ako pri poliach. Meníme len znak nie celú hodnotu).
+
+```
+furt slovo test = "test"
+ciskaj test[1]          // 'e'
+
+test[1] = 'a'
+ciskaj test             // "tast"
+``` 
+
 ### Operácie
 #### Aritmetické operácie
 Podporované sú matematické operácie medzi celými a reálnymi číslami (typ `neskutočné numeralio`, `skutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
