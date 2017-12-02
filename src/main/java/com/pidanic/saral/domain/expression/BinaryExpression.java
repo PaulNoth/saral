@@ -35,20 +35,23 @@ public abstract class BinaryExpression extends Expression {
     }
 
     private void convertIfCast(Type type, Expression left, Expression right) {
+        final Type leftType = left.type();
+        final Type rightType = right.type();
         if(type == BuiltInType.DOUBLE) {
-            if(left.type() == BuiltInType.LONG) {
+            if(leftType == BuiltInType.LONG) {
                 this.left = new CastExpression(BuiltInType.DOUBLE, left);
             }
-            if(right.type() == BuiltInType.LONG) {
+            if(rightType == BuiltInType.LONG) {
                 this.left = new CastExpression(BuiltInType.DOUBLE, right);
             }
-        }
-        if(left.type() == BuiltInType.LONG && right.type() == BuiltInType.DOUBLE) {
+        } else if(leftType == BuiltInType.LONG && right.type() == BuiltInType.DOUBLE) {
             this.left = new CastExpression(BuiltInType.DOUBLE, left);
-        }
-        if(right.type() == BuiltInType.LONG && left.type() == BuiltInType.DOUBLE) {
+        } else if(rightType == BuiltInType.LONG && left.type() == BuiltInType.DOUBLE) {
             this.left = new CastExpression(BuiltInType.DOUBLE, right);
+        } else if(leftType == BuiltInType.CHAR && right.type() == BuiltInType.LONG) {
+            this.right = new CastExpression(BuiltInType.INT, right);
+        } else if(rightType == BuiltInType.CHAR && left.type() == BuiltInType.LONG) {
+            this.left = new CastExpression(BuiltInType.INT, left);
         }
-
     }
 }

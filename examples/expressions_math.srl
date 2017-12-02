@@ -19,8 +19,6 @@ ciskaj dupa
 
 paľ do baru robim()
 paľ do baru tiezRobim(pejc)
-vrac mi z baru vracimDaco()
-vrac mi z baru vracimSlovo(dupa)
 
 meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
 ciskaj hodnota
@@ -50,3 +48,16 @@ ciskaj h
 ciskaj i
 ciskaj j
 ciskaj l
+
+furt písmeno znak1 = 'A' - 'A'
+furt písmeno znak2 = 'A' + 1
+furt písmeno znak3 = 'A' + 'A'
+furt písmeno znak4 = '.' * 2
+furt písmeno znak5 = 'a' / 2
+furt písmeno znak6 = 'c' % 2
+ciskaj znak1
+ciskaj znak2
+ciskaj znak3
+ciskaj znak4
+ciskaj znak5
+ciskaj znak6

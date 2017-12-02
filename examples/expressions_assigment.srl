@@ -22,8 +22,6 @@ ciskaj dupa
 
 paľ do baru robim()
 paľ do baru tiezRobim(pejc)
-vrac mi z baru vracimDaco()
-vrac mi z baru vracimSlovo(dupa)
 
 meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
 ciskaj hodnota

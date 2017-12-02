@@ -36,9 +36,6 @@ inak
     meňak neskutočné numeralio hodnota = vrac mi z baru vracimDaco()
     ciskaj hodnota
 
-vrac mi z baru vracimSlovo(dupa)
-vrac mi z baru vracimPravdu()
-
 zrob s meňakom i od 1 do 10
     keď i % 2 == 0 potom
         meňak neskutočné numeralio x = i
