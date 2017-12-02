@@ -67,9 +67,6 @@ ciskaj dupa
 
 paľ do baru robim()
 paľ do baru tiezRobim(pejc)
-vrac mi z baru vracimDaco()
-vrac mi z baru vracimSlovo(dupa)
-vrac mi z baru vracimPravdu()
 
 meňak písmeno p = vrac mi z baru vracimPismeno()
 ciskaj p
