@@ -154,13 +154,13 @@ ciskaj test             // "tast"
 
 ### Operácie
 #### Aritmetické operácie
-Podporované sú matematické operácie medzi celými a reálnymi číslami (typ `neskutočné numeralio`, `skutočné numeralio`). Je dodržaná matematická prednosť operácií a zátvoriek.
+Podporované sú matematické operácie medzi celými, reálnymi číslami a znakmi (typ `neskutočné numeralio`, `skutočné numeralio`, `písmeno`). Je dodržaná matematická prednosť operácií a zátvoriek.
 - násobenie `*`
 - delenie `/` alebo `:`
 - ščítanie `+`
 - odčítanie `-`
-- zvyšok po delení (modulo) `%` (len pre typ `neskutočné numeralio`)
-- negácia `-` (unárna operácia)
+- zvyšok po delení (modulo) `%` (neplatí pre typ `skutočné numeralio`)
+- negácia `-` (unárna operácia, neplatí pre typ `písmeno`)
 
 ```
 bar neskutočné numeralio vracimDaco()
@@ -178,6 +178,13 @@ meňak neskutočné numeralio h = -aa
 meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
 meňak skutočné numeralio l = 1 + 1.0
+
+furt písmeno znak1 = 'A' - 'A'
+furt písmeno znak2 = 'A' + 1
+furt písmeno znak3 = 'A' + 'A'
+furt písmeno znak4 = '.' * 2
+furt písmeno znak5 = 'a' / 2
+furt písmeno znak6 = 'c' % 2
 ```
 
 #### Spájanie reťazcov
