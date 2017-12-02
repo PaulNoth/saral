@@ -136,6 +136,19 @@ ciskaj l[3]
 
 ```
 
+##### Type `slovo` as array of `písmeno`
+The type `slovo` has a special meaning in Šaral programming language. We could use it as array of characters (type `funduš písmeno`).
+We could access an index or change it to the value we want on a given index.
+(It is possible to change characters in constants - `furt slovo`. It works same as in arrays, because we change only the characters not the whole value).
+
+```
+furt slovo test = "test"
+ciskaj test[1]          // 'e'
+
+test[1] = 'a'
+ciskaj test             // "tast"
+``` 
+
 ### Operations
 #### Arithmetic operations
 There are supported mathematical operation between integers and floats (type `neskutočné numeralio`, `skutočné numeralio`) with precedence of parentheses and operations.
