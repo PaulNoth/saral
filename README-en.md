@@ -151,13 +151,13 @@ ciskaj test             // "tast"
 
 ### Operations
 #### Arithmetic operations
-There are supported mathematical operation between integers and floats (type `neskutočné numeralio`, `skutočné numeralio`) with precedence of parentheses and operations.
+There are supported mathematical operation between integers, floats and characters (type `neskutočné numeralio`, `skutočné numeralio`, `písmeno`) with precedence of parentheses and operations.
 - multiplication `*`
 - division `/` or `:`
 - addition `+`
 - substraction `-`
-- remainder (modulo) `%` (only for type `neskutočné numeralio`)
-- negation `-` (unary minus)
+- remainder (modulo) `%` (does not work for type `skutočné numeralio`)
+- negation `-` (unary minus, does not work for `písmeno`)
 
 ```
 bar neskutočné numeralio returnSomething()
@@ -175,6 +175,14 @@ meňak neskutočné numeralio h = -aa
 meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
 meňak skutočné numeralio l = 1 + 1.0
+
+furt písmeno znak1 = 'A' - 'A'
+furt písmeno znak2 = 'A' + 1
+furt písmeno znak3 = 'A' + 'A'
+furt písmeno znak4 = '.' * 2
+furt písmeno znak5 = 'a' / 2
+furt písmeno znak6 = 'c' % 2
+
 ```
 
 #### String concatenation
