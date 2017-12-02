@@ -35,23 +35,23 @@ public class ExpressionGenerator extends StatementGenerator {
 
     public void generate(Value val) {
         final Type type = val.type();
-        if(TypeResolver.isInteger(type)) {
+        if(TypeResolver.isLong(type)) {
             Long value = Long.valueOf(val.getValue());
             methodVisitor.visitLdcInsn(value);
-        } else if(type == BuiltInType.BOOLEAN) {
+        } else if(TypeResolver.isBoolean(type)) {
             String boolValue = val.getValue();
             Integer value = Logic.getFromString(boolValue).getIntValue();
             methodVisitor.visitLdcInsn(value);
         } else if(TypeResolver.isDouble(type)) {
             Double value = Double.valueOf(val.getValue());
             methodVisitor.visitLdcInsn(value);
-        } else if(type == BuiltInType.CHAR) {
+        } else if(TypeResolver.isChar(type)) {
             String stringValue = val.getValue();
             stringValue = StringUtils.removeStart(stringValue, "\'");
             stringValue = StringUtils.removeEnd(stringValue, "\'");
             Character charr = stringValue.charAt(0);
             methodVisitor.visitLdcInsn(charr);
-        } else if(type == BuiltInType.STRING) {
+        } else if(TypeResolver.isString(type)) {
             String stringValue = val.getValue();
             stringValue = StringUtils.removeStart(stringValue, "\"");
             stringValue = StringUtils.removeEnd(stringValue, "\"");
