@@ -176,12 +176,12 @@ meňak skutočné numeralio i = 1.0
 meňak skutočné numeralio j = -i
 meňak skutočné numeralio l = 1 + 1.0
 
-furt písmeno znak1 = 'A' - 'A'
-furt písmeno znak2 = 'A' + 1
-furt písmeno znak3 = 'A' + 'A'
-furt písmeno znak4 = '.' * 2
-furt písmeno znak5 = 'a' / 2
-furt písmeno znak6 = 'c' % 2
+furt písmeno char1 = 'A' - 'A'
+furt písmeno char2 = 'A' + 1
+furt písmeno char3 = 'A' + 'A'
+furt písmeno char4 = '.' * 2
+furt písmeno char5 = 'a' / 2
+furt písmeno char6 = 'c' % 2
 
 ```
 
