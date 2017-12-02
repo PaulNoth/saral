@@ -53,11 +53,15 @@ public class TypeResolver {
     }
 
     public static boolean isInteger(Type type) {
-        return type == BuiltInType.LONG;
+        return type == BuiltInType.LONG || type == BuiltInType.INT || type == BuiltInType.CHAR;
     }
 
     public static boolean isDouble(Type type) {
         return type == BuiltInType.DOUBLE;
+    }
+
+    public static boolean isLong(Type type) {
+        return type == BuiltInType.LONG;
     }
 
     public static boolean isBoolean(Type type) {
@@ -69,7 +73,7 @@ public class TypeResolver {
     }
 
     public static boolean isNumber(Type type) {
-        return isInteger(type) || isDouble(type);
+        return isDouble(type) || isLong(type);
     }
 
     public static Type getArrayTypeFromTypeName(String basicTypeName) {
