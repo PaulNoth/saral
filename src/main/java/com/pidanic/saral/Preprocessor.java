@@ -13,7 +13,7 @@ public class Preprocessor {
 
     public File preprocess(File file) throws IOException {
         List<String> lines = readLines(file);
-        Stream<String> preprocessedLines = lines.stream().map(line -> {
+        Stream<String> preprocessedLines = lines.stream().filter(line -> !line.isEmpty()).map(line -> {
             String spaces = getAllSpacesFromLineBeginning(line);
 
             int lineIndent = getIndentationCount(spaces);
