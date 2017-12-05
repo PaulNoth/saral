@@ -68,7 +68,7 @@ public class Preprocessor {
     }
 
     private Stream<String> createIndentDedent(Stream<String> lines) {
-        Stream<String> linesWithIndentation = lines.map(line -> {
+        Stream<String> linesWithIndentation = lines.filter(line -> !line.isEmpty()).map(line -> {
             String spaces = getAllSpacesFromLineBeginning(line);
 
             int lineIndent = getIndentationCount(spaces);
