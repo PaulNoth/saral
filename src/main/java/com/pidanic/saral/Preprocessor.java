@@ -1,6 +1,8 @@
 package com.pidanic.saral;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -104,8 +106,11 @@ public class Preprocessor {
             if(line.contains(INCLUDE)) {
                 int indexOfFalda = line.indexOf(INCLUDE);
                 String fileName = line.trim().substring(indexOfFalda + INCLUDE.length()).trim();
-                fileName = "include" + File.separator + fileName + ".srl";
-                return readLines(new File(fileName));
+                File fileToRead = new File("include" + File.separator + fileName + ".srl");
+                if(!fileToRead.exists()) {
+                    fileToRead = new File(fileName + ".srl");
+                }
+                return readLines(fileToRead);
             }
             else {
                 return Stream.of(line);
