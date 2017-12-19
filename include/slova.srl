@@ -1,3 +1,152 @@
-bar slovo vracA()
-    meňak slovo hodnota = "A"
-    vrac hodnota
+// Falda s barmi na spracovanie slov a konverziu základných typov na typ slovo
+// (Knižnica funkcií na prácu s reťazcami)
+// Autor: laciKE, 5.1.2014
+
+//
+// Bary na prácu s reťazcami (zisťovanie dĺžky, porovnávanie, reverz)
+//
+
+// spočíta dĺžku zadaného slova
+bar neskutočné numeralio slovo_dĺžka(slovo reťazec)
+	furt písmeno koniec = 'A' - 'A'
+	meňak neskutočné numeralio dĺžka = 0
+	kým reťazec[dĺžka] <> koniec rob
+		dĺžka = dĺžka + 1
+	vrac dĺžka
+
+// porovná dve zadané slová.
+// Porovnanie je na základe lexikografického usporiadania (porovnania znakov na prvom, druhom, ... mieste v zadaných slovách).
+// Ak sú obe slová rovnaké, vráti 0, ak je prvé slovo väčšie, vráti kladné číslo, ak je druhé slovo väčšie, vráti záporné číslo.
+// Hodnota čísla určuje pozíciu (indexovanú od 1), na ktorej sa zadané slová prvýkrát odlišujú
+bar neskutočné numeralio slová_porovnanie(slovo reťazec1, slovo reťazec2)
+	meňak neskutočné numeralio porovnanie = 0
+	meňak neskutočné numeralio dĺžka1 = vrac mi z baru slovo_dĺžka(reťazec1)
+	meňak neskutočné numeralio dĺžka2 = vrac mi z baru slovo_dĺžka(reťazec2)
+	kým (reťazec1[porovnanie] == reťazec2[porovnanie]) a (porovnanie < dĺžka1) a (porovnanie < dĺžka2) rob
+		porovnanie = porovnanie + 1
+	keď (porovnanie == dĺžka1) a (porovnanie == dĺžka2) potom
+		porovnanie = 0
+	inak
+		keď reťazec1[porovnanie] < reťazec2[porovnanie] potom
+			porovnanie = -porovnanie - 1
+		inak
+			porovnanie = porovnanie + 1
+	vrac porovnanie
+
+// zistí, či sú dve zadané slová rovnaké
+bar logický slová_rovnaké(slovo reťazec1, slovo reťazec2)
+	meňak logický rovnaké = ošaľ
+	furt neskutočné numeralio porovnanie = vrac mi z baru slová_porovnanie(reťazec1, reťazec2)
+	keď porovnanie == 0 potom
+		rovnaké = pravda
+	vrac rovnaké
+
+// vráti reverz zadaného slova (zadané slovo napísané odzadu)
+bar slovo slovo_reverz(slovo reťazec)
+	meňak slovo reverz = reťazec
+	furt neskutočné numeralio dĺžka = vrac mi z baru slovo_dĺžka(reverz)
+	furt neskutočné numeralio stred = (dĺžka + 1) / 2
+	meňak neskutočné numeralio i
+	zrob s meňakom i od 0 do stred
+		meňak písmeno p = reverz[i]
+		reverz[i] = reverz[dĺžka - 1 - i]
+		reverz[dĺžka - 1 - i] = p
+
+	vrac reverz
+
+//
+// Bary na koverziu základných typov
+//
+
+// konvertuje typ neskutočné numeralio na jeho reprezentáciu typu slovo
+bar slovo neskutočné_numeralio_ako_slovo(neskutočné numeralio číslo)
+	meňak slovo hodnota = ""
+	meňak neskutočné numeralio číslo2 = číslo
+	meňak slovo znamienko = ""
+	keď číslo == 0 potom
+		hodnota = "0"
+	inak
+		meňak neskutočné numeralio číslo2 = číslo
+		keď číslo < 0 potom
+			znamienko = "-"
+			číslo2 = -číslo
+		kým číslo2 > 0 rob
+			meňak neskutočné numeralio cifra = číslo2 % 10
+			keď cifra == 0 potom
+				hodnota = "0" + hodnota
+			keď cifra == 1 potom
+				hodnota = "1" + hodnota
+			keď cifra == 2 potom
+				hodnota = "2" + hodnota
+			keď cifra == 3 potom
+				hodnota = "3" + hodnota
+			keď cifra == 4 potom
+				hodnota = "4" + hodnota
+			keď cifra == 5 potom
+				hodnota = "5" + hodnota
+			keď cifra == 6 potom
+				hodnota = "6" + hodnota
+			keď cifra == 7 potom
+				hodnota = "7" + hodnota
+			keď cifra == 8 potom
+				hodnota = "8" + hodnota
+			keď cifra == 9 potom
+				hodnota = "9" + hodnota
+			číslo2 = číslo2 / 10
+		hodnota = znamienko + hodnota
+	vrac hodnota
+
+// konvertuje typ skutočné numeralio na jeho reprezentáciu typu slovo
+// parameter presnosť určije počet desatinných miest v slovnej reprezentácii
+bar slovo skutočné_numeralio_ako_slovo(skutočné numeralio číslo, neskutočné numeralio presnosť)
+	meňak slovo hodnota = ""
+	meňak skutočné numeralio číslo2 = číslo
+	keď číslo < 0.0 potom
+		hodnota = "-"
+		číslo2 = -číslo
+	meňak neskutočné numeralio celé_cifry = 0
+	kým ne ((číslo2 >= 0.0) a (číslo2 < 10.0)) rob
+		číslo2 = číslo2 / 10.0
+		celé_cifry = celé_cifry + 1
+	kým celé_cifry + presnosť >= 0 rob
+		keď (číslo2 >= 0.0) a (číslo2 < 1.0) potom
+			hodnota = hodnota + "0"
+		keď (číslo2 >= 1.0) a (číslo2 < 2.0) potom
+			hodnota = hodnota + "1"
+			číslo2 = číslo2 - 1.0
+		keď (číslo2 >= 2.0) a (číslo2 < 3.0) potom
+			hodnota = hodnota + "2"
+			číslo2 = číslo2 - 2.0
+		keď (číslo2 >= 3.0) a (číslo2 < 4.0) potom
+			hodnota = hodnota + "3"
+			číslo2 = číslo2 - 3.0
+		keď (číslo2 >= 4.0) a (číslo2 < 5.0) potom
+			hodnota = hodnota + "4"
+			číslo2 = číslo2 - 4.0
+		keď (číslo2 >= 5.0) a (číslo2 < 6.0) potom
+			hodnota = hodnota + "5"
+			číslo2 = číslo2 - 5.0
+		keď (číslo2 >= 6.0) a (číslo2 < 7.0) potom
+			hodnota = hodnota + "6"
+			číslo2 = číslo2 - 6.0
+		keď (číslo2 >= 7.0) a (číslo2 < 8.0) potom
+			hodnota = hodnota + "7"
+			číslo2 = číslo2 - 7.0
+		keď (číslo2 >= 8.0) a (číslo2 < 9.0) potom
+			hodnota = hodnota + "8"
+			číslo2 = číslo2 - 8.0
+		keď (číslo2 >= 9.0) a (číslo2 < 10.0) potom
+			hodnota = hodnota + "9"
+			číslo2 = číslo2 - 9.0
+		číslo2 = číslo2 * 10.0
+		keď (celé_cifry == 0) a (presnosť > 0) potom
+			hodnota = hodnota + "."
+		celé_cifry = celé_cifry - 1
+	vrac hodnota
+
+// konvertuje typ písmeno na jeho reprezentáciu typu slovo
+bar slovo písmeno_ako_slovo(písmeno znak)
+	meňak slovo hodnota = "A"
+	hodnota[0] = znak
+
+	vrac hodnota
