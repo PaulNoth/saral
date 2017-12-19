@@ -108,9 +108,9 @@ public class Preprocessor {
             if(line.contains(INCLUDE)) {
                 int indexOfFalda = line.indexOf(INCLUDE);
                 String fileName = line.trim().substring(indexOfFalda + INCLUDE.length()).trim();
-                File fileToRead = new File(getFaldaFilePath(INCLUDE_DIR, fileName));
+                File fileToRead = new File(getFaldaFilePath(relativeDir, fileName));
                 if(!fileToRead.exists()) {
-                    fileToRead = new File(getFaldaFilePath(relativeDir, fileName));
+                    fileToRead = new File(getFaldaFilePath(INCLUDE_DIR, fileName));
                 }
                 return readLines(fileToRead);
             }
