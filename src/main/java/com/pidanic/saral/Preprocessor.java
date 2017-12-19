@@ -1,8 +1,6 @@
 package com.pidanic.saral;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -11,6 +9,8 @@ public class Preprocessor {
     private static final String INDENT = "__INDENT";
     private static final String DEDENT = "__DEDENT";
     private static final String INCLUDE = "falda";
+    private static final String INCLUDE_DIR = "include";
+    private static final String DEFAULT_EXTENSION = "srl";
 
     private Stack<Integer> indents = new Stack<>();
 
@@ -19,7 +19,7 @@ public class Preprocessor {
         Stream<String> preprocessedLines = createIndentDedent(lines);
 
         Calendar now = Calendar.getInstance();
-        File temp = File.createTempFile(String.valueOf(now.getTimeInMillis()), ".srl");
+        File temp = File.createTempFile(String.valueOf(now.getTimeInMillis()), "." + DEFAULT_EXTENSION);
         BufferedWriter bos = new BufferedWriter(new FileWriter(temp));
         preprocessedLines.forEach(line -> {
             try {
@@ -39,7 +39,7 @@ public class Preprocessor {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
             List<String> allLines = bufferedReader.lines().collect(Collectors.toList());
             allLines.add("");
-            return expandIncludes(allLines.stream());
+            return expandIncludes(file, allLines.stream());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -101,14 +101,16 @@ public class Preprocessor {
         return line.substring(0, index);
     }
 
-    private Stream<String> expandIncludes(Stream<String> lines) {
+    private Stream<String> expandIncludes(File compiledFile, Stream<String> lines) {
+        String relativePath = compiledFile.getPath();
+        String relativeDir = relativePath.substring(0, relativePath.lastIndexOf(File.separator));
         return lines.flatMap(line -> {
             if(line.contains(INCLUDE)) {
                 int indexOfFalda = line.indexOf(INCLUDE);
                 String fileName = line.trim().substring(indexOfFalda + INCLUDE.length()).trim();
-                File fileToRead = new File("include" + File.separator + fileName + ".srl");
+                File fileToRead = new File(getFaldaFilePath(INCLUDE_DIR, fileName));
                 if(!fileToRead.exists()) {
-                    fileToRead = new File(fileName + ".srl");
+                    fileToRead = new File(getFaldaFilePath(relativeDir, fileName));
                 }
                 return readLines(fileToRead);
             }
@@ -116,5 +118,9 @@ public class Preprocessor {
                 return Stream.of(line);
             }
         });
+    }
+
+    private String getFaldaFilePath(String relativeDir, String fileName) {
+        return relativeDir + File.separator +  fileName + "." + DEFAULT_EXTENSION;
     }
 }
