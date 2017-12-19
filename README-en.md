@@ -492,7 +492,7 @@ bar printA()
     ciskaj value
 ```
 ```
-// vloženie "falda" a zavolanie jednej z procedúr
+// include "falda" and call one of the procedures
 meňak neskutočné numeralio five=5
 ciskaj five
 
