@@ -1,0 +1,38 @@
+meňak neskutočné numeralio pejc=5
+ciskaj pejc
+povidz pejc
+meňak slovo dupa="dupa"
+ciskaj dupa
+povidz dupa
+meňak logický p=pravda
+ciskaj p
+meňak logický o=ošaľ
+ciskaj o
+meňak logický so=skoroošaľ
+ciskaj so
+meňak skutočné numeralio cislo = 1.2
+ciskaj cislo
+meňak písmeno pis = 'a'
+ciskaj pis
+meňak neskutočné numeralio veľo=5000000000
+ciskaj veľo
+furt neskutočné numeralio pejc2=5
+ciskaj pejc2
+furt slovo dupa2="dupa"
+ciskaj dupa2
+furt logický p2=pravda
+ciskaj p2
+furt logický o2=ošaľ
+ciskaj o2
+furt logický so2=skoroošaľ
+ciskaj so2
+furt skutočné numeralio cislo2 = 1.2
+ciskaj cislo2
+furt písmeno pis2 = 'a'
+ciskaj pis2
+furt neskutočné numeralio veľo2=5000000000
+ciskaj veľo2
+
+falda slova
+
+paľ do baru vypisA()

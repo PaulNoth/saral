@@ -477,3 +477,27 @@ vežmi pole2[0]
 ```
 ### Odsadenie
 Jazyk Šaral oddeľuje bloky kódu pomocou medzier alebo tabulátorov na novom riadku (podobne ako [Python](https://www.python.org/)).
+
+
+### Falda
+Preprocessor podporuje vkladanie skladov (pomocou kľúčového slova `falda`). Sklad si môžeme predstaviť `.srl` súbor a funkcie v ňom, ktoré referencujeme a voláme v inom `.srl` súbore. Nielen z aktuálneho adresára, ale aj z adresára, ktorý dostane ako parameter (štandardne je to adresár `include`)
+
+```
+// falda "slova.srl"
+bar slovo vracA()
+    meňak slovo hodnota = "A"
+    vrac hodnota
+    
+bar vypisA()
+    meňak slovo hodnota = "A"
+    ciskaj hodnota
+```
+```
+// vloženie "falda" a zavolanie jednej z procedúr
+meňak neskutočné numeralio pejc=5
+ciskaj pejc
+
+falda slova
+
+paľ do baru vypisA()
+```

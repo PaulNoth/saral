@@ -477,3 +477,26 @@ vežmi array2[0]
 
 ### Indentation
 The Šaral language separates blocks of code with spaces or tabs on a new line (similar as [Python](https://www.python.org/)).
+
+### Falda
+It is possible to include other `.srl` files in current Šaral file, with keyword `falda`. We could include it from current folder or the `include` folder by default.
+
+```
+// falda "slova.srl"
+bar slovo returnA()
+    meňak slovo value = "A"
+    vrac value
+    
+bar printA()
+    meňak slovo value = "A"
+    ciskaj value
+```
+```
+// vloženie "falda" a zavolanie jednej z procedúr
+meňak neskutočné numeralio five=5
+ciskaj five
+
+falda slova
+
+paľ do baru printA()
+```

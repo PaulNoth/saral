@@ -1,0 +1,7 @@
+bar slovo vracA()
+    meňak slovo hodnota = "A"
+    vrac hodnota
+    
+bar vypisA()
+    meňak slovo hodnota = "A"
+    ciskaj hodnota
