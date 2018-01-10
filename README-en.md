@@ -48,7 +48,7 @@ meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
-### Constants
+### Variables and constants
 There is one type of variables (`meňak`), which value might be changed. But there exist a *constant* (`furt`), which values can not be changed.
 ```
 meňak neskutočné numeralio number = 5
@@ -459,7 +459,7 @@ vežmi nn
 // sluchaj nn
 ```
 They behave based on the variable type, we want to read to:
-- `neskutočné numeralio`, input is not allowed to contain charakter or to exceed maximum integer value [-2<sup>63</sup>; 2<sup>63</sup>-1].
+- `neskutočné numeralio`, input is not allowed to contain character or to exceed maximum integer value [-2<sup>63</sup>; 2<sup>63</sup>-1].
 - `skutočné numeralio`, needs to be in decimal format. If the input is in `neskutočné numeralio` format, it is autoamtically converted.
 - `logický`, the value `pravda` or `skoroošaľ` is read only if there is `"pravda"` or `"skoroošaľ"` as an input, otherwise `ošaľ` value is set.
 - `písmeno`, always reads 1st character regardless input length.

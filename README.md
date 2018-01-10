@@ -53,7 +53,7 @@ meňak slovo servus = "servus" // pekný pozdrav
 ciskaj servus
 ```
 
-### Konštanty
+### Premenné a konštanty
 Okrem `meňak`ov, ktorých hodnotu vieme zmeniť, poznáme ešte `furt`y, ktorým priradíme na začiatku vždy jedinú hodnotu. Pri jej zmene dostaneme chybu.
 ```
 meňak neskutočné numeralio cislo = 5
