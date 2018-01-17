@@ -149,6 +149,11 @@ test[1] = 'a'
 ciskaj test             // "tast"
 ``` 
 
+In case we access the index of character that is greater than string length, the output is *null character* (`\0`, `\u0000`) in Šaral.
+```
+ciskaj test[1]          // '\u0000'
+```
+
 ### Operations
 #### Arithmetic operations
 There are supported mathematical operation between integers, floats and characters (type `neskutočné numeralio`, `skutočné numeralio`, `písmeno`) with precedence of parentheses and operations.
