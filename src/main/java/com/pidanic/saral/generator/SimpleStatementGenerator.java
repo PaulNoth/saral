@@ -21,6 +21,8 @@ import java.util.Optional;
 
 public class SimpleStatementGenerator extends StatementGenerator {
 
+    private static final int NULL_CHAR = '\0';
+
     private interface BooleanByteValue {
         void putOnStack();
     }
@@ -52,7 +54,26 @@ public class SimpleStatementGenerator extends StatementGenerator {
             index.accept(expressionGenerator);
             if (type == BuiltInType.STRING) {
                 descriptor = "(C)V";
+                // duplicate index and reference
+                index.accept(expressionGenerator);
+                methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+
+                Label trueLabel = new Label();
+                Label endLabel = new Label();
+                methodVisitor.visitJumpInsn(Opcodes.IF_ICMPLT, trueLabel);
+
+                // throw away index
+                methodVisitor.visitInsn(Opcodes.POP);
+                // throw away reference
+                methodVisitor.visitInsn(Opcodes.POP);
+                methodVisitor.visitIntInsn(Opcodes.BIPUSH, NULL_CHAR);
+
+                methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+                methodVisitor.visitLabel(trueLabel);
+                // true label
                 methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                methodVisitor.visitLabel(endLabel);
             } else {
                 methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
                 if (type == BuiltInType.BOOLEAN_ARR) {
