@@ -154,7 +154,7 @@ ciskaj test             // "tast"
 
 V prípade, že chceme vypísať prvok reťazca, ktorý je väčší ako dĺžka reťazca, v jazyku Šaral dostaneme *prázdny znak* (`\0`, `\u0000`)
 ```
-ciskaj test[1]          // '\u0000'
+ciskaj test[6]          // '\u0000'
 ```
 
 ### Operácie

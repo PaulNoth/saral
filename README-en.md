@@ -151,7 +151,7 @@ ciskaj test             // "tast"
 
 In case we access the index of character that is greater than string length, the output is *null character* (`\0`, `\u0000`) in Šaral.
 ```
-ciskaj test[1]          // '\u0000'
+ciskaj test[6]          // '\u0000'
 ```
 
 ### Operations
