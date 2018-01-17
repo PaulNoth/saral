@@ -152,6 +152,11 @@ test[1] = 'a'
 ciskaj test             // "tast"
 ``` 
 
+V prípade, že chceme vypísať prvok reťazca, ktorý je väčší ako dĺžka reťazca, v jazyku Šaral dostaneme *prázdny znak* (`\0`, `\u0000`)
+```
+ciskaj test[6]          // '\u0000'
+```
+
 ### Operácie
 #### Aritmetické operácie
 Podporované sú matematické operácie medzi celými, reálnymi číslami a znakmi (typ `neskutočné numeralio`, `skutočné numeralio`, `písmeno`). Je dodržaná matematická prednosť operácií a zátvoriek.
