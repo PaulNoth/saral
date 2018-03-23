@@ -257,14 +257,14 @@ Výsledky kombinácie logických operácii a hodnôt zobrazujú tabuľky
 |pravda|ošaľ|
 
 ##### Operácia `abo`
-|abo| ošaľ | skoroošaľ | pravda | 
+|`abo`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|skoroošaľ|pravda|
 |**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
 |**pravda**|pravda|pravda|pravda|
 
 ##### Operácia `a`
-|a| ošaľ | skoroošaľ | pravda | 
+|`a`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|ošaľ|ošaľ|
 |**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
@@ -386,7 +386,7 @@ vrac mi z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicia
 ```
 
 ### Podmienené vykonanie časti kódu
-Ako všetky problémovo orientované jazyky aj jazyk Šaral podporuje podmienené vykonanie, tzv `if-then-else`. V terminológii Šaralu `keď-potom-inak`
+Ako všetky problémovo orientované jazyky aj jazyk Šaral podporuje podmienené vykonanie, tzv. `if-then-else`. V terminológii Šaralu `keď-potom-inak`
 
 ```
 keď 1 > 0 potom
