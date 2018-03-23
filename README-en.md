@@ -255,14 +255,14 @@ These tables show all combinations of operations and values with their results
 |pravda|ošaľ|
 
 ##### `abo` operation
-|abo| ošaľ | skoroošaľ | pravda | 
+|`abo`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|skoroošaľ|pravda|
 |**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
 |**pravda**|pravda|pravda|pravda|
 
 ##### `a` operation
-|a| ošaľ | skoroošaľ | pravda | 
+|`a`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|ošaľ|ošaľ|
 |**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
