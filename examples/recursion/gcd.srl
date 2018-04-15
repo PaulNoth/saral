@@ -1,0 +1,18 @@
+bar neskutočné numeralio gcd(neskutočné numeralio d, neskutočné numeralio b)
+    meňak neskutočné numeralio r
+    keď b == 0 potom
+        r = d
+    inak
+        meňak neskutočné numeralio c = d % b
+        r = vrac mi z baru gcd(b, c)
+    vrac r
+
+
+meňak neskutočné numeralio citatel
+vežmi citatel
+
+meňak neskutočné numeralio menovatel
+vežmi menovatel
+
+meňak neskutočné numeralio result = vrac mi z baru gcd(citatel, menovatel)
+ciskaj result
