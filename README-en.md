@@ -108,7 +108,7 @@ funduš neskutočné numeralio nn[n]
 dimenzionfunduš písmeno p[n]
 dimenzion funduš slovo s[n]
 ```
-Saral initialize each element of a array similar way JVM does (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (empty space), `slovo` - (java) `null`)
+Šaral initialize each element of a array similar way JVM does (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (empty space), `slovo` - (java) `null`)
 
 ##### Array elements
 To access individual elements in arrays, we use bracket with element index inside them. Index of an element is referenced from `0` to `array length - 1`.
@@ -240,7 +240,7 @@ meňak logický l4 = 4 < 4.1
 ```
 
 #### Logical operations
-There are 3 supported logic values in Saral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
+There are 3 supported logic values in Šaral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
 `pravda` (`true`), `ošaľ` (`false`), `skoroošaľ` (`undefined`)
 
 There are 3 corresponding logic operations
