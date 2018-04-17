@@ -56,4 +56,12 @@ public class Function extends CallableStatement {
     public Optional<ReturnStatement> getReturnStatement() {
         return Optional.ofNullable(retStatement);
     }
+
+    public void setStatements(List<Statement> newStatements) {
+        this.statements = newStatements;
+    }
+
+    public void setRetStatement(ReturnStatement newStatements) {
+        this.retStatement = newStatements;
+    }
 }

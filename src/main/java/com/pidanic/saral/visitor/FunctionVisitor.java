@@ -12,7 +12,9 @@ import com.pidanic.saral.util.StatementsHelper;
 import com.pidanic.saral.util.Type;
 import com.pidanic.saral.util.TypeResolver;
 
+import java.util.Collections;
 import java.util.List;
+
 public class FunctionVisitor extends SaralBaseVisitor<Function> {
 
     private Scope scope;
@@ -26,17 +28,27 @@ public class FunctionVisitor extends SaralBaseVisitor<Function> {
         String functionName = ctx.ID().getText();
 
         List<Argument> arguments = FunctionHelper.parseFunctionArguments(ctx.arglist(), scope);
-        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.func_block().statements(), scope);
 
         String typeName = ctx.typeBasic().getText();
         Type retType = TypeResolver.getFromTypeName(typeName);
 
+        List<Statement> emptyList = Collections.emptyList();
+        Function me = new Function(scope, functionName, arguments, emptyList, retType, null);
+
+        this.addMyselfToScope(me);
+
+        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.func_block().statements(), scope);
+        me.setStatements(allStatements);
+
         SaralParser.ExpressionContext expressionContext = ctx.func_block().ret().expression();
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
         ReturnStatement returnStatement = new ReturnStatement(expression);
+        me.setRetStatement(returnStatement);
 
-        Function function = new Function(scope, functionName, arguments, allStatements, retType, returnStatement);
+        return new Function(scope, functionName, arguments, allStatements, retType, returnStatement);
+    }
 
-        return function;
+    private void addMyselfToScope(Function me) {
+        this.scope.addFunction(me);
     }
 }
