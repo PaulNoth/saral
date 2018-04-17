@@ -1,0 +1,13 @@
+bar proc(neskutočné numeralio n)
+    keď n > 1 potom
+        meňak neskutočné numeralio n1 = n - 1
+        ciskaj n1
+        paľ do baru proc(n1)
+    inak
+        meňak slovo h = "hotovo"
+        ciskaj h
+
+meňak neskutočné numeralio nn
+vežmi nn
+
+paľ do baru proc(nn)
