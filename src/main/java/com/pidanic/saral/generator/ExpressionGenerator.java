@@ -25,6 +25,8 @@ import java.util.Optional;
 
 public class ExpressionGenerator extends StatementGenerator {
 
+    private static final int NULL_CHAR = '\0';
+
     private MethodVisitor methodVisitor;
     private Scope scope;
 
@@ -274,7 +276,26 @@ public class ExpressionGenerator extends StatementGenerator {
             Expression index = arrayRef.getIndex();
             index.accept(this);
 
+            // duplicate index and reference
+            index.accept(this);
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+
+            Label trueLabel = new Label();
+            Label endLabel = new Label();
+            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPLT, trueLabel);
+
+            // throw away index
+            methodVisitor.visitInsn(Opcodes.POP);
+            // throw away reference
+            methodVisitor.visitInsn(Opcodes.POP);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, NULL_CHAR);
+
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+            methodVisitor.visitLabel(trueLabel);
+            // true label
             methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            methodVisitor.visitLabel(endLabel);
         } else {
             int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
             methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
