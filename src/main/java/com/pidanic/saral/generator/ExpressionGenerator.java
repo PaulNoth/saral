@@ -267,14 +267,24 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(ArrayRef arrayRef) {
-        int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
-        methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+        if(arrayRef.type() == BuiltInType.STRING) {
+            int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
 
-        Expression index = arrayRef.getIndex();
-        index.accept(this);
+            Expression index = arrayRef.getIndex();
+            index.accept(this);
 
-        LocalVariable array = scope.getLocalVariable(arrayRef.name());
-        methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+        } else {
+            int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+
+            Expression index = arrayRef.getIndex();
+            index.accept(this);
+
+            LocalVariable array = scope.getLocalVariable(arrayRef.name());
+            methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+        }
     }
 
     public void generate(Concatenation concatenation) {

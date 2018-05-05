@@ -88,16 +88,20 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
 
     private Expression parseExpression(SaralParser.ExpressionContext expressionContext, Type variableType, String variableName) {
         Expression expression = expressionContext.accept(new ExpressionVisitor(scope));
-        if(variableType != expression.type()) {
-            if(variableType == BuiltInType.DOUBLE && expression.type() == BuiltInType.LONG) {
-                expression = new CastExpression(BuiltInType.DOUBLE, expression);
-            } else if(variableType == BuiltInType.INT && expression.type() == BuiltInType.LONG) {
-                expression = new CastExpression(BuiltInType.INT, expression);
+        Type expressionType = expression.type();
+        Expression result = expression;
+        if(variableType != expressionType) {
+            if(variableType == BuiltInType.DOUBLE && expressionType == BuiltInType.LONG) {
+                result = new CastExpression(BuiltInType.DOUBLE, expression);
+            } else if(variableType == BuiltInType.INT && expressionType == BuiltInType.LONG) {
+                result = new CastExpression(BuiltInType.INT, expression);
+            } else if(variableType == BuiltInType.CHAR && expressionType == BuiltInType.STRING) {
+                result = expression;
             } else if(!TypeResolver.isArray(expression.type())) {
                 throw new IncompatibleVariableTypeAssignment(scope, variableName, variableType, expression.type());
             }
         }
-        return expression;
+        return result;
     }
 
     @Override
