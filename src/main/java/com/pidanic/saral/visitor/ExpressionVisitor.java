@@ -13,8 +13,6 @@ import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.util.BuiltInType;
-import com.pidanic.saral.util.Type;
-import com.pidanic.saral.util.TypeResolver;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -88,11 +86,12 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     @Override
     public Expression visitVarArray(SaralParser.VarArrayContext ctx) {
         String varName = ctx.ID().getText();
+        LocalVariable array = scope.getLocalVariable(varName);
         Expression index = ctx.expression().accept(this);
         if(index.type() != BuiltInType.LONG) {
             throw new IncompatibleTypeArrayIndex(scope, varName, index.type());
         }
-        return new ArrayRef(varName, index.type(), index);
+        return new ArrayRef(varName, array.type(), index);
     }
 
     @Override

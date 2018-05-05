@@ -267,10 +267,12 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(ArrayRef arrayRef) {
-        Expression expression = arrayRef.getIndex();
-        expression.accept(this);
-
         int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+        methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+
+        Expression index = arrayRef.getIndex();
+        index.accept(this);
+
         LocalVariable array = scope.getLocalVariable(arrayRef.name());
         methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
     }
