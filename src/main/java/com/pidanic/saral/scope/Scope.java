@@ -1,14 +1,14 @@
 package com.pidanic.saral.scope;
 
 import com.pidanic.saral.domain.block.Function;
-import com.pidanic.saral.exception.FunctionNotFound;
 import com.pidanic.saral.exception.VariableNameAlreadyExists;
-import com.pidanic.saral.exception.VariableNotFound;
 import com.pidanic.saral.util.BuiltInType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Scope {
 
@@ -34,9 +34,9 @@ public class Scope {
         return Collections.unmodifiableList(localVariables);
     }
 
-    public void addLocalVariable(LocalVariable localVariable) {
+    public void addLocalVariable(LocalVariable localVariable) throws VariableExistsInScope{
         if(existsLocalVariable(localVariable.name())) {
-            throw new VariableNameAlreadyExists(this, localVariable.name());
+            throw new VariableExistsInScope(this, localVariable.name());
         }
         localVariables.add(localVariable);
         if(localVariable.type() == BuiltInType.LONG || localVariable.type() == BuiltInType.DOUBLE) {
@@ -48,22 +48,19 @@ public class Scope {
         return localVariables.stream().anyMatch(variable -> variable.name().equals(variableName));
     }
 
-    public LocalVariable getLocalVariable(String varName) {
+    public Optional<LocalVariable> getLocalVariable(String varName) {
         return localVariables.stream()
                 .filter(variable -> variable.name().equals(varName))
-                .findFirst()
-                .orElseThrow(() -> new VariableNotFound(this, varName));
+                .findFirst();
     }
 
     public int getLocalVariableIndex(String varName) {
-        LocalVariable localVariable = getLocalVariable(varName);
-        return localVariables.indexOf(localVariable);
+        return localVariables.stream().map(LocalVariable::name).collect(Collectors.toList()).indexOf(varName);
     }
 
-    public Function getFunction(String functionName) {
+    public Optional<Function> getFunction(String functionName) {
         return functions.stream().filter(proc -> proc.getName().equals(functionName))
-                .findFirst()
-                .orElseThrow(() -> new FunctionNotFound(this, functionName));
+                .findFirst();
     }
 
     public String getClassName() {
@@ -82,7 +79,7 @@ public class Scope {
     }
 
     public LocalVariable initializeLocalVariable(String name) {
-        LocalVariable localVariable = getLocalVariable(name);
+        LocalVariable localVariable = getLocalVariable(name).get();
         int index = getLocalVariableIndex(name);
         LocalVariable initializedLocalVar = localVariable.initialize();
         this.localVariables.set(index, initializedLocalVar);
