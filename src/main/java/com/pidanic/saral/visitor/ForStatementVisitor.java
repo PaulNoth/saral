@@ -5,6 +5,7 @@ import com.pidanic.saral.domain.block.ForStatement;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.EmptyForStatementBlock;
 import com.pidanic.saral.exception.IncompatibleTypeForStatement;
+import com.pidanic.saral.exception.VariableNameAlreadyExists;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.LocalVariable;
@@ -40,7 +41,10 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
         }
 
         LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG, true);
-        // TODO here recheck if already in scope
+
+        if(scope.existsLocalVariable(localVar.name())) {
+            throw new VariableNameAlreadyExists(scope, localVar.name());
+        }
         scope.addLocalVariable(localVar);
         VariableDeclaration var = new VariableDeclaration(varName, from);
 
@@ -49,5 +53,6 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
             throw new EmptyForStatementBlock(scope);
         }
         return new ForStatement(scope, var, from, to, block);
+
     }
 }

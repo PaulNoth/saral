@@ -5,6 +5,7 @@ import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.expression.Expression;
 import com.pidanic.saral.exception.ConstantAssignmentNotAllowed;
 import com.pidanic.saral.exception.FunctionCallNotFound;
+import com.pidanic.saral.exception.VariableNotFound;
 import com.pidanic.saral.exception.VariableNotInitialized;
 import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.LocalVariableArrayIndex;
@@ -367,7 +368,11 @@ public class SimpleStatementGenerator extends StatementGenerator {
         if (expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
             if (assignment instanceof ArrayAssignment) {
-                LocalVariable localArray = scope.getLocalVariable(variableName);
+                Optional<LocalVariable> localArrayOption = scope.getLocalVariable(variableName);
+                if (!localArrayOption.isPresent()) {
+                    throw new VariableNotFound(scope, variableName);
+                }
+                LocalVariable localArray = localArrayOption.get();
                 if (TypeResolver.isString(localArray.type())) {
                     this.generateStringFromConcatenatedSubstrings(assignment, expression, variableId);
                 } else {
