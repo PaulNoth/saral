@@ -3,6 +3,7 @@ package com.pidanic.saral.generator;
 import com.pidanic.saral.domain.block.Argument;
 import com.pidanic.saral.domain.CalledArgument;
 import com.pidanic.saral.domain.expression.string.Concatenation;
+import com.pidanic.saral.exception.VariableNotFound;
 import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.cast.CastExpression;
@@ -62,8 +63,12 @@ public class ExpressionGenerator extends StatementGenerator {
     public void generate(VariableRef varRef) {
         String varName = varRef.name();
         int index = scope.getLocalVariableIndex(varName);
-        LocalVariable localVariable = scope.getLocalVariable(varName);
-        Type type = localVariable.type();
+
+        Optional<LocalVariable> localVariable = scope.getLocalVariable(varName);
+        if(!localVariable.isPresent()) {
+            throw new VariableNotFound(scope, varName);
+        }
+        Type type = localVariable.get().type();
         methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getLoad(), index);
     }
 
@@ -271,8 +276,11 @@ public class ExpressionGenerator extends StatementGenerator {
         expression.accept(this);
 
         int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
-        LocalVariable array = scope.getLocalVariable(arrayRef.name());
-        methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+        Optional<LocalVariable> array = scope.getLocalVariable(arrayRef.name());
+        if(!array.isPresent()) {
+            throw new VariableNotFound(scope, arrayRef.name());
+        }
+        methodVisitor.visitInsn(array.get().type().getTypeSpecificOpcode().getLoad());
     }
 
     public void generate(Concatenation concatenation) {
