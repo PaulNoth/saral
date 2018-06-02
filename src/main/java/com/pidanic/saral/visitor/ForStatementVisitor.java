@@ -41,18 +41,18 @@ public class ForStatementVisitor extends SaralBaseVisitor<ForStatement> {
         }
 
         LocalVariable localVar = new LocalVariable(varName, BuiltInType.LONG, true);
-        try {
-            scope.addLocalVariable(localVar);
-            VariableDeclaration var = new VariableDeclaration(varName, from);
 
-            List<Statement> block = StatementsHelper.parseStatements(ctx.block().statements(),scope);
-            if(block.isEmpty()) {
-                throw new EmptyForStatementBlock(scope);
-            }
-            return new ForStatement(scope, var, from, to, block);
-        } catch (VariableNameAlreadyExists e) {
-            throw e;
+        if(scope.existsLocalVariable(localVar.name())) {
+            throw new VariableNameAlreadyExists(scope, localVar.name());
         }
+        scope.addLocalVariable(localVar);
+        VariableDeclaration var = new VariableDeclaration(varName, from);
+
+        List<Statement> block = StatementsHelper.parseStatements(ctx.block().statements(),scope);
+        if(block.isEmpty()) {
+            throw new EmptyForStatementBlock(scope);
+        }
+        return new ForStatement(scope, var, from, to, block);
 
     }
 }

@@ -34,10 +34,7 @@ public class Scope {
         return Collections.unmodifiableList(localVariables);
     }
 
-    public void addLocalVariable(LocalVariable localVariable) throws VariableExistsInScope{
-        if(existsLocalVariable(localVariable.name())) {
-            throw new VariableExistsInScope(this, localVariable.name());
-        }
+    public void addLocalVariable(LocalVariable localVariable) {
         localVariables.add(localVariable);
         if(localVariable.type() == BuiltInType.LONG || localVariable.type() == BuiltInType.DOUBLE) {
             localVariables.add(EMPTY);

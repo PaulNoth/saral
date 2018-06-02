@@ -19,6 +19,7 @@ import com.pidanic.saral.util.TypeResolver;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
@@ -43,7 +44,12 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = varContext.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).name();
 
-        LocalVariable localVariable = scope.getLocalVariable(varName);
+        Optional<LocalVariable> localVariableOption = scope.getLocalVariable(varName);
+        if(!localVariableOption.isPresent()) {
+            throw new VariableNotFound(scope, varName);
+        }
+        LocalVariable localVariable = localVariableOption.get();
+
         LocalVariable var;
         if(varRef instanceof ArrayRef) {
             var = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
@@ -66,6 +72,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = parseExpression(expressionContext, variableType, variableName);
 
+        if(scope.existsLocalVariable(variableName)) {
+            throw new VariableNameAlreadyExists(scope, variableName);
+        }
         LocalVariable var = new LocalVariable(variableName, variableType, true);
         scope.addLocalVariable(var);
         return new VariableDeclaration(varName.getText(), expression);
@@ -81,6 +90,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         SaralParser.ExpressionContext expressionContext = ctx.expression();
         Expression expression = parseExpression(expressionContext, variableType, variableName);
 
+        if(scope.existsLocalVariable(variableName)) {
+            throw new VariableNameAlreadyExists(scope, variableName);
+        }
         LocalConstant var = new LocalConstant(variableName, variableType);
         scope.addLocalVariable(var);
         return new ConstantDeclaration(varName.getText(), expression);
@@ -112,9 +124,12 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
                 .map(param -> param.accept(new CalledArgumentVisitor(scope)))
                 .collect(Collectors.toList());
 
-        Function proc = scope.getFunction(functionName);
+        Optional<Function> proc = scope.getFunction(functionName);
+        if(!proc.isPresent()) {
+            throw new FunctionNotFound(scope, functionName);
+        }
 
-        return new ProcedureCall(proc, args);
+        return new ProcedureCall(proc.get(), args);
     }
 
     @Override
@@ -122,9 +137,13 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         TerminalNode varName = ctx.ID();
         String varType = ctx.type().typeBasic().getText();
         Type type = TypeResolver.getFromTypeName(varType);
-        LocalVariable var = new LocalVariable(varName.getText(), type, false);
+        String variableName = varName.getText();
+        if(scope.existsLocalVariable(variableName)) {
+            throw new VariableNameAlreadyExists(scope, variableName);
+        }
+        LocalVariable var = new LocalVariable(variableName, type, false);
         scope.addLocalVariable(var);
-        return new VariableDeclaration(varName.getText());
+        return new VariableDeclaration(variableName);
     }
 
     @Override
@@ -136,10 +155,12 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         } else {
             varName = ((VariableRef) varRef).name();
         }
-        LocalVariable var = scope.getLocalVariable(varName);
-        if(var == null) {
+        Optional<LocalVariable> varOption = scope.getLocalVariable(varName);
+        if(!varOption.isPresent()) {
             throw new VariableNotFound(scope, varName);
         }
+
+        LocalVariable var = varOption.get();
         if(var.isConstant() && !(varRef instanceof ArrayRef) && var.type() != BuiltInType.STRING) {
             throw new ConstantAssignmentNotAllowed(scope, varName);
         }
@@ -164,6 +185,9 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         if(arrayLength.type() != BuiltInType.LONG) {
             throw new IncompatibleTypeArrayLength(scope, varName, arrayLength.type());
         }
+        if(scope.existsLocalVariable(varName)) {
+            throw new VariableNameAlreadyExists(scope, varName);
+        }
         LocalVariable var = new LocalVariable(varName, arrayType, true);
         scope.addLocalVariable(var);
         return new ArrayDeclaration(varName, arrayType, arrayLength);
@@ -183,7 +207,11 @@ public class SimpleStatementVisitor extends SaralBaseVisitor<SimpleStatement> {
         Expression varRef = ctx.accept(new ExpressionVisitor(scope));
         String varName = ((VariableRef) varRef).name();
 
-        LocalVariable localVariable = scope.getLocalVariable(varName);
+        Optional<LocalVariable> localVariableOption = scope.getLocalVariable(varName);
+        if(!localVariableOption.isPresent()) {
+            throw new VariableNotFound(scope, varName);
+        }
+        LocalVariable localVariable = localVariableOption.get();
         LocalVariable initializedLocalVariable;
         if(varRef instanceof ArrayRef) {
             initializedLocalVariable = new LocalVariableArrayIndex(localVariable.name(), localVariable.type(), localVariable.isInitialized(), ((ArrayRef) varRef).getIndex());
