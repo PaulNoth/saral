@@ -5,7 +5,7 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
 public class ByteCodeGenerator {
-    private static final int CLASS_VERSION = 52;
+    private static final int CLASS_VERSION = 54;
 
     public byte[] generateByteCode(Init compilationUnit) {
         String name = compilationUnit.getScope().getClassName();
