@@ -93,7 +93,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             }
         }
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                "Ljava/io/PrintStream;", "println", descriptor, false);
+                "java/io/PrintStream", "println", descriptor, false);
     }
 
     public void generate(ReadStatement readStatement) {
