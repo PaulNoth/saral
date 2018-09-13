@@ -11,7 +11,7 @@ Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť t
 *Nie sú ešte podporované všetky funkcie jazyka. Kompletná špecifikácia [tu](https://github.com/laciKE/saral/blob/master/specifikacia.md)*
 
 ### Java a Javac kompatibilita
-Preklad do JVM je pre verziu Java 8.
+Preklad do JVM je pre verziu Java 10.
 
 ### Kompilátor
 Na spustenie Šaral kompilátora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/).
