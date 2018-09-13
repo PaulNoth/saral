@@ -114,7 +114,7 @@ dimenzion funduš slovo s[n]
 Prvky polí sú na začiatku inicializované na hodnoty, ktoré predpisuje aj JVM (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (prázdny znak/medzera), `slovo` - (java) `null`)
 
 ##### Prvky poľa
-K prvkom poľa pristupujeme cez hranaté zátvory, v ktorých určíme index prvku. Prvky polí sú číslované od `0` po `dĺžka poľa - 1`
+K prvkom poľa pristupujeme cez hranaté zátvorky, v ktorých určíme index prvku. Prvky polí sú číslované od `0` po `dĺžka poľa - 1`
 ```
 l[1] = pravda
 l[2] = skoroošaľ
