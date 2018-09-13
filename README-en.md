@@ -7,7 +7,7 @@
 *Not all features all currently supported. Full specification [here](specification.md)*
 
 ### Java a Javac compatibility
-Compiles to Java 8.
+Compiles to Java 10 bytecode.
 
 ### Compiler
 We need to have [`maven`](https://maven.apache.org/) installed.

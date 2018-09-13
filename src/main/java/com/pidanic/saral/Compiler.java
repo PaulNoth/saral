@@ -2,7 +2,6 @@ package com.pidanic.saral;
 
 import com.pidanic.saral.domain.Init;
 import com.pidanic.saral.generator.ByteCodeGenerator;
-import org.objectweb.asm.Type;
 
 import java.io.*;
 import java.nio.file.Files;
