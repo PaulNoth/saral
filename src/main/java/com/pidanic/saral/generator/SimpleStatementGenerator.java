@@ -58,7 +58,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 // duplicate index and reference
                 index.accept(expressionGenerator);
                 methodVisitor.visitVarInsn(Opcodes.ALOAD, variableId);
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I", false);
 
                 Label trueLabel = new Label();
                 Label endLabel = new Label();
@@ -73,7 +73,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
                 methodVisitor.visitLabel(trueLabel);
                 // true label
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "charAt", "(I)C", false);
                 methodVisitor.visitLabel(endLabel);
             } else {
                 methodVisitor.visitInsn(type.getTypeSpecificOpcode().getLoad());
@@ -93,7 +93,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             }
         }
         methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
-                "Ljava/io/PrintStream;", "println", descriptor, false);
+                "java/io/PrintStream", "println", descriptor, false);
     }
 
     public void generate(ReadStatement readStatement) {
@@ -121,7 +121,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 int booleanTempIndex = scope.getLocalVariableIndex(tempVarName);
 
                 methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner",
                         getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
 
                 Label endLabel = new Label();
@@ -132,7 +132,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitInsn(Opcodes.DUP);
 
                 methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I", false);
                 methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
                 methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
                 methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
@@ -140,7 +140,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitLabel(skoroosalLabel);
                 methodVisitor.visitInsn(Opcodes.DUP);
                 methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I", false);
 
                 methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
                 methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
@@ -168,19 +168,19 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 index.accept(expressionGenerator);
 
                 methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner",
                         getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
 
                 if (variableType == BuiltInType.CHAR_ARR) {
                     methodVisitor.visitInsn(Opcodes.ICONST_0);
-                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                    methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "charAt", "(I)C", false);
                 }
             }
 
             methodVisitor.visitInsn(variableType.getTypeSpecificOpcode().getStore());
         } else {
             methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;",
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner",
                     getScannerMethod(variableType), getScannerMethodReturnDescriptor(variableType), false);
 
             if (TypeResolver.isBoolean(variableType)) {
@@ -192,7 +192,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitInsn(Opcodes.DUP);
 
                 methodVisitor.visitLdcInsn(Logic.PRAVDA.getStringValue());
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I", false);
                 methodVisitor.visitJumpInsn(Opcodes.IFNE, skoroosalLabel);
                 methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.PRAVDA.getIntValue());
                 methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
@@ -200,7 +200,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
                 methodVisitor.visitLabel(skoroosalLabel);
                 methodVisitor.visitInsn(Opcodes.DUP);
                 methodVisitor.visitLdcInsn(Logic.SKOROOSAL.getStringValue());
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "compareTo", "(Ljava/lang/String;)I", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "compareTo", "(Ljava/lang/String;)I", false);
 
                 methodVisitor.visitJumpInsn(Opcodes.IFNE, osalLabel);
                 methodVisitor.visitIntInsn(Opcodes.BIPUSH, Logic.SKOROOSAL.getIntValue());
@@ -213,7 +213,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
             }
             if (TypeResolver.isChar(variableType)) {
                 methodVisitor.visitInsn(Opcodes.ICONST_0);
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "charAt", "(I)C", false);
             }
             methodVisitor.visitVarInsn(variableType.getTypeSpecificOpcode().getStore(), variableId);
         }
@@ -224,13 +224,13 @@ public class SimpleStatementGenerator extends StatementGenerator {
         scope.addLocalVariable(scanner);
 
         int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
-        methodVisitor.visitTypeInsn(Opcodes.NEW, "Ljava/util/Scanner;");
+        methodVisitor.visitTypeInsn(Opcodes.NEW, "java/util/Scanner");
 
         methodVisitor.visitVarInsn(Opcodes.ASTORE, systemInIndex);
 
         methodVisitor.visitVarInsn(Opcodes.ALOAD, systemInIndex);
         methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "java/lang/System", "in", "Ljava/io/InputStream;");
-        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Scanner;", "<init>", "(Ljava/io/InputStream;)V", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "java/util/Scanner", "<init>", "(Ljava/io/InputStream;)V", false);
     }
 
     private String getScannerMethod(Type variableType) {
@@ -400,14 +400,14 @@ public class SimpleStatementGenerator extends StatementGenerator {
 
         methodVisitor.visitInsn(Opcodes.ICONST_0);
         ((ArrayAssignment) arrayAssignment).getIndex().accept(expressionGenerator);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "substring", "(II)Ljava/lang/String;", false);
 
         // add char and convert it to string
         expression.accept(expressionGenerator);
         methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC, "java/lang/String", "valueOf", "(C)Ljava/lang/String;", false);
 
         // concat char with first substring
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
 
         // add substring parameters index + 1, string.length value
         methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
@@ -416,12 +416,12 @@ public class SimpleStatementGenerator extends StatementGenerator {
         methodVisitor.visitInsn(Opcodes.ICONST_1);
         methodVisitor.visitInsn(Opcodes.IADD);
         methodVisitor.visitVarInsn(BuiltInType.STRING.getTypeSpecificOpcode().getLoad(), variableId);
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I", false);
 
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "substring", "(II)Ljava/lang/String;", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "substring", "(II)Ljava/lang/String;", false);
 
         //concat concated string with above substring
-        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
+        methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "concat", "(Ljava/lang/String;)Ljava/lang/String;", false);
 
         // store it into var
         methodVisitor.visitVarInsn(Opcodes.ASTORE, variableId);
@@ -432,7 +432,7 @@ public class SimpleStatementGenerator extends StatementGenerator {
         Expression arrayLength = array.getLength();
         arrayLength.accept(expressionGenerator);
         if(arrayType == BuiltInType.STRING_ARR) {
-            methodVisitor.visitTypeInsn(arrayType.getTypeSpecificOpcode().getNew(), "Ljava/lang/String;");
+            methodVisitor.visitTypeInsn(arrayType.getTypeSpecificOpcode().getNew(), "java/lang/String");
         } else {
             methodVisitor.visitIntInsn(arrayType.getTypeSpecificOpcode().getNew(), arrayType.getTypeSpecificOpcode().getAsmType());
         }
