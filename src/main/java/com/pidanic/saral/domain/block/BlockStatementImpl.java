@@ -6,7 +6,7 @@ abstract class BlockStatementImpl implements BlockStatement {
     private Scope scope;
 
     BlockStatementImpl(Scope scope) {
-        this.scope = new Scope(scope);
+        this.scope = scope;
     }
 
     public Scope getScope() {
