@@ -26,6 +26,8 @@ import java.util.Optional;
 
 public class ExpressionGenerator extends StatementGenerator {
 
+    private static final int NULL_CHAR = '\0';
+
     private MethodVisitor methodVisitor;
     private Scope scope;
 
@@ -151,9 +153,12 @@ public class ExpressionGenerator extends StatementGenerator {
         Sign compareSign = expression.getSign();
         Label endLabel = new Label();
         Label falseLabel = new Label();
-        if (expression.getLeft().type() == BuiltInType.LONG) {
+        Type leftExpressionType = expression.getLeft().type();
+        if(leftExpressionType == BuiltInType.STRING || leftExpressionType == BuiltInType.CHAR) {
+            methodVisitor.visitInsn(Opcodes.ISUB);
+        } else if (leftExpressionType == BuiltInType.LONG) {
             methodVisitor.visitInsn(Opcodes.LCMP);
-        } else if (expression.getLeft().type() == BuiltInType.DOUBLE) {
+        } else if (leftExpressionType == BuiltInType.DOUBLE) {
             methodVisitor.visitInsn(Opcodes.DCMPG);
         }
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
@@ -272,15 +277,47 @@ public class ExpressionGenerator extends StatementGenerator {
     }
 
     public void generate(ArrayRef arrayRef) {
-        Expression expression = arrayRef.getIndex();
-        expression.accept(this);
+        if(arrayRef.type() == BuiltInType.STRING) {
+            int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
 
-        int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
-        Optional<LocalVariable> array = scope.getLocalVariable(arrayRef.name());
-        if(!array.isPresent()) {
-            throw new VariableNotFound(scope, arrayRef.name());
+            Expression index = arrayRef.getIndex();
+            index.accept(this);
+
+            // duplicate index and reference
+            index.accept(this);
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I", false);
+
+            Label trueLabel = new Label();
+            Label endLabel = new Label();
+            methodVisitor.visitJumpInsn(Opcodes.IF_ICMPLT, trueLabel);
+
+            // throw away index
+            methodVisitor.visitInsn(Opcodes.POP);
+            // throw away reference
+            methodVisitor.visitInsn(Opcodes.POP);
+            methodVisitor.visitIntInsn(Opcodes.BIPUSH, NULL_CHAR);
+
+            methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
+            methodVisitor.visitLabel(trueLabel);
+            // true label
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "charAt", "(I)C", false);
+            methodVisitor.visitLabel(endLabel);
+        } else {
+            int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            Optional<LocalVariable> array = scope.getLocalVariable(arrayRef.name());
+            if(!array.isPresent()) {
+                throw new VariableNotFound(scope, arrayRef.name());
+            }
+
+            methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
+
+            Expression index = arrayRef.getIndex();
+            index.accept(this);
+
+            methodVisitor.visitInsn(array.get().type().getTypeSpecificOpcode().getLoad());
         }
-        methodVisitor.visitInsn(array.get().type().getTypeSpecificOpcode().getLoad());
     }
 
     public void generate(Concatenation concatenation) {

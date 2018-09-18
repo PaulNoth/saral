@@ -299,12 +299,15 @@ public class SimpleStatementGenerator extends StatementGenerator {
     public void generate(VariableDeclaration variableDeclaration) {
         final String variableName = variableDeclaration.getName();
         final int variableId = scope.getLocalVariableIndex(variableName);
+        final Optional<LocalVariable> var = scope.getLocalVariable(variableName);
+        if(!var.isPresent()) {
+            throw new VariableNotFound(scope, variableName);
+        }
         final Optional<Expression> expressionOption = variableDeclaration.getExpression();
         if (expressionOption.isPresent()) {
             Expression expression = expressionOption.get();
             expression.accept(expressionGenerator);
-            final Type type = expression.type();
-            methodVisitor.visitVarInsn(type.getTypeSpecificOpcode().getStore(), variableId);
+            methodVisitor.visitVarInsn(var.get().type().getTypeSpecificOpcode().getStore(), variableId);
         }
     }
 

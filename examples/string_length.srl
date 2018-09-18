@@ -1,0 +1,10 @@
+bar neskutočné numeralio slovo_dĺžka(slovo reťazec)
+	furt písmeno koniec = 'A' - 'A'
+	meňak neskutočné numeralio dĺžka = 0
+	kým reťazec[dĺžka] <> koniec rob
+		dĺžka = dĺžka + 1
+	vrac dĺžka
+
+furt slovo dupa="dupa"
+furt neskutočné numeralio d = vrac mi z baru slovo_dĺžka(dupa)
+ciskaj d

@@ -15,8 +15,6 @@ import com.pidanic.saral.scope.LocalVariable;
 import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.util.BuiltInType;
-import com.pidanic.saral.util.Type;
-import com.pidanic.saral.util.TypeResolver;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,13 +50,7 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
 
     @Override
     public Expression visitValVar(SaralParser.ValVarContext ctx) {
-        String varName = ctx.var().getText();
-        Optional<LocalVariable> localVariable = scope.getLocalVariable(varName);
-        if(localVariable.isPresent()) {
-            return new VariableRef(varName, localVariable.get().type());
-        } else {
-            throw new VariableNotFound(scope, varName);
-        }
+        return visitChildren(ctx);
     }
 
     @Override
@@ -91,12 +83,6 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
         return new Value(BuiltInType.BOOLEAN, value);
     }
 
-    private Expression visitValue(SaralParser.ValContext ctx) {
-        String value = ctx.getText();
-        Type type = TypeResolver.getFromValue(ctx.getText());
-        return new Value(type, value);
-    }
-
     @Override
     public Expression visitVarID(SaralParser.VarIDContext ctx) {
         String varName = ctx.ID().getText();
@@ -111,11 +97,15 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     @Override
     public Expression visitVarArray(SaralParser.VarArrayContext ctx) {
         String varName = ctx.ID().getText();
+        Optional<LocalVariable> array = scope.getLocalVariable(varName);
+        if(!array.isPresent()) {
+            throw new VariableNotFound(scope, varName);
+        }
         Expression index = ctx.expression().accept(this);
         if(index.type() != BuiltInType.LONG) {
             throw new IncompatibleTypeArrayIndex(scope, varName, index.type());
         }
-        return new ArrayRef(varName, index.type(), index);
+        return new ArrayRef(varName, array.get().type(), index);
     }
 
     @Override
