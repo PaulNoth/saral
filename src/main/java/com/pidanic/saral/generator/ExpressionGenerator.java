@@ -306,13 +306,17 @@ public class ExpressionGenerator extends StatementGenerator {
             methodVisitor.visitLabel(endLabel);
         } else {
             int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            Optional<LocalVariable> array = scope.getLocalVariable(arrayRef.name());
+            if(!array.isPresent()) {
+                throw new VariableNotFound(scope, arrayRef.name());
+            }
+
             methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
 
             Expression index = arrayRef.getIndex();
             index.accept(this);
 
-            LocalVariable array = scope.getLocalVariable(arrayRef.name());
-            methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+            methodVisitor.visitInsn(array.get().type().getTypeSpecificOpcode().getLoad());
         }
     }
 
