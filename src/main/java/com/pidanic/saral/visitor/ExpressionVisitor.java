@@ -97,12 +97,15 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     @Override
     public Expression visitVarArray(SaralParser.VarArrayContext ctx) {
         String varName = ctx.ID().getText();
-        LocalVariable array = scope.getLocalVariable(varName);
+        Optional<LocalVariable> array = scope.getLocalVariable(varName);
+        if(!array.isPresent()) {
+            throw new VariableNotFound(scope, varName);
+        }
         Expression index = ctx.expression().accept(this);
         if(index.type() != BuiltInType.LONG) {
             throw new IncompatibleTypeArrayIndex(scope, varName, index.type());
         }
-        return new ArrayRef(varName, array.type(), index);
+        return new ArrayRef(varName, array.get().type(), index);
     }
 
     @Override

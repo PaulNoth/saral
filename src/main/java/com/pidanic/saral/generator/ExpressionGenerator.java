@@ -287,7 +287,7 @@ public class ExpressionGenerator extends StatementGenerator {
             // duplicate index and reference
             index.accept(this);
             methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "length", "()I", false);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "length", "()I", false);
 
             Label trueLabel = new Label();
             Label endLabel = new Label();
@@ -302,17 +302,21 @@ public class ExpressionGenerator extends StatementGenerator {
             methodVisitor.visitJumpInsn(Opcodes.GOTO, endLabel);
             methodVisitor.visitLabel(trueLabel);
             // true label
-            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/lang/String;", "charAt", "(I)C", false);
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/String", "charAt", "(I)C", false);
             methodVisitor.visitLabel(endLabel);
         } else {
             int arrayIndex = scope.getLocalVariableIndex(arrayRef.name());
+            Optional<LocalVariable> array = scope.getLocalVariable(arrayRef.name());
+            if(!array.isPresent()) {
+                throw new VariableNotFound(scope, arrayRef.name());
+            }
+
             methodVisitor.visitVarInsn(Opcodes.ALOAD, arrayIndex);
 
             Expression index = arrayRef.getIndex();
             index.accept(this);
 
-            LocalVariable array = scope.getLocalVariable(arrayRef.name());
-            methodVisitor.visitInsn(array.type().getTypeSpecificOpcode().getLoad());
+            methodVisitor.visitInsn(array.get().type().getTypeSpecificOpcode().getLoad());
         }
     }
 
