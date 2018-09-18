@@ -6,7 +6,9 @@ import com.pidanic.saral.domain.expression.*;
 import com.pidanic.saral.domain.expression.logic.*;
 import com.pidanic.saral.domain.expression.math.*;
 import com.pidanic.saral.domain.expression.string.Concatenation;
+import com.pidanic.saral.exception.FunctionNotFound;
 import com.pidanic.saral.exception.IncompatibleTypeArrayIndex;
+import com.pidanic.saral.exception.VariableNotFound;
 import com.pidanic.saral.grammar.SaralBaseVisitor;
 import com.pidanic.saral.grammar.SaralParser;
 import com.pidanic.saral.scope.LocalVariable;
@@ -15,6 +17,7 @@ import com.pidanic.saral.domain.expression.math.CompareSign;
 import com.pidanic.saral.util.BuiltInType;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
@@ -36,9 +39,13 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
                 .map(param -> param.accept(new CalledArgumentVisitor(scope)))
                 .collect(Collectors.toList());
 
-        Function proc = scope.getFunction(functionName);
+        Optional<Function> function = scope.getFunction(functionName);
+        if(function.isPresent()) {
+            return new FunctionCall(function.get(), args);
+        } else {
+            throw new FunctionNotFound(scope, functionName);
+        }
 
-        return new FunctionCall(proc, args);
     }
 
     @Override
@@ -79,8 +86,12 @@ public class ExpressionVisitor extends SaralBaseVisitor<Expression> {
     @Override
     public Expression visitVarID(SaralParser.VarIDContext ctx) {
         String varName = ctx.ID().getText();
-        LocalVariable localVariable = scope.getLocalVariable(varName);
-        return new VariableRef(varName, localVariable.type());
+        Optional<LocalVariable> localVariable = scope.getLocalVariable(varName);
+        if(localVariable.isPresent()) {
+            return new VariableRef(varName, localVariable.get().type());
+        } else {
+            throw new VariableNotFound(scope, varName);
+        }
     }
 
     @Override

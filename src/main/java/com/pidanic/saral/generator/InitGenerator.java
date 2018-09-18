@@ -62,7 +62,7 @@ public class InitGenerator {
         if(scope.existsLocalVariable(LocalVariable.SYSTEM_IN)) {
             int systemInIndex = scope.getLocalVariableIndex(LocalVariable.SYSTEM_IN);
             mv.visitVarInsn(Opcodes.ALOAD, systemInIndex);
-            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "Ljava/util/Scanner;", "close", "()V", false);
+            mv.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/util/Scanner", "close", "()V", false);
         }
     }
 }

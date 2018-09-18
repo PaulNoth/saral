@@ -10,6 +10,8 @@ Už od prvých pokusov šarišsko-americkej firmy IBM tu bola potreba spraviť t
 
 *Nie sú ešte podporované všetky funkcie jazyka. Kompletná špecifikácia [tu](https://github.com/laciKE/saral/blob/master/specifikacia.md)*
 
+### Java a Javac kompatibilita
+Preklad do JVM je pre verziu Java 10.
 
 ### Kompilátor
 Na spustenie Šaral kompilátora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/).
@@ -53,7 +55,7 @@ meňak slovo servus = "servus" // pekný pozdrav
 ciskaj servus
 ```
 
-### Konštanty
+### Premenné a konštanty
 Okrem `meňak`ov, ktorých hodnotu vieme zmeniť, poznáme ešte `furt`y, ktorým priradíme na začiatku vždy jedinú hodnotu. Pri jej zmene dostaneme chybu.
 ```
 meňak neskutočné numeralio cislo = 5
@@ -112,7 +114,7 @@ dimenzion funduš slovo s[n]
 Prvky polí sú na začiatku inicializované na hodnoty, ktoré predpisuje aj JVM (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (prázdny znak/medzera), `slovo` - (java) `null`)
 
 ##### Prvky poľa
-K prvkom poľa pristupujeme cez hranaté zátvory, v ktorých určíme index prvku. Prvky polí sú číslované od `0` po `dĺžka poľa - 1`
+K prvkom poľa pristupujeme cez hranaté zátvorky, v ktorých určíme index prvku. Prvky polí sú číslované od `0` po `dĺžka poľa - 1`
 ```
 l[1] = pravda
 l[2] = skoroošaľ
@@ -151,6 +153,11 @@ ciskaj test[1]          // 'e'
 test[1] = 'a'
 ciskaj test             // "tast"
 ``` 
+
+V prípade, že chceme vypísať prvok reťazca, ktorý je väčší ako dĺžka reťazca, v jazyku Šaral dostaneme *prázdny znak* (`\0`, `\u0000`)
+```
+ciskaj test[6]          // '\u0000'
+```
 
 ### Operácie
 #### Aritmetické operácie
@@ -252,14 +259,14 @@ Výsledky kombinácie logických operácii a hodnôt zobrazujú tabuľky
 |pravda|ošaľ|
 
 ##### Operácia `abo`
-|abo| ošaľ | skoroošaľ | pravda | 
+|`abo`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|skoroošaľ|pravda|
 |**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
 |**pravda**|pravda|pravda|pravda|
 
 ##### Operácia `a`
-|a| ošaľ | skoroošaľ | pravda | 
+|`a`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|ošaľ|ošaľ|
 |**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
@@ -381,7 +388,7 @@ vrac mi z baru vracimSlovo(dupa) // vráti chybu, lebo meňak dupa nie je inicia
 ```
 
 ### Podmienené vykonanie časti kódu
-Ako všetky problémovo orientované jazyky aj jazyk Šaral podporuje podmienené vykonanie, tzv `if-then-else`. V terminológii Šaralu `keď-potom-inak`
+Ako všetky problémovo orientované jazyky aj jazyk Šaral podporuje podmienené vykonanie, tzv. `if-then-else`. V terminológii Šaralu `keď-potom-inak`
 
 ```
 keď 1 > 0 potom

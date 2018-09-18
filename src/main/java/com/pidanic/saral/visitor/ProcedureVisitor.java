@@ -8,6 +8,7 @@ import com.pidanic.saral.scope.Scope;
 import com.pidanic.saral.util.FunctionHelper;
 import com.pidanic.saral.util.StatementsHelper;
 
+import java.util.Collections;
 import java.util.List;
 
 public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
@@ -23,9 +24,15 @@ public class ProcedureVisitor extends SaralBaseVisitor<Procedure> {
         String procedureName = ctx.ID().getText();
 
         List<Argument> arguments = FunctionHelper.parseFunctionArguments(ctx.arglist(), scope);
-        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.block().statements(), scope);
-        Procedure procedure = new Procedure(scope, procedureName, arguments, allStatements);
+        Procedure me = new Procedure(scope, procedureName, arguments, Collections.emptyList());
+        this.addMyselfToScope(me);
 
-        return procedure;
+        List<Statement> allStatements = StatementsHelper.parseStatements(ctx.block().statements(), scope);
+        me.setStatements(allStatements);
+        return me;
+    }
+
+    private void addMyselfToScope(Function me) {
+        this.scope.addFunction(me);
     }
 }

@@ -6,6 +6,9 @@
 
 *Not all features all currently supported. Full specification [here](specification.md)*
 
+### Java a Javac compatibility
+Compiles to Java 10 bytecode.
+
 ### Compiler
 We need to have [`maven`](https://maven.apache.org/) installed.
 
@@ -48,7 +51,7 @@ meňak slovo hello = "hello" // nice greeting
 ciskaj hello
 ```
 
-### Constants
+### Variables and constants
 There is one type of variables (`meňak`), which value might be changed. But there exist a *constant* (`furt`), which values can not be changed.
 ```
 meňak neskutočné numeralio number = 5
@@ -105,7 +108,7 @@ funduš neskutočné numeralio nn[n]
 dimenzionfunduš písmeno p[n]
 dimenzion funduš slovo s[n]
 ```
-Saral initialize each element of a array similar way JVM does (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (empty space), `slovo` - (java) `null`)
+Šaral initialize each element of a array similar way JVM does (`neskutočné numeralio` - `0`, `skutočné numeralio` - `0.0`, `logický` - `ošaľ`, `písmeno` - ` ` (empty space), `slovo` - (java) `null`)
 
 ##### Array elements
 To access individual elements in arrays, we use bracket with element index inside them. Index of an element is referenced from `0` to `array length - 1`.
@@ -148,6 +151,11 @@ ciskaj test[1]          // 'e'
 test[1] = 'a'
 ciskaj test             // "tast"
 ``` 
+
+In case we access the index of character that is greater than string length, the output is *null character* (`\0`, `\u0000`) in Šaral.
+```
+ciskaj test[6]          // '\u0000'
+```
 
 ### Operations
 #### Arithmetic operations
@@ -232,7 +240,7 @@ meňak logický l4 = 4 < 4.1
 ```
 
 #### Logical operations
-There are 3 supported logic values in Saral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
+There are 3 supported logic values in Šaral. They are equivalent to [Kleene logic](https://en.wikipedia.org/wiki/Three-valued_logic) - 
 `pravda` (`true`), `ošaľ` (`false`), `skoroošaľ` (`undefined`)
 
 There are 3 corresponding logic operations
@@ -250,14 +258,14 @@ These tables show all combinations of operations and values with their results
 |pravda|ošaľ|
 
 ##### `abo` operation
-|abo| ošaľ | skoroošaľ | pravda | 
+|`abo`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|skoroošaľ|pravda|
 |**skoroošaľ**|skoroošaľ|skoroošaľ|pravda|
 |**pravda**|pravda|pravda|pravda|
 
 ##### `a` operation
-|a| ošaľ | skoroošaľ | pravda | 
+|`a`| ošaľ | skoroošaľ | pravda | 
 |:-:|:------:|:-----------:|:--------:|
 |**ošaľ**|ošaľ|ošaľ|ošaľ|
 |**skoroošaľ**|ošaľ|skoroošaľ|skoroošaľ|
@@ -459,7 +467,7 @@ vežmi nn
 // sluchaj nn
 ```
 They behave based on the variable type, we want to read to:
-- `neskutočné numeralio`, input is not allowed to contain charakter or to exceed maximum integer value [-2<sup>63</sup>; 2<sup>63</sup>-1].
+- `neskutočné numeralio`, input is not allowed to contain character or to exceed maximum integer value [-2<sup>63</sup>; 2<sup>63</sup>-1].
 - `skutočné numeralio`, needs to be in decimal format. If the input is in `neskutočné numeralio` format, it is autoamtically converted.
 - `logický`, the value `pravda` or `skoroošaľ` is read only if there is `"pravda"` or `"skoroošaľ"` as an input, otherwise `ošaľ` value is set.
 - `písmeno`, always reads 1st character regardless input length.

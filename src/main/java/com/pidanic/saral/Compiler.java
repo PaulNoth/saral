@@ -3,26 +3,30 @@ package com.pidanic.saral;
 import com.pidanic.saral.domain.Init;
 import com.pidanic.saral.generator.ByteCodeGenerator;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 
 public class Compiler {
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new Compiler().compile(args);
     }
 
-    public void compile(String[] args) throws Exception {
+    public void compile(String[] args) {
         File file = new File(args[0]);
         String fileName = file.getName();
         String className = fileName.substring(0, fileName.lastIndexOf('.'));
-        File preprocessedTempFile = new Preprocessor().preprocess(file);
-        Init compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(preprocessedTempFile, className);
+        try {
+            File preprocessedTempFile = new Preprocessor().preprocess(file);
 
-        saveBytecodeToClassFile(compilationUnit);
-        Files.delete(preprocessedTempFile.toPath());
+            Init compilationUnit = new SaralCompilationUnitParser().getCompilationUnit(preprocessedTempFile, className);
+
+            saveBytecodeToClassFile(compilationUnit);
+            Files.delete(preprocessedTempFile.toPath());
+        } catch (IOException io) {
+            System.out.println(io.getMessage());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void saveBytecodeToClassFile(Init compilationUnit) throws IOException {

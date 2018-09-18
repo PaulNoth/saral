@@ -1,0 +1,15 @@
+bar neskutočné numeralio fib(neskutočné numeralio n)
+    meňak neskutočné numeralio r
+    keď n <= 2 potom
+        r = 1
+    inak
+        meňak neskutočné numeralio n1 = n - 1
+        meňak neskutočné numeralio n2 = n - 2
+        r = vrac mi z baru fib(n1) + vrac mi z baru fib(n2)
+    vrac r
+
+meňak neskutočné numeralio nn
+vežmi nn
+
+meňak neskutočné numeralio result = vrac mi z baru fib(nn)
+ciskaj result
