@@ -148,9 +148,12 @@ public class ExpressionGenerator extends StatementGenerator {
         Sign compareSign = expression.getSign();
         Label endLabel = new Label();
         Label falseLabel = new Label();
-        if (expression.getLeft().type() == BuiltInType.LONG) {
+        Type leftExpressionType = expression.getLeft().type();
+        if(leftExpressionType == BuiltInType.STRING || leftExpressionType == BuiltInType.CHAR) {
+            methodVisitor.visitInsn(Opcodes.ISUB);
+        } else if (leftExpressionType == BuiltInType.LONG) {
             methodVisitor.visitInsn(Opcodes.LCMP);
-        } else if (expression.getLeft().type() == BuiltInType.DOUBLE) {
+        } else if (leftExpressionType == BuiltInType.DOUBLE) {
             methodVisitor.visitInsn(Opcodes.DCMPG);
         }
         methodVisitor.visitJumpInsn(compareSign.getOpcode(), falseLabel);
