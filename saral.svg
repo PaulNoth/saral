@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="110.47725mm"
+   height="31.080799mm"
+   viewBox="0 0 110.47725 31.080799"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="saral.svg"
+   inkscape:export-filename="/home/aval/Pictures/Logos/saral.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="2.7865881"
+     inkscape:cx="331.76773"
+     inkscape:cy="-11.663008"
+     inkscape:window-width="1682"
+     inkscape:window-height="1040"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0">
+    <sodipodi:guide
+       position="16.394464,6.1645201"
+       orientation="1,0"
+       id="guide8641" />
+    <sodipodi:guide
+       position="48.189859,25.13407"
+       orientation="1,0"
+       id="guide8643" />
+    <sodipodi:guide
+       position="20.930487,3.1926401"
+       orientation="0,-1"
+       id="guide11385" />
+    <sodipodi:guide
+       position="32.158038,30.00731"
+       orientation="1,0"
+       id="guide25297" />
+    <sodipodi:guide
+       position="20.439402,0.50000008"
+       orientation="0,-1"
+       id="guide25299" />
+    <sodipodi:guide
+       position="47.457689,24.84925"
+       orientation="1,0"
+       id="guide25416" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-61.463591,-69.083071)">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:6.69866"
+       id="rect139"
+       width="110.42953"
+       height="30.986601"
+       x="61.508961"
+       y="69.172302" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:28.2222px;line-height:1.25;font-family:sans-serif;letter-spacing:3.96875px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="60.443844"
+       y="96.933876"
+       id="text1485"><tspan
+         sodipodi:role="line"
+         id="tspan1483"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:28.2222px;font-family:Arial;-inkscape-font-specification:'Arial Bold';stroke-width:0.264583"
+         x="60.443844"
+         y="96.933876">Š  RAL</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 93.092462,70.156559 77.328886,99.663871 h 31.063224 z"
+       id="path25531" />
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.264583px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 77.328886,99.663871 H 108.39211 L 101.48298,86.350783 79.684806,94.519724 Z"
+       id="path25611"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

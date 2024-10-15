@@ -1,3 +1,5 @@
+<img src="./saral.svg">
+
 ## ŠARAL 2.0 - ŠARIŠ ALGORITMIK LENGVIDŽ 2.0
 
 [English](README-en.md)

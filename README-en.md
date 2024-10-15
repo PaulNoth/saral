@@ -1,3 +1,5 @@
+<img src="./saral.svg">
+
 ## ŠARAL 2.0 - ŠARIŠ ALGORITHMIC LANGUAGE 2.0
 
 [Slovensky](README.md)
