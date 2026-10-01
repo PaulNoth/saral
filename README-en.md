@@ -12,10 +12,7 @@ Compiles to Java 10 bytecode.
 ### Compiler
 We need to have [`maven`](https://maven.apache.org/) installed.
 
-Then to generate a parser and a lexer files from `ANTLR` grammar - `Saral.g4`. (The [`antlr4 4.7.1`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.7.1) jar is already part of the project in the `lib` folder).
-```
-./generate.sh
-```
+Then to generate a parser and a lexer files from `ANTLR` grammar - `Saral.g4`. Maven automatically generates from `Saral.g4` using ANTLR 4.7.1 before compilation.
 Šaral source files have `srl` extension and we can compile it to JVM bytecode. It outputs `class` file. 
 
 `java com.pidanic.saral.Compiler <saral_source_file.srl>`

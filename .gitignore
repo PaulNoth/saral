@@ -1,5 +1,4 @@
 .idea/
-src/main/java/com/pidanic/saral/grammar/
 *.class
 *.iml
 bin/
