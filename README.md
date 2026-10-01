@@ -16,7 +16,7 @@ Preklad do JVM je pre verziu Java 10.
 ### Kompilátor
 Na spustenie Šaral kompilátora potrebujeme mať nainštalovaný [`maven`](https://maven.apache.org/).
 
-A vygenerovať súbory parsera a lexera, ktoré vzniknú z `ANTLR` gramatiky - `Saral.g4`. (Odporúčam stiahnuť knižnicu [`antlr4`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.5.3) a nakopírovať do projektu).
+A vygenerovať súbory parsera a lexera, ktoré vzniknú z `ANTLR` gramatiky - `Saral.g4`. (Knižnica [`antlr4 4.7.1`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.7.1) je už súčasťou projektu v adresári `lib`).
 ```
 ./generate.sh
 ```

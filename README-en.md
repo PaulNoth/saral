@@ -12,7 +12,7 @@ Compiles to Java 10 bytecode.
 ### Compiler
 We need to have [`maven`](https://maven.apache.org/) installed.
 
-Then to generate a parser and a lexer files from `ANTLR` grammar - `Saral.g4`. (I recommend to download the [`antlr4`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.5.3) lib and copy it to the project folder).
+Then to generate a parser and a lexer files from `ANTLR` grammar - `Saral.g4`. (The [`antlr4 4.7.1`](https://mvnrepository.com/artifact/org.antlr/antlr4/4.7.1) jar is already part of the project in the `lib` folder).
 ```
 ./generate.sh
 ```
